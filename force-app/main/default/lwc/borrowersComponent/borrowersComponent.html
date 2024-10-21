@@ -1,37 +1,24 @@
 <template>
-    <!-- <div class="slds-box">
-        <lightning-card  title="Hello" class="card">
-            <lightning-button label="New" slot="actions"></lightning-button>
-            <lightning-button label="New" slot="actions"></lightning-button>
-        </lightning-card>
-    </div> -->
-    <!-- <div class="container">
-        <lightning-card>
-            <h3 slot="title" class="slds-p-around_medium">
-                <lightning-icon icon-name="utility:connected_apps" size="small"></lightning-icon>
-                Card Title
-            </h3>
-            <lightning-button label="New" slot="actions" class="slds-p-around_medium"></lightning-button>
-        </lightning-card>
-    </div> -->
     <article class="slds-card slds-card_boundary">
         <div class="slds-card__header slds-grid header">
             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                 <div class="slds-media__figure">
-                    <lightning-icon icon-name="utility:user" alternative-text="Person" size="small" variant="inverse"></lightning-icon>
+                    <lightning-icon icon-name="utility:user" alternative-text="Person" size="small"
+                        variant="inverse"></lightning-icon>
                 </div>
                 <div class="slds-media__body">
                     <h2 class="slds-card__header-title header-title">
                         <a href="#" class="slds-card__header-link slds-truncate" title="Accounts">
-                            <span>Person</span>
+                            <span>Person 1 - Primary</span>
                         </a>
                     </h2>
                 </div>
                 <div class="slds-no-flex slds-p-bottom_x-small">
-                    <button class="slds-button slds-button_neutral">New</button>
+                    <button class="slds-button slds-button_neutral" onclick={editButtonHandler}>Edit</button>
                 </div>
                 <div class="slds-no-flex slds-m-left_small">
-                    <lightning-icon icon-name="utility:chevrondown" alternative-text="expand" size="small" variant="inverse"></lightning-icon>
+                    <lightning-icon icon-name={chevronToggle} alternative-text="expand" size="small" variant="inverse"
+                        onclick={chevronHandler} data-name={chevronToggle} class="icon"></lightning-icon>
                 </div>
             </header>
         </div>
@@ -41,24 +28,278 @@
                 <div class="line slds-m-bottom_large"></div>
                 <div>
                     <lightning-layout multiple-rows="true">
-                        <lightning-layout-item padding="around_x-small" size="2">
-                            Name
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">Salutation</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">Mr.</lightning-layout-item>
+                            </lightning-layout>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around_x-small" size="4">
-                            James Stapleton
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Preferred Contact
+                                    Method</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">Phone</lightning-layout-item>
+                            </lightning-layout>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around_x-small" size="2">
-                            Preferred Contact Method
+
+                        <!-- Row 2-->
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">First
+                                    Name</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">James</lightning-layout-item>
+                            </lightning-layout>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around_x-small" size="4">
-                            Phone
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">Phone</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">1234567891</lightning-layout-item>
+                            </lightning-layout>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around_x-small" size="6">
-                            <div class="line slds-m-left_medium"></div>
+
+                        <!-- Row 3-->
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Middle
+                                    Name</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">N/A</lightning-layout-item>
+                            </lightning-layout>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around_x-small" size="6">
-                            <div class="line slds-m-left_medium"></div>
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Alt Phone
+                                    number</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">1234567891</lightning-layout-item>
+                            </lightning-layout>
                         </lightning-layout-item>
+
+                        <!-- Row 4-->
+
+                        <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Last
+                                    Name</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">Stapleton</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">Email</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">naresh@majente.com.invalid</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <!-- Row 5-->
+
+
+                        <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Preferred
+                                    Name</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">Stapleton</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Mailing
+                                    address</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">289 Toronto Dr, Toronto,
+                                    Ontario, M3C1E4</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <!-- Row 6-->
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">Gender</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">Male</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Lives at
+                                    property</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">N/A</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+
+                        <!-- Row 7-->
+
+                        <lightning-layout-item class="slds-p-horizontal_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">Age</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">75</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Client Local
+                                    Time</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">N/A</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+
+                        <!-- Row 8-->
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">D.O.B</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">12th November
+                                    1950</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-horizontal_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Time
+                                    Zone</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">N/A</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <!-- Row 8-->
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Marital
+                                    status</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">Married</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-horizontal_medium" size="6">
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <!-- Row 9-->
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Relationship
+                                    with</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Mary
+                                    Stapleton</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-horizontal_medium" size="6">
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <!-- Row 10-->
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Previous marital
+                                    status</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small"
+                                    size="3">N/A</lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-horizontal_medium" size="6">
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+
+                        <!-- Row 11-->
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">On
+                                    title?</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix"
+                                    size="4">
+                                    <div class="slds-form-element__control slds-float_right ">
+                                        <span class="slds-checkbox slds-checkbox_standalone">
+                                            <input type="checkbox" id="checkbox-unique-id-81" disabled name="label"
+                                                value="option" />
+                                            <span class="slds-checkbox_faux"></span>
+                                        </span>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-horizontal_medium" size="6">
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <!-- Row 11-->
+
+                        <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                            <lightning-layout class="slds-border_bottom">
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Use for
+                                    Quote</lightning-layout-item>
+                                <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix"
+                                    size="4">
+                                    <div class="slds-form-element__control slds-float_right">
+                                        <span class="slds-checkbox slds-checkbox_standalone">
+                                            <input type="checkbox" id="checkbox-unique-id-88" disabled name="label"
+                                                value="option" />
+                                            <span class="slds-checkbox_faux"></span>
+                                        </span>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item class="slds-p-horizontal_medium" size="6">
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                                <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+
+                        <div class="line slds-m-left_medium"></div>
+
                     </lightning-layout>
                 </div>
             </div>
