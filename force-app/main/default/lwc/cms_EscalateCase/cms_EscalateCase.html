@@ -1,0 +1,49 @@
+<template>
+
+    <div class="slds-modal__header">
+        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Escalate Complaint</h1>
+    </div>
+
+    <table id="newtable">
+        <tbody>
+            <tr>
+                <td>
+                    <lightning-radio-group name="radioGroup" class="slds-m-left_x-large slds-m-top_medium" label=""
+                        options={radioList} value={deValue} type="radio" 
+                        onchange={handleOnDEChange}></lightning-radio-group>
+                </td>
+            </tr>
+            <template if:true={areDetailsVisible}>
+                <template if:true={deVisible}>
+                    <tr>
+                        <td>
+                            <lightning-textarea id="deTextArea" name="escalationtoDERationale" type="text" disabled= {disableDERationale} required= {requiredDE}                                
+                                label="Escalation to DE Rationale" title="Escalation to DE Rationale" class="slds-m-right_x-large slds-m-top_medium slds-m-left_large"
+                                value= {deRationale} onchange= {handleDERationale}>
+                            </lightning-textarea>
+                        </td>
+                    </tr>
+                </template>
+                <template if:true={sdeVisible}>
+                    <tr>
+                        <td>
+
+                            <lightning-textarea id="sdeTextArea" name="escalationtoSDERationale" type="text" required= {requiredSDE}
+                                disabled= {disableSDERationale} label="Escalation to SDE Rationale" class="slds-m-right_x-large slds-m-top_medium slds-m-left_large"
+                                title="Escalation to SDE Rationale" value= {sdeRationale} onchange= {handleSDERationale}>
+                            </lightning-textarea>
+                        </td>
+                    </tr>
+                </template>
+            </template>
+
+        </tbody>
+    </table>
+
+    <div class="slds-modal__footer slds-m-top_xx-large">
+        <button class="slds-button slds-button_neutral" onclick={CloseQuickAction}>Cancel</button>
+        <button class="slds-button slds-button_brand" onclick={handleOnEscalate}>Escalate</button>
+    </div>
+
+
+</template>

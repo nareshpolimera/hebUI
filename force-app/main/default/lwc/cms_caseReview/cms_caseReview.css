@@ -1,0 +1,20 @@
+.slds-box {
+    min-height: 500px;
+  }
+  
+  .reviewPageError {
+    border-color: red;
+    color: red;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    min-height: unset;
+  }
+  /*
+  .container ul{
+      list-style: disc !important;
+      margin-block-end: 1em;
+      margin-block-start: 1em;
+      margin-inline-start: 1em;
+      margin-inline-end: 1em;
+      padding-inline-start: 40px;
+  }*/

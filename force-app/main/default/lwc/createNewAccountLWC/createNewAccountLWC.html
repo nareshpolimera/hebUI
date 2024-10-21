@@ -1,0 +1,522 @@
+<template>
+    <lightning-record-edit-form object-api-name="Account" record-type-id={selectedRecordType}
+        onsubmit={onSubmitHandler}>
+        <!-- <lightning-messages></lightning-messages> -->
+        <template if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+        </template>
+        <template if:false={isLoaded}>
+            <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+        </template>
+        <div class="slds-card" style="padding: 1em">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <lightning-icon icon-name="standard:account" alternative-text="Account" size="medium"> </lightning-icon>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            <a href="#" class="slds-card__header-link slds-truncate" title="Account">
+                                <span class="slds-p-left_medium">Account</span>
+                            </a>
+                        </h2>
+                    </div>
+                </header>
+            </div>
+            <template if:true={isLoaded}>
+                <div class="slds-grid slds-wrap slds-p-left_medium">
+                    <div class="slds-col slds-size_1-of-1 slds-m-top_x-small slds-p-bottom_medium slds-text-heading_medium slds-text-title_bold">File Details</div>
+                    <template if:true={isReferredLeadType}>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-combobox
+                            class="input-required" 
+                            name="FileChannel"
+                            label="File Channel"
+                            placeholder=""
+                            value={fileData.fileDetails.Channel}
+                            onchange={handleFileChannelChange}
+                            options={fileChannelOptions}
+                            required={isFileChannelRequired}
+                            ></lightning-combobox>
+                        </div>
+                    </template>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox
+                                name="FileType"
+                                label="File Type"
+                                placeholder=""
+                                value={fileData.fileDetails.Type}
+                                onchange={handleFileTypeChange}
+                                options={fileTypeOptions}
+                                required={isFileTypeRequired}
+                            ></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 ">
+                        <lightning-combobox
+                            class="input-required" 
+                            name="FileSource"
+                            label="File Source"
+                            placeholder=""
+                            value={fileData.fileDetails.Source}
+                            onchange={handleFileSourceChange}
+                            options={fileSourceOptions}
+                            required={isFileSourceRequired}
+                        ></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox
+                                name="FileLanguage"
+                                label="File Language"
+                                placeholder=""
+                                value={fileData.fileDetails.Language}
+                                onchange={handleFileLanguageChange}
+                                options={fileLanguageOptions}
+                                required={isLanguageRequired}
+                            ></lightning-combobox>
+                    </div>
+
+                    <template if:true={isReferredLeadType}>
+                        <div class="slds-col slds-size_1-of-1 slds-m-top_x-small slds-p-bottom_medium slds-text-heading_medium slds-text-title_bold">Partner Details</div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-combobox
+                            name="ReferralChannel"
+                            label="Referral Channel"
+                            placeholder=""
+                            value={fileData.partnerDetails.ReferralChannel}
+                            onchange={handlePartnerReferralChannelChange}
+                            options={partnerReferralChannelOptions}
+                            required={isReferralChannelRequired}
+                            class="inputText input-required"
+                            id ="referralChannel"
+                            ></lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-record-picker
+                                object-api-name="Territory2"
+                                label="Territory"
+                                value={fileData.partnerDetails.Territory}
+                                onchange={handlePartnerTerritoryChange}>
+                            </lightning-record-picker>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-record-picker
+                                object-api-name="Account"
+                                label="Referral Partner"
+                                value={fileData.partnerDetails.ReferralPartner}
+                                filter={filterReferralPartner}
+                                onchange={handlePartnerReferralPartnerChange}>
+                            </lightning-record-picker>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Referral_Organization__c"></lightning-input-field>
+                            <lightning-record-picker
+                                object-api-name="Account"
+                                label="Referral Organization"
+                                value={fileData.partnerDetails.ReferralOrganization}
+                                onchange={handlePartnerReferralOrganizationChange}>
+                            </lightning-record-picker>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-record-picker
+                                object-api-name="Contact"
+                                label="Submission Agent"
+                                value={fileData.partnerDetails.SubmissionAgent}
+                                filter={filterSubmissionPartner}
+                                onchange={handlePartnerSubmissionAgentChange}>
+                            </lightning-record-picker>
+                        </div>
+                    </template> 
+
+                    <!-- Primary Lead -->
+                    <div class="slds-col slds-size_1-of-1 slds-m-top_x-small slds-p-bottom_medium slds-text-heading_medium slds-text-title_bold">
+                        Primary Contact
+                    </div>
+                    <div class="slds-col slds-size_1-of-2" >
+                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">  
+                            <lightning-combobox class="salutation" name="salutation" label="Salutation" value={PrimaryContact.salutation} options={salutationOptions}
+                                onchange={handlePrimaryContactSalutationChange}>
+                            </lightning-combobox>
+                            <lightning-input  class="readinp firstName" type="text" label="First Name" 
+                                onchange={handlePrimaryContactFirstNameChange} value={PrimaryContact.firstName}></lightning-input>
+                            <lightning-input class="readInputLastNameOne lastName input-required" type="text" label="Last Name"
+                                onchange={handlePrimaryContactLastNameChange}
+                                value={PrimaryContact.lastName}
+                                required={isLastNameRequired}>
+                            </lightning-input>
+                            <lightning-input  class="readinp phone input-required" type="text" label="Phone" pattern="[0-9]{10}"
+                                onchange={handlePrimaryContactPhoneChange} value={PrimaryContact.phone}
+                                required={isContactInfoRequired}>
+                            </lightning-input>
+                            <lightning-input class="readInputLastNameOne email input-required" type="email" label="Email"
+                                onchange={handlePrimaryContactEmailChange} value={PrimaryContact.email}
+                                required={isContactInfoRequired}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2" >
+                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">  
+                            <lightning-input  class="readinp dateOfBirth" type="date" label="Date of Birth" 
+                            onchange={handlePrimaryContactDateOfBirthChange} value={PrimaryContact.dateOfBirth}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input type="checkbox" label="Mailing Address Same as Property Address" name="isMailingAddressSameAsProperty" 
+                        data-id="addressSameAsPropertyId" onchange={handleOnChangeAddressSameCheckbox} checked>
+                        </lightning-input>
+                        <br/>
+                    </div>
+                    <template if:false={PrimaryContact.isMailingAddressSameAsProperty}>
+                 
+						<div class="slds-col slds-size_1-of-1">
+							<lightning-input-address class="PrimaryContactAddress"
+                                        address-label="Address" 
+                                        country-label="Country Code" 
+                                        street-label="Street"
+                                        city-label="City" 
+                                        province-label="State/Province Code" 
+                                        postal-code-label="Zip/PostalCode"
+                                        country={PrimaryContact.primaryCountry} 
+                                        street={PrimaryContact.primaryStreet} 
+                                        city={PrimaryContact.primaryCity}
+                                        province={PrimaryContact.primaryProvince} 
+                                        country-options={propertyCountryOptions}
+                                        province-options={provinceOptions} 
+                                        onchange={handlePrimaryContactAddressChange}></lightning-input-address>
+						</div>
+                                                   
+                    </template>
+
+                    <!-- Consent -->
+                    <div class="slds-col slds-size_1-of-1 slds-m-top_x-small slds-p-top_medium slds-p-bottom_medium slds-text-heading_medium slds-text-title_bold">Consent</div>
+                    <div>
+                        <label class="customlabel" for="labelid">CASL Consent Script</label>
+                        <lightning-output-field id="labelid" variant="label-hidden" field-name="CASL_Consent_Script__c"></lightning-output-field>
+                        <p>From time to time, HomeEquity Bank would like to send you information about our products, rates and promotions via email. You may withdraw your consent from receiving these emails at any time by calling us or by clicking on the unsubscribe link provided in any email we send you. Do you consent to receiving emails from HomeEquity Bank for products, rates and promotions?</p>
+                        <br/>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox
+                            name="ConsentCASLConsent"
+                            label="CASL Consent"
+                            placeholder=""
+                            value={fileData.consent.CASLConsent}
+                            onchange={handleConsentCASLConsentChange}
+                            options={consentCASLConsentOptions}
+                        ></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-record-picker
+                            object-api-name="User"
+                            label="CASL Consent Obtained By"
+                            value={fileData.consent.CASLConsentObtainedBy}
+                            onchange={handleConsentCASLConsentObtainedByChange}
+                            disabled>
+                        </lightning-record-picker>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input 
+                            class="readinp" 
+                            type="date" 
+                            label="CASL Consent Provided On" 
+                            name="ConsentDate" 
+                            data-id="ConsentDate" 
+                            max={todaysDate} 
+                            message-when-range-overflow="Date cannot be a future date"
+                            value={fileData.consent.CASLConsentProvidedOn}
+                            onchange={handleConsentCASLConsentProvidedOnChange}>
+                        </lightning-input>
+
+                    </div>
+                   
+
+                    <!-- Property -->
+                    <div class="slds-col slds-size_1-of-1 slds-m-top_x-small slds-p-top_medium slds-p-bottom_medium slds-text-heading_medium slds-text-title_bold">
+                        Property
+                    </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                <lightning-combobox
+                                    name="PropertyType"
+                                    label="Property Type"
+                                    placeholder=""
+                                    value={fileData.property.PropertyType}
+                                    onchange={handlePropertyTypeChange}
+                                    options={propertyTypeOptions}
+                                ></lightning-combobox>
+                            </div>  
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                <lightning-input 
+                                    type="number"
+                                    step=".01"
+                                    label="Home Value"
+                                    value={fileData.property.HomeValue}
+                                    onchange={handlePropertyHomeValueChange}>
+                                </lightning-input>
+                            </div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning-input-address class="PropertyAddressChange"
+                                address-label="Address" 
+                                country-label="Country Code" 
+                                street-label="Street"
+                                city-label="City" 
+                                province-label="State/Province Code" 
+                                postal-code-label="Zip/PostalCode"
+                                postal-code={propertyAddress.postalCode}
+                                country={propertyAddress.country} 
+                                street={propertyAddress.street} 
+                                city={Property.selectedCity}
+                                province={Property.selectedProvince} 
+                                country-options={propertyCountryOptions}
+                                province-options={provinceOptions} 
+                                onchange={handlePropertyAddressChange}>
+                            </lightning-input-address>
+                        </div>
+                    
+                    <!-- ======================================Other=============================================== -->
+                    <!--========================================================================================================-->
+                   <div class="slds-col slds-size_1-of-1 slds-m-top_x-small slds-p-top_medium slds-p-bottom_medium slds-text-heading_medium slds-text-title_bold">
+                        Other
+                    </div>
+                    
+                        <lightning-dual-listbox name="loanpurpose"
+                            label="Loan Purpose"
+                            source-label="Available"
+                            selected-label="Selected"
+                            options={loanOptions}
+                            size="4"
+                            onchange={handleLoanPurposeChange}></lightning-dual-listbox>
+                     
+
+                    <!-- ======================================Property Member1=============================================== -->
+                    <!--========================================================================================================-->
+                    <div class="slds-col slds-size_1-of-1 slds-m-top_x-small slds-p-top_medium slds-p-bottom_medium slds-text-heading_medium slds-text-title_bold">
+                        Borrower 1
+                    </div>
+                    
+                        <div class="slds-col slds-size_1-of-1">
+                                <lightning-input type="checkbox" label="Is Primary Contact" name="isPrimaryContactPM1"
+                                data-id="isPrimaryContactPM1Id" onchange={handlePropertyMember1PrimaryContact} >
+                                </lightning-input><br/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2" >
+                            <div class="slds-form-element slds-form-element_horizontal slds-is-editing">  
+								<lightning-combobox name="salutation" label="Salutation" value={PropertyMember1.salutation} options={salutationOptions}
+									onchange={handlePropertyMember1SalutationChange} disabled={PropertyMember1.isPrimaryContact}>
+								</lightning-combobox>
+								<lightning-input  class="readinp" type="text" label="FirstName" name="firstNamepm1" data-id="firstNamepm1"
+									onchange={handlePropertyMemberInputFields} disabled={PropertyMember1.isPrimaryContact}
+									value={PropertyMember1.firstName}></lightning-input>
+
+
+								<lightning-input class="readInputLastNameOne input-required" type="text" label="LastName" name="lastNamepm1" data-id="lastNamepm1"
+									onchange={handlePropertyMemberInputFields} disabled={PropertyMember1.isPrimaryContact}
+									value={PropertyMember1.lastName} required={isLastNameRequiredforPropOne}>
+                                </lightning-input>
+                                <lightning-input  class="readinp phone input-required" type="text" label="Phone" pattern="[0-9]{10}" name="phonepm1" data-id="phonepm1"
+                                    onchange={handlePropertyMemberInputFields} value={PropertyMember1.phone} 
+                                    disabled={PropertyMember1.isPrimaryContact} required={isContactInfoRequiredforPropOne}>
+                                </lightning-input>
+                                <lightning-input class="readInputLastNameOne email input-required" type="email" label="Email" name="emailpm1" data-id="emailpm1"
+                                    onchange={handlePropertyMemberInputFields} value={PropertyMember1.email} 
+                                    disabled={PropertyMember1.isPrimaryContact} required={isContactInfoRequiredforPropOne}>
+                                </lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element slds-form-element_horizontal slds-is-editing">  
+                                <lightning-input class="readinp" type="date" label="Date of Birth" name="dobpm1" data-id="dobpm1" 
+                                    max={todaysDate} message-when-range-overflow="Date cannot be a future date" 
+                                    onchange={handlePropertyMemberInputFields}
+                                    value={PropertyMember1.dateOfBirth}
+                                    disabled={PropertyMember1.isPrimaryContact}></lightning-input>
+                                <lightning-input class="readinp" type="number" label="Age" name="agepm1" data-id="agepm1" 
+                                    min="0" message-when-range-underflow="Age cannot be negative" 
+                                    onchange={handlePropertyMemberInputFields}
+                                    value={PropertyMember1.age}
+                                    disabled={PropertyMember1.isPrimaryContact}></lightning-input>
+                                <lightning-combobox name="gender" label="Gender" 
+                                    value={PropertyMember1.gender} options={genderOptions}
+                                    onchange={handlePropertyMember1GenderChange}>
+                                </lightning-combobox>
+                                <lightning-combobox name="maritalStatus" label="Marital Status" 
+                                value={PropertyMember1.maritalStatus} options={maritalStatusOptions}
+                                    onchange={handlePropertyMember1MaritalStatusChange}>
+                                </lightning-combobox>
+
+                            </div>
+                        </div>
+                        
+                        <template if:false={PropertyMember1.isPrimaryContact}>
+                            
+                            <div class="slds-col slds-size_1-of-1 slds-p-top_medium">
+                                <lightning-input type="checkbox" label="Mailing Address Same as Property Address" name="isMailingAddressSameAsPropertyPM1" 
+                                data-id="addressSameAsPropertyPM1Id" onchange={handleOnChangeAddressSamePM1Checkbox} checked>
+                                </lightning-input>
+                                <br/>
+                            
+                                <div class="slds-col slds-size_1-of-1">
+                                    <template if:false={PropertyMember1.isMailingAddressSameAsProperty}>
+                                
+                                    
+                                        <lightning-input-address class="PropertyMemberAddress1"
+                                        address-label="Address" 
+                                        country-label="Country Code" 
+                                        street-label="Street"
+                                        city-label="City" 
+                                        province-label="State/Province Code" 
+                                        postal-code-label="Zip/PostalCode"
+                                        country={PropertyMember1.primaryCountry} 
+                                        street={PropertyMember1.primaryStreet} 
+                                        city={PropertyMember1.primaryCity}
+                                        province={PropertyMember1.primaryProvince} 
+                                        country-options={propertyCountryOptions}
+                                        province-options={provinceOptions} 
+                                        onchange={handlePropertyMemberAddress1Change}></lightning-input-address>
+                                        
+                                
+                                    </template> 
+                                </div>
+                            </div>
+                        </template>
+                    
+                    
+
+                       
+                       
+                    <!-- ======================================Property Member2=============================================== -->
+                    <!--========================================================================================================-->
+                    <div class="slds-col slds-size_1-of-1 slds-m-top_x-small slds-p-top_medium slds-p-bottom_medium slds-text-heading_medium slds-text-title_bold">
+                        Borrower 2
+                    </div>
+                     
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element slds-form-element_horizontal slds-is-editing">   
+                                <lightning-combobox name="salutation" label="Salutation" value= {PropertyMember2.salutation} options={salutationOptions}
+                                    onchange={handlePropertyMember2SalutationChange}>
+                                </lightning-combobox>
+                                <lightning-input class="readinp" type="text" label="FirstName" name="firstNamepm2" data-id="firstNamepm1" onchange={handlePropertyMemberInputFields}></lightning-input>
+                                <lightning-input class="readInputLastNameOneTwo input-required" type="text" label="LastName" name="lastNamepm2" data-id="lastNamepm1" 
+                                        onchange={handlePropertyMemberInputFields} required={isLastNameRequiredforPropTwo}>
+                                </lightning-input>
+                                <lightning-input  class="readinp input-required" type="text" label="Phone" pattern="[0-9]{10}" name="phonepm2" data-id="phonepm2"
+                                    onchange={handlePropertyMemberInputFields} required={isContactInfoRequiredforPropTwo}>
+                                </lightning-input>
+                            <lightning-input class="readInputLastNameOne input-required" type="email" label="Email" name="emailpm2" data-id="emailpm2"
+                                onchange={handlePropertyMemberInputFields} required={isContactInfoRequiredforPropTwo}>
+                            </lightning-input>
+                            </div>
+                        </div> 
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element slds-form-element_horizontal slds-is-editing"> 
+                                <lightning-input class="readinp" type="date" label="Date of Birth" name="dobpm2" data-id="dobpm2" 
+                                    max={todaysDate} message-when-range-overflow="Date cannot be a future date"
+                                    value={PropertyMember2.dateOfBirth}
+                                    onchange= {handlePropertyMemberInputFields} >
+                                </lightning-input> 
+                                <lightning-input class="readinp" type="number" label="Age" name="agepm2" 
+                                    data-id="agepm2" min="0" message-when-range-underflow="Age cannot be negative" 
+                                    value={PropertyMember2.age}
+                                    onchange= {handlePropertyMemberInputFields}></lightning-input>
+                                <lightning-combobox name="gender" label="Gender" 
+                                    value={PropertyMember2.gender} options={genderOptions}
+                                    onchange= {handlePropertyMember2GenderChange}>
+                                </lightning-combobox>
+                                <lightning-combobox name="maritalStatus" label="Marital Status" 
+                                    value={PropertyMember2.maritalStatus} options={maritalStatusOptions}
+                                    onchange= {handlePropertyMember2MaritalStatusChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>  
+
+                        <div class="slds-col slds-size_1-of-1 slds-p-top_medium">
+                            <lightning-input type="checkbox" label="Mailing Address Same as Property Address" name="isMailingAddressSameAsPropertyPM2" 
+                            data-id="addressSameAsPropertyPM2Id" onchange={handleOnChangeAddressSamePM2Checkbox} checked>
+                            </lightning-input>
+                            <br/>
+                        </div>
+                        
+                        <template if:false= {PropertyMember2.isMailingAddressSameAsProperty}>
+                            <div class="slds-col slds-size_1-of-1">
+                                
+                                <lightning-input-address class="PropertyMemberAddress2"
+                                address-label="Address" 
+                                country-label="Country Code"
+                                street-label="Street"
+                                city-label="City" 
+                                province-label="State/Province Code" 
+                                postal-code-label="Zip/PostalCode"
+                                country={PropertyMember2.primaryCountry}
+                                street={PropertyMember2.primaryStreet} 
+                                city={PropertyMember2.primaryCity}
+                                province={PropertyMember2.primaryProvince} 
+                                country-options={propertyCountryOptions}
+                                province-options={provinceOptions} 
+                                onchange={handlePropertyMemberAddress2Change}></lightning-input-address>
+                                
+                            </div>
+                        </template> 
+                        <div if:true= {propertyMember2Entered}>
+                            <div
+                                class="slds-col slds-size_1-of-1 slds-m-top_x-small slds-p-top_medium slds-p-bottom_medium slds-text-heading_medium slds-text-title_bold">
+                                Relationship with Borrower 1
+                            </div>
+                                    <lightning-combobox
+                                        name="RelationshipCategory"
+                                        label="Relationship Category"
+                                        placeholder=""
+                                        value={fileData.PropertyMemberTwo.RelationshipCategory}
+                                        onchange={handleRelationshipCategoryChange}
+                                        options={relationshipCategoryOptions}
+                                    ></lightning-combobox>
+                                    <lightning-combobox
+                                        name="RelationshipType"
+                                        label="Relationship Type"
+                                        placeholder=""
+                                        value={fileData.PropertyMemberTwo.RelationshipType}
+                                        onchange={handleRelationshipTypeChange}
+                                        options={relationshipTypeOptions}
+                                    ></lightning-combobox>
+                       </div>
+                </div>
+                <!--Warning Duplicate Lead Message--> 
+                <template if:true={duplicateRecords}>
+                    <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert">
+                        <span class="slds-assistive-text">warning</span>
+                        <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small"
+                            title="Description of icon when needed">
+                            <lightning-icon icon-name="utility:warning" alternative-text="Warning!" variant="warning"
+                                title="warning variant small" size="small"></lightning-icon>
+                        </span>
+                        <h2>
+                            <p>Duplicates Found : Use one of the Record?</p>
+                            <template for:each={duplicateRecords} for:item="AccountRecord">
+                                <p key={AccountRecord.Id}>
+                                    <a data-id={leadRecord.Id} onclick={handleAccountRecordClick} href="#">{AccountRecord.Name}</a>
+                                </p>
+                            </template>
+                        </h2>
+                        <div class="slds-notify__close">
+                            <lightning-button variant="brand" label="Ignore" onclick={closeErrorModal} value={isModalOpen} class="slds-m-left_x-small"></lightning-button>
+                        </div>
+                    </div>
+                </template>				
+                <footer class="slds-card__footer">
+                    <lightning-button class="slds-m-around_small" label="Cancel" onclick={handleCancel}>
+                    </lightning-button>
+                    <lightning-button variant="brand" type="submit" name="save" label="Create Account" disabled={submitDisabled}>
+                    </lightning-button>
+                </footer>
+            </template>
+        </div>
+    </lightning-record-edit-form>
+    <!-- Component to validate Property Address -->
+    <template if:true={isAddressValidatorDisplayed}>
+        <c-property-address-validator is-model-open-by-default={isAddressValidatorDisplayed} onfsaselect={fsaSelectionHandler} search-key={Property.selectedPostalCode}>  </c-property-address-validator>
+    </template>
+</template>

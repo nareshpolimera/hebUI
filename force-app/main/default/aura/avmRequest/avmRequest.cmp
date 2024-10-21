@@ -1,0 +1,227 @@
+<aura:component controller="AVMRequestService" implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" >
+
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="showSpinner" type="boolean" default="false"/>    <!-- Show/Hide spinner -->
+    <aura:attribute name="onLoadSwitch" type="boolean" default="true"/>
+    <aura:attribute name="avmAlreadyDone" type="Boolean" default="false" />
+    <aura:attribute name="parseAddressDone" type="Boolean" default="false" />
+    <aura:attribute name="avmRequestDone" type="Boolean" default="false" />
+    <aura:attribute name="parseAddressFailed" type="Boolean" default="false" />
+    <aura:attribute name="message" type="String" default="" />
+    <aura:attribute name="messageType" type="String" default="error" />
+    <aura:attribute name="messageBackground" type="String" default="error" />
+    
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="propertyId" type="String"/>
+    <aura:attribute name="appraisalId" type="String"/>
+    <aura:handler name="init" value ="{!this}" action="{!c.getPropertyAndAppraisalId}"/>
+    <force:recordData aura:id="recordLoader"
+      recordId="{!v.recordId}"
+      fields="Id,OpportunityId"
+      targetFields="{!v.simpleRecord}"
+      targetError="{!v.recordError}"
+      recordUpdated="{!c.handleRecordUpdated}"
+      />
+
+    <aura:if isTrue="{!v.message != ''}">
+        <c:pageMessage message="{!v.message}" messageType="{!v.messageType}" background="{!v.messageBackground}" />
+    </aura:if>
+
+    <!-- Spinner -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <c:loadingSpinner />
+    </aura:if>
+
+    <aura:if isTrue="{!v.avmAlreadyDone}">
+        <c:pageMessage message="{!$Label.c.Validation_AVMRequestDone}" messageType="warning" background="warning" />
+    </aura:if>
+
+    <aura:if isTrue="{!v.parseAddressDone}">
+        <lightning:recordEditForm recordId="{!v.propertyId}" objectApiName="LoanApplicationProperty" onsuccess="{!c.avmRequest}" >
+            <lightning:messages />
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="unitNumberFragment">{!$Label.c.Aura_Unit_Number}</label> 
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="UnitNumberFragment__c" aura:id="unitNumberFragment" variant='label-hidden' />
+                </div>
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="addressNumberFragment">{!$Label.c.Aura_Address_Number}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="AddressNumberFragment__c" aura:id="addressNumberFragment" class="addressField" variant='label-hidden' />
+                </div>
+            </div>
+            <br/>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="streetNameFragment">{!$Label.c.Aura_StreetName}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="StreetNameFragment__c"  aura:id="streetNameFragment" variant='label-hidden' />
+                </div>
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="streetTypeFragment">{!$Label.c.Aura_StreetType}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="StreetTypeFragment__c" aura:id="streetTypeFragment" variant='label-hidden' />
+                </div>
+            </div>
+            <br/>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="streetDirFragment">{!$Label.c.Aura_StreetDirection}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="StreetDirectionFragment__c" aura:id="streetDirFragment" variant='label-hidden' />
+                </div>
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="cityFragment">{!$Label.c.Aura_City}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="CityFragment__c" aura:id="cityFragment" variant='label-hidden' />
+                </div>
+            </div>
+            <br/>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="provinceFragment">{!$Label.c.Aura_Province}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="ProvinceFragment__c" aura:id="provinceFragment" variant='label-hidden' />
+                </div>
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="postalCodeFragment">{!$Label.c.Aura_PostalCode}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="PostalCodeFragment__c" aura:id="postalCodeFragment" variant='label-hidden' />
+                </div>
+            </div>
+            <br/>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="isAddressFragmented">{!$Label.c.Aura_IsAddressFragmented}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="Is_Address_Fragmented__c" aura:id="isAddressFragmented" variant='label-hidden' />
+                </div>
+            </div>
+            <br/>
+            <aura:if isTrue="{!v.avmRequestDone==false}">
+                <lightning:button class="slds-m-top_small" type="submit" label="{!$Label.c.Button_AVMRequest}" variant="brand" />
+            </aura:if>
+        </lightning:recordEditForm>
+    </aura:if>
+
+    <aura:if isTrue="{!v.parseAddressFailed}">
+        <lightning:recordEditForm aura:id = "saveUpdatedRecord" recordId="{!v.propertyId}" objectApiName="LoanApplicationProperty" onsubmit="{!c.avmRequestWithRecordSave}" onload="{!c.handleCreateLoad}">
+            <lightning:messages />
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="unitNumberFragment1">{!$Label.c.Aura_Unit_Number}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="UnitNumberFragment__c" aura:id="unitNumberFragment1" variant='label-hidden' />
+                </div>
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="addressNumberFragment1">{!$Label.c.Aura_Address_Number}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="AddressNumberFragment__c" aura:id="addressNumberFragment1" class="addressField" variant='label-hidden' />
+                </div>
+            </div>
+            <br/>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="streetNameFragment1">{!$Label.c.Aura_StreetName}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="StreetNameFragment__c"  aura:id="streetNameFragment1" variant='label-hidden' />
+                </div>
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="streetTypeFragment1">{!$Label.c.Aura_StreetType}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="StreetTypeFragment__c" aura:id="streetTypeFragment1" variant='label-hidden' />
+                </div>
+            </div>
+            <br/>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="streetDirFragment">{!$Label.c.Aura_StreetDirection}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="StreetDirectionFragment__c" aura:id="streetDirFragment" variant='label-hidden' />
+                </div>
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="cityFragment1">{!$Label.c.Aura_City}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="CityFragment__c" aura:id="cityFragment1" variant='label-hidden' />
+                </div>
+            </div>
+            <br/>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="provinceFragment1">{!$Label.c.Aura_Province}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="ProvinceFragment__c" aura:id="provinceFragment1" variant='label-hidden' />
+                </div>
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="postalCodeFragment1">{!$Label.c.Aura_PostalCode}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="PostalCodeFragment__c" aura:id="postalCodeFragment1" variant='label-hidden' />
+                </div>
+            </div>
+            <br/>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-8 addressLabel">
+                    <label for="isAddressFragmented">{!$Label.c.Aura_IsAddressFragmented}</label>
+                </div>
+                <div class="slds-col slds-size_3-of-8 addressField">
+                    <lightning:inputField fieldName="Is_Address_Fragmented__c" aura:id="isAddressFragmented" variant='label-hidden' />
+                </div>
+            </div>
+            <br/>
+            <aura:if isTrue="{!v.avmRequestDone==false}">
+                <lightning:button class="slds-m-top_small" type="submit" label="{!$Label.c.Button_AVMRequest}" variant="brand" />
+            </aura:if>
+        </lightning:recordEditForm>
+    </aura:if>
+    <aura:if isTrue="{!v.avmRequestDone}">
+        <aura:if isTrue="{!v.sObjectName=='ResidentialLoanApplication'}">
+            <!--lightning:recordViewForm recordId="{!v.appraisalId}" objectApiName="Appraisal__c"-->
+            <lightning:recordViewForm recordId="{!v.propertyId}" objectApiName="LoanApplicationProperty">
+            <lightning:messages />
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:outputField fieldName="AVM_Request_Succeeded__c"/>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:outputField fieldName="AVM_Ordered_From__c"/>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:outputField fieldName="AVM_Reference_Id__c"/>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:outputField fieldName="AVM_Value__c"/>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:outputField fieldName="AVM_Last_Requested__c"/>
+                    </div>
+                </div>
+            </lightning:recordViewForm>
+        </aura:if>
+
+    </aura:if>
+
+</aura:component>

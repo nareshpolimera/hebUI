@@ -1,0 +1,51 @@
+<template>
+    <lightning-card title="Products" icon-name="custom:custom14">
+        {viewForm}
+        <!-- Spinner to show when loading or saving -->
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+
+        <!-- Content to show when not loading -->
+        <template if:false={isLoading}>
+            <template if:true={fieldsWithValues}>
+                <!-- Display fields from ResidentialLoanApplication object -->
+                <template if:true={viewForm}>
+                    <lightning-record-edit-form object-api-name="Opportunity" record-id={opportunityId}>
+                        <div class="slds-grid slds-wrap">
+                            <template for:each={residentialLoanAppFields} for:item="field">
+                                <div key={field.fieldPath} class="slds-col slds-size_1-of-2">
+                                    <lightning-output-field 
+                                        field-name={field.fieldPath} 
+                                        data-field-path={field.fieldPath}
+                                        disabled='true'>
+                                    </lightning-output-field>
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-record-edit-form>
+                </template>
+                <template if:false={viewForm}>
+                    <lightning-record-edit-form object-api-name="Opportunity" record-id={opportunityId}>
+                        <div class="slds-grid slds-wrap">
+                            <template for:each={residentialLoanAppFields} for:item="field">
+                                <div key={field.fieldPath} class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field 
+                                        field-name={field.fieldPath} 
+                                        data-field-path={field.fieldPath}
+                                        disabled={field.readOnly}
+                                        onchange={handleChange}> <!-- Add onchange event -->
+                                    </lightning-input-field>
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-record-edit-form>
+                </template>
+                <lightning-button variant="brand" label="Save" onclick={handleSave} disabled={viewForm}></lightning-button>
+            </template>
+            <template if:true={error}>
+                <p>{error}</p>
+            </template>
+        </template>
+    </lightning-card>
+</template>

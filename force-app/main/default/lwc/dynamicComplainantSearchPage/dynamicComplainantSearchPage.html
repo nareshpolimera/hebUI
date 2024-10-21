@@ -1,0 +1,54 @@
+<template>
+    <lightning-card title="Search File" icon-name="standard:contact">
+        <div if:true={errorMsg} style="margin-left: 3%;">
+            <p style="color: red;font-family: sans-serif">{errorMsg}</p>
+        </div>
+        <div if:true={showErrorMessage} style="margin-left: 3%;">
+            <p style="color: red;font-family: sans-serif">{showErrorMessage}</p>
+        </div>
+        
+        <div style="height:400px;" >
+        <lightning-layout multiple-rows="true" vertical-align="end">
+            <lightning-layout-item size="12" small-device-size="10" medium-device-size="8" large-device-size="12" padding="around-small">
+                    <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <label class="slds-form-element__label" style='font-size: 13px; font-family: sans-serif'>Enter File Number</label>
+                                    <lightning-input type="Search" style="font-family: sans-serif;font-size: 13px;" 
+                                                
+                                                onkeyup={handleSearch} ></lightning-input>
+                            </div>
+                        </div> 
+            </lightning-layout-item>
+            </lightning-layout><br/>
+             <lightning-layout multiple-rows="true" vertical-align="end">
+            <lightning-layout-item size="12" padding="around-small">
+              <div if:true={DataTableResponseWrappper} style="height:80px;">
+                  
+                    <div if:true={showSourceObject} style='padding-left: 10px;padding-bottom: 10px;' >
+                        <label class="slds-form-element__label" style='font-size: 13px; font-family: sans-serif'>{sourceObject}</label>
+                    </div>
+                    <lightning-datatable 
+                                data= {finalSObjectDataList} columns= {dynamicColumns} key-field="FileNumber"
+                                        max-row-selection="1"
+                                        style='font-size: 13px; font-family: sans-serif'
+                                        ></lightning-datatable>
+                 </div>
+                 <div if:true={displaySpinner}>
+                    <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+                </div>
+                <div class="slds-align_absolute-center" style="padding-bottom: 10px;padding-top: 100px;">
+                    <!-- <lightning-button label="Save Complainant/Link file" 
+                    variant="brand" 
+                    onclick={saveAndLinkclick}></lightning-button> -->
+                    <lightning-button label="Link File" 
+                    variant="brand" style="padding-left: 10px;"
+                    onclick={linkFileOnly}></lightning-button>
+                    <lightning-button label="Cancel" 
+                    variant="brand" style="padding-left: 10px;"
+                    onclick={cancel}></lightning-button>
+                    </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+    </lightning-card>
+</template>

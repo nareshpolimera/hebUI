@@ -1,0 +1,13 @@
+<aura:component>
+    <aura:attribute name="message" type="String" />
+    <aura:attribute name="messageType" type="String" default="default" />
+    <aura:attribute name="background" type="String" default="default" />
+
+    <div class="{!'slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_' + v.background}" style="margin-bottom:10px" role="alert">
+        <span class="slds-assistive-text">{!v.messageType}</span>
+        <span class="{!'slds-icon_container slds-icon-utility-' + v.messageType + ' slds-m-right_x-small'}" title="Description of icon when needed">
+            <lightning:icon class="{!v.background}" iconName="{! 'utility:' + v.messageType }" size="x-small" />
+        </span>
+        <h2 style="font-weight:bold;">{!v.message}</h2>
+    </div>
+</aura:component>

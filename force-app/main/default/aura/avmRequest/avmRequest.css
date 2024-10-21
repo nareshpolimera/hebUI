@@ -1,0 +1,8 @@
+.THIS { }
+.THIS .addressField label.slds-form-element__label {
+    display : none;
+    visibility : hidden;
+}
+.THIS .addressLabel label {
+    margin: 5px;
+}

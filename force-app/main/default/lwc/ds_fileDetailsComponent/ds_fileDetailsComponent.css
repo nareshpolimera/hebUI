@@ -1,0 +1,12 @@
+.header {
+    background-color: rgb(90, 84, 84);
+    border-radius: 0.25rem;
+}
+
+.header-title {
+    color: white;
+}
+
+.icon:hover {
+    cursor: pointer;
+}

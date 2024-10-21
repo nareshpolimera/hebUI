@@ -1,0 +1,23 @@
+<aura:component >
+    <aura:attribute name="icon" type="String" description="Icon to use in header" />
+    <aura:attribute name="headerText" type="String" description="Header txt" />
+    <aura:attribute name="headerSize" type="String" default="small" description="Header txt" />
+    
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:layout >
+                <lightning:layoutItem>
+                    <lightning:icon iconName="{!v.icon}" size="{!v.headerSize}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12">
+                    <lightning:layout multipleRows="true" verticalAlign="center">
+                        <lightning:layoutItem class="{! 'slds-p-horizontal_' + v.headerSize }" size="12">
+                            {!v.headerText}
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+    </lightning:card>
+    
+</aura:component>

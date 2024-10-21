@@ -1,0 +1,9 @@
+.THIS .error svg { fill: white; }
+.THIS .success svg { fill:white; }
+.THIS .warning-alert, .THIS .slds-theme_warning-alert { background: #69B3E7; }
+.THIS .slds-theme_warning-alert  { color:rgb(62, 62, 60); }
+.THIS ul { text-align: left;}
+.THIS li { list-style-type: disc; list-style-position:inside; }
+.THIS .slds-text-heading_x-small { text-align:left; font-weight:500; margin-bottom:.5em; }
+.THIS .hiddenAccordian { display:none; }
+.THIS .warning { padding:10px;}

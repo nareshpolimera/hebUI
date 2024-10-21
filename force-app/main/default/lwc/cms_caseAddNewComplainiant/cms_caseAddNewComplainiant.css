@@ -1,0 +1,6 @@
+@import 'c/cms_cssUtility';
+.popup{
+    top:5%;
+    position: fixed;
+    z-index: 99999;
+}

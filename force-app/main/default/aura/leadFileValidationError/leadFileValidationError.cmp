@@ -1,0 +1,160 @@
+<aura:component
+  implements="flexipage:availableForRecordHome,force:hasRecordId"
+  access="global"
+>
+  <aura:attribute name="simpleRecord" type="Object" />
+  <aura:attribute name="recordError" type="String" />
+  <aura:attribute name="renderMessage" type="Boolean" default="false" />
+  <aura:attribute name="showSpinner" type="Boolean" default="false" />
+  <aura:attribute name="hideSpinner" type="Boolean" default="false" />
+  <aura:attribute name="warningMessage" type="String" default="" />
+  <aura:attribute name="creditBureauMessage" type="String" default="" />
+
+  <force:recordData
+    aura:id="recordLoader"
+    recordId="{!v.recordId}"
+    fields="Name,Missing_MARS_Validation_Message__c,Warning_Message__c,Commitment_Letter_Validation_Message__c,Mismatch_Acknowledgement__c,Mismatch_Acknowledgement_Date__c,Mismatch_Acknowledgement_By__c"
+    targetFields="{!v.simpleRecord}"
+    targetError="{!v.recordError}"
+    recordUpdated="{!c.handleRecordUpdated}"
+    mode="EDIT"
+  />
+
+ 
+  <aura:if isTrue="{!v.renderMessage}">
+    <div
+        class="slds-card__header slds-theme_warning warning"
+        style="padding: 10px; cursor: pointer;position:relative"
+        role="alert"
+      >
+      <div class="slds-form--compound">
+          <!-- Spinner -->
+        <aura:if isTrue="{!v.showSpinner}">
+          <c:loadingSpinner />
+        </aura:if>
+
+        <aura:if
+          isTrue="{!not(empty(v.simpleRecord.Missing_MARS_Validation_Message__c))}"
+        >
+          <div class="slds-grid">
+            <div class="slds-col slds-size_11-of-12">
+              <p class="slds-text-heading_x-small" onclick="{!c.toggleBody1}">
+                {!$Label.c.Warning_Missing_MARS_Info}
+                <span aura:id="openicon1"
+                  >&nbsp;&nbsp;<lightning:icon
+                    iconName="utility:chevrondown"
+                    size="x-small"
+                /></span>
+                <span aura:id="closeicon1" class="slds-hide"
+                  >&nbsp;&nbsp;<lightning:icon
+                    iconName="utility:chevronup"
+                    size="x-small"
+                /></span>
+              </p>
+            </div>
+            <div class="slds-col slds-size_1-of-12">
+              <lightning:icon
+                iconName="utility:refresh"
+                size="x-small"
+                onclick="{!c.refreshFileCheck}"
+              />
+            </div>
+          </div>
+
+          <div class="slds-hide" aura:id="warningBody1">
+            <ui:outputRichText
+              aura:id="outputRT"
+              value="{!v.simpleRecord.Missing_MARS_Validation_Message__c}"
+            />
+          </div>
+        </aura:if>
+
+        <aura:if
+          isTrue="{!or(not(empty(v.warningMessage)), not(empty(v.creditBureauMessage)))}"
+        >
+          <div class="slds-grid">
+            <div class="slds-col slds-size_11-of-12">
+              <p class="slds-text-heading_x-small" onclick="{!c.toggleBody2}">
+                {!$Label.c.Warning_Message_Before_File_Move_To_MARS}
+                <span aura:id="openicon2"
+                  >&nbsp;&nbsp;<lightning:icon
+                    iconName="utility:chevrondown"
+                    size="x-small"
+                /></span>
+                <span aura:id="closeicon2" class="slds-hide"
+                  >&nbsp;&nbsp;<lightning:icon
+                    iconName="utility:chevronup"
+                    size="x-small"
+                /></span>
+              </p>
+            </div>
+            <div class="slds-col slds-size_1-of-12">
+              <lightning:icon
+                iconName="utility:refresh"
+                size="x-small"
+                onclick="{!c.refreshFileCheck}"
+              />
+            </div>
+          </div>
+
+          <div class="slds-hide" aura:id="warningBody2">
+            <ui:outputRichText aura:id="outputRT2" value="{!v.warningMessage}" />
+            <aura:if isTrue="{!not(empty(v.creditBureauMessage))}">
+              <ul>
+                <li>
+                  Credit bureau mismatch information
+                  <a role="button" tabindex="0" onclick="{!c.onAcknowledge}"
+                    >"Acknowledge"</a
+                  >
+                  <ui:outputRichText
+                    aura:id="outputRT2"
+                    value="{!v.creditBureauMessage}"
+                  />
+                </li>
+              </ul>
+              <br />
+            </aura:if>
+          </div>
+        </aura:if>
+
+        <aura:if
+          isTrue="{!not(empty(v.simpleRecord.Commitment_Letter_Validation_Message__c))}"
+        >
+          <div class="slds-grid">
+            <div class="slds-col slds-size_11-of-12">
+              <p class="slds-text-heading_x-small" onclick="{!c.toggleBody3}">
+                {!$Label.c.Warning_Missing_Commitment_Letter_Info}
+                <span aura:id="openicon3"
+                  >&nbsp;&nbsp;<lightning:icon
+                    iconName="utility:chevrondown"
+                    size="x-small"
+                  /></span>
+                <span aura:id="closeicon3" class="slds-hide"
+                  >&nbsp;&nbsp;<lightning:icon
+                    iconName="utility:chevronup"
+                    size="x-small"
+                /></span>
+              </p>
+            </div>
+            <div class="slds-col slds-size_1-of-12">
+              <lightning:icon
+                iconName="utility:refresh"
+                size="x-small"
+                onclick="{!c.refreshFileCheck}"
+              />
+            </div>
+          </div>
+
+          <div class="slds-hide" aura:id="warningBody3">
+            <ui:outputRichText
+              aura:id="outputRT3"
+              value="{!v.simpleRecord.Commitment_Letter_Validation_Message__c}"
+            />
+          </div>
+        </aura:if>
+      </div>
+    </div>
+  </aura:if>
+    
+    
+</aura:component>

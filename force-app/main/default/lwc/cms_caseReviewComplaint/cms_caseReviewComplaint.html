@@ -1,0 +1,554 @@
+<template>
+    <template if:true={caseLoaded}>
+    <lightning-card>
+
+        <div class="slds-p-bottom_small">
+            <h3 class="slds-section__title slds-theme_shade">
+                <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Review complaint & send
+                    response letter</span>
+            </h3>
+        </div>
+        <template if:false={modeEdit}>
+            <div class="slds-p-horizontal_large slds-p-bottom_small">
+                <div class="slds-p-bottom_small">A resolution letter template has been selected based on your choices.
+                    Please review and adjust form fields if not accurate.</div>
+                <div class="slds-p-bottom_small h3fontWeight">
+                    <h3>Complainant details </h3>
+                </div>
+                <div>
+                    <div class="slds-grid">
+                        <div class="slds-size_5-of-12 fullWidth">
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>First name</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{caseDetails.First_Name__c}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Email</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{caseDetails.Email__c}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Postal address</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{caseDetails.Postal_Code__c}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Channel recieved</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{caseDetails.Postal_Code__c}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters slds-size_1-of-12"></div>
+                        <div class="slds-size_5-of-12">
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Last name</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{caseDetails.Last_Name__c}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Postal code</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Case number</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-p-horizontal_large slds-p-bottom_small">
+                <div class="slds-p-bottom_small h3fontWeight">
+                    <h3>Complainant details </h3>
+                </div>
+                <div>
+                    <div class="slds-grid">
+                        <div class="slds-size_5-of-12 fullWidth">
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Complaint Category</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Resolution sought</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters slds-size_1-of-12"></div>
+                        <div class="slds-size_5-of-12">
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Complaint date received</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>incident date</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-p-horizontal_large slds-p-bottom_small">
+                <div class="slds-p-bottom_small h3fontWeight">
+                    <h3>Resolution details </h3>
+                </div>
+                <div>
+                    <div class="slds-grid">
+                        <div class="slds-size_5-of-12 fullWidth">
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Redress amount</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Redress Type</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters slds-size_1-of-12"></div>
+                        <div class="slds-size_5-of-12">
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Outcome</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template if:true={modeEdit}>
+                <div class="slds-p-horizontal_large slds-p-bottom_small">
+                    <div class="slds-p-bottom_small">A resolution letter template has been selected based on your
+                        choices.
+                        Please review and adjust form fields if not accurate.</div>
+                    <div class="slds-p-bottom_small h3fontWeight">
+                        <h3>Complaint details </h3>
+                    </div>
+                    <div>
+                        <div class="slds-grid">
+                            <div class="slds-size_5-of-12 fullWidth">
+                                <lightning-input type="text" name="First name" label="First name" data-id="Complainant_FirstName"></lightning-input>
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>First name</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+                                <lightning-input type="text" name="Email" label="Email"></lightning-input>
+                                <!-- <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Email</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+                                <lightning-input type="text" name="Postal address"
+                                    label="Postal address"></lightning-input>
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Postal address</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+                                <lightning-input type="text" name="Channel recieved"
+                                    label="Channel recieved"></lightning-input>
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Channel recieved</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+                            </div>
+                            <div class="slds-grid slds-gutters slds-size_1-of-12"></div>
+                            <div class="slds-size_5-of-12">
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Last name</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+
+                                <lightning-input type="text" name="Last name" label="Last name"></lightning-input>
+                                <lightning-input type="text" name="Postal code" label="Postal code"></lightning-input>
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Postal code</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+                                <lightning-input disabled="true" type="text" name="Case number"
+                                    label="Case number"></lightning-input>
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Case number</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-p-horizontal_large slds-p-bottom_small">
+                    <div class="slds-p-bottom_small h3fontWeight">
+                        <h3>Complainant details </h3>
+                    </div>
+                    <div>
+                        <div class="slds-grid">
+                            <div class="slds-size_5-of-12 fullWidth">
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Complaint Category</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+                                <lightning-input type="text" name="Complaint Category"
+                                    label="Complaint Category"></lightning-input>
+                                <lightning-input type="text" name="Resolution sought"
+                                    label="Resolution sought"></lightning-input>
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Resolution sought</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+                            </div>
+                            <div class="slds-grid slds-gutters slds-size_1-of-12"></div>
+                            <div class="slds-size_5-of-12">
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Complaint date received</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+                                <lightning-input type="text" name="Complaint date received"
+                                    label="Complaint date received"></lightning-input>
+                                <lightning-input type="text" name="incident date"
+                                    label="incident date"></lightning-input>
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>incident date</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-p-horizontal_large slds-p-bottom_small">
+                    <div class="slds-p-bottom_small h3fontWeight">
+                        <h3>Resolution details </h3>
+                    </div>
+                    <div>
+                        <div class="slds-grid">
+                            <div class="slds-size_5-of-12 fullWidth">
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Redress amount</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Redress Type</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+                                <lightning-input type="text" name="Redress amount"
+                                    label="Redress amount"></lightning-input>
+                                <lightning-input type="text" name="Redress Type" label="Redress Type"></lightning-input>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-size_1-of-12"></div>
+                            <div class="slds-size_5-of-12">
+                                <!--<div class="slds-grid slds-border_bottom fullWidth slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 ">
+                                    <span>Outcome</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12"></div>
+                                <div class="slds-col slds-size_7-of-12 ">
+                                    <span>{firstName}
+                                        <lightning-button-icon class="slds-float_right slds-p-bottom_xx-small"
+                                            icon-name="utility:edit" alternative-text="Update First Name"
+                                            title="Update First Name" variant="bare" size="medium"
+                                            onclick={handleEdit}></lightning-button-icon>
+                                    </span>
+                                </div>
+                            </div>-->
+                                <lightning-input type="text" name="Outcome" label="Outcome"></lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+        </template>
+        <div class="slds-p-left_medium ">
+            <div><abbr title="required" class="slds-required">*</abbr>Select method of delivery</div>
+            <div class="slds-p-bottom_small ">
+                <lightning-button-group>
+                    <lightning-button label="By post"></lightning-button>
+                    <lightning-button label="By Email"></lightning-button>
+                </lightning-button-group>
+            </div>
+        </div>
+    </lightning-card><template if:true={modeEdit}>
+        <div class="alignButtons">
+    <lightning-button class="slds-m-right_medium slds-m-right_medium" variant="brand" type="button" name="cancel" label="cancel" onclick={handleCancel}></lightning-button>
+                <lightning-button variant="brand" type="submit" name="save" label="Save" onclick={handleSave}></lightning-button></div></template>
+    <!--
+    <template if:true={editFirstName}>
+        <lightning-input name="fileExpirationDate" value="" label=""
+            onchange={handleFirstNameChange}></lightning-input>
+
+    </template>-->
+    <!--<lightning-record-form
+    record-id="5008I000007jsWuQAI"
+    object-api-name="Case"
+    columns="2"
+    layout-type="Full"
+    mode="view"
+>
+</lightning-record-form>--></template>
+</template>

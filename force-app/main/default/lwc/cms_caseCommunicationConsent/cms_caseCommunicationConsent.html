@@ -1,0 +1,33 @@
+<template><br/>
+
+    <h3 class="slds-section__title slds-theme_shade">
+        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Please read the following</span>
+    </h3>
+    <div class="slds-p-around_small">
+        <lightning-tabset>
+            <lightning-tab label="English">
+                <div class="slds-box">
+                    <p class="slds-p-bottom_small  slds-p-top_small">
+                        Would you like to provide me with your email address, which we will use to communicate with you and provide you with any necessary documentation in relation to this complaint?</p>
+                    <p class="slds-p-bottom_small">Your consent is only valid for corresponding with you in relation to this complaint.
+                    </p>
+                    <p class="slds-p-bottom_small">If you would like us to correspond with you by a different method during your complaint investigation, or if you want to withdraw your email consent, you can do so at any time by contacting us.</p>
+                </div>
+            </lightning-tab>
+            <lightning-tab label="French">
+                <div class="slds-box">
+                    <p class="slds-p-bottom_small slds-p-top_small">
+                        Aimeriez-vous nous fournir votre adresse courriel? Elle nous permettrait de communiquer avec vous et de vous faire parvenir toute documentation nécessaire concernant votre plainte.</p>
+                    <p class="slds-p-bottom_small">Votre consentement n’est valable que pour nos communications se rapportant à cette plainte.
+                    </p>
+                    <p class="slds-p-bottom_small">Si vous souhaitez que nous correspondions avec vous d’une autre façon durant le processus d’enquête sur la plainte ou si vous voulez retirer votre consentement à ce que nous communiquions avec vous par courriel, vous pouvez le faire en tout temps en communiquant avec nous.</p>
+                </div>
+            </lightning-tab>
+        </lightning-tabset>
+
+
+
+        <abbr if:true={consentMandatory}  title="required" class="slds-required displayInline">*</abbr> <lightning-checkbox-group class="consentclass displayInline" options={options} value={value} onchange={handleChange}></lightning-checkbox-group>
+        <p class="consentMessage hideerror"></p>
+    </div>
+</template>

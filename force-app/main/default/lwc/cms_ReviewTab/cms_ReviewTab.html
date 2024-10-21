@@ -1,0 +1,60 @@
+<template>
+    <template if:false={loaded}>
+      <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <template if:true={errormsg}>
+      <div
+        class="
+          slds-scoped-notification slds-media slds-media_center
+          slds-theme_warning
+        "
+        role="status"
+      >
+        <div class="slds-media__figure">
+          <lightning-icon
+            icon-name="utility:warning"
+            alternative-text="Connected"
+            title="Connected"
+          >
+          </lightning-icon>
+        </div>
+        <div class="slds-media__body">
+          <p>
+            <lightning-formatted-rich-text
+              value={errormsg}
+            ></lightning-formatted-rich-text>
+  
+            <template if:true={errorFields}
+              ><a href="#" onclick={handleClick}
+                >I have inputted the above information and clicked Save</a
+              ></template
+            >
+          </p>
+        </div>
+      </div>
+    </template>
+  
+    <div style={previewBoxCss}>
+      <c-cms_case-review onclosespiner={closeSpiner} onopenspiner={openSpiner} case-id={recordId} onopenclosecaseflowpage = {openCloseCaseFlow}>
+      </c-cms_case-review>
+  
+      <div align="Center">
+        <lightning-button
+          variant="brand"
+          label="Refresh"
+          title="Primary action"
+          onclick={handleClick}
+        >
+          class="slds-m-left_x-small"></lightning-button
+        >
+        <lightning-button
+          variant="brand"
+          label="Submit"
+          title="Primary action"
+          onclick={sendLetter}
+          class="slds-m-left_x-small"
+          disabled={isDisableSubmit}
+        ></lightning-button>
+      </div>
+    </div>
+  </template>

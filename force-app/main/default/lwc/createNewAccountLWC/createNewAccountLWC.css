@@ -1,0 +1,38 @@
+.slds-form-element__control .slds-radio, .slds-form-element__control .slds-checkbox {
+    margin-top: 1rem ;
+}
+
+label.slds-radio_button__label {
+    border-radius: 1rem !important;
+}
+
+.slds-card_header.slds-grid{
+    margin-bottom: 1em !important;
+}
+
+.slds-size_1-of-2, .slds-size--1-of-2{
+    padding-right: 1em !important;
+}
+
+/*.slds-card__footer{
+    padding-bottom: 3em !important;
+}*/
+
+.slds-col .slds-size_1-of-1, .slds-form-element .slds-form-element_horizontal, .slds-form-element_horizontal .slds-form-element,.slds-form-element__control .slds-grow .textarea-container {
+    padding-left : 0px !important;
+}
+/**.slds-col .slds-size_1-of-1 .slds-p-left_x-small, .slds-form-element .slds-form-element_horizontal, .slds-is-editing .slds-form-element_1-col{
+    font-weight: bold;
+	margin-bottom: 0.5em;
+	display: inline-block;
+}
+.THIS .customfont{
+    
+	margin-bottom: 0.5em;
+	display: inline-block;
+}**/
+label.customlabel{
+    font-weight: bold;
+    margin-bottom: 0.5em;
+	display: inline-block;
+}

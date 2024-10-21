@@ -1,0 +1,13 @@
+.header {
+    background-color: rgb(90, 84, 84)
+}
+
+.header-title {
+    color: white;
+}
+
+.line {
+    border: 1px solid #d1d1d1;
+    background-color: #ffffff;
+    box-sizing: border-box;
+  }

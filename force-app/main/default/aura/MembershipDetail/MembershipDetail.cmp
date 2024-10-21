@@ -1,0 +1,129 @@
+<aura:component
+  implements="force:hasRecordId,force:hasSObjectName,flexipage:availableForRecordHome"
+  controller="MembershipController"
+  access="global"
+>
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="sObjectName" type="String" />
+
+  <aura:attribute name="simpleMembership" type="Membership__c" />
+  <aura:attribute name="newMembership" type="Membership__c" />
+  <aura:attribute name="recordError" type="String" />
+
+  <aura:attribute name="selectedAssociationId" type="String" />
+  <aura:attribute name="associationList" type="Marketing_Association__c[]" />
+  <aura:attribute name="frenchConsent" type="String" default="" />
+  <aura:attribute name="englishConsent" type="String" default="" />
+
+  <aura:attribute name="associatonSelected" type="Boolean" default="false" />
+  <aura:attribute
+    name="membershipNumberRequired"
+    type="Boolean"
+    default="false"
+  />
+
+  <aura:attribute name="message" type="String" default="" />
+  <aura:attribute name="messageType" type="String" default="error" />
+  <aura:attribute name="messageBackground" type="String" default="error" />
+
+  <aura:handler event="force:refreshView" action="{!c.isRefreshed}" />
+
+  <force:recordData
+    aura:id="recordCreator"
+    fields="Marketing_Association__c,Membership_Number__c,Consent_received__c,Consent_received_on__c,Verified_Membership_Number__c,Lead__c,Opportunity__c"
+    targetFields="{!v.simpleMembership}"
+    targetRecord="{!v.newMembership}"
+    targetError="{!v.recordError}"
+  />
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <aura:if isTrue="{!v.message != ''}">
+    <c:pageMessage
+      message="{!v.message}"
+      messageType="{!v.messageType}"
+      background="{!v.messageBackground}"
+    />
+  </aura:if>
+
+  <lightning:select
+    name="select1"
+    value="{!v.selectedAssociationId}"
+    onchange="{! c.handleAssociationChange}"
+    label="Select Association"
+    required="false"
+  >
+    <option value="">--None--</option>
+    <aura:iteration items="{!v.associationList}" var="item">
+      <option value="{! item.Id }">{! item.Name }</option>
+    </aura:iteration>
+  </lightning:select>
+
+  <aura:if isTrue="{!v.associatonSelected}">
+    <br />
+    <br />
+    <div class="slds-grid slds-gutters_medium">
+      <div class="slds-col slds-size_1-of-1">
+        <!-- Your lightning:inputField components here -->
+        <div class="uiOutputRichText" linkify="true">
+          <aura:unescapedHtml value="{!v.englishConsent}" />
+        </div>
+      </div>
+    </div>
+    <div class="slds-grid slds-gutters_medium">
+      <div class="slds-col slds-size_1-of-1">
+        <!-- More lightning:inputField components here -->
+        <div class="uiOutputRichText" linkify="true">
+          <aura:unescapedHtml value="{!v.frenchConsent}" />
+        </div>
+      </div>
+    </div>
+
+    <br />
+    <br />
+    <lightning:card>
+      <div class=".slds-align_absolute-center">
+        <div class="slds-p-horizontal--small">
+          <aura:if isTrue="{!v.membershipNumberRequired}">
+            <lightning:input
+              class="slds-size_1-of-4"
+              aura:id="membershipField"
+              label="Membership Number"
+              value="{!v.simpleMembership.Membership_Number__c}"
+              required="true"
+            />
+            Membership Number Verified?
+            <lightning:input
+              class="slds-size_1-of-4"
+              type="checkbox"
+              aura:id="membershipField"
+              checked="{!v.simpleMembership.Verified_Membership_Number__c}"
+            />
+            <br />
+          </aura:if>
+
+          <lightning:input
+            class="slds-size_1-of-4"
+            type="date"
+            aura:id="membershipField"
+            label="Consent Received On"
+            value="{!v.simpleMembership.Consent_received_on__c}"
+          />
+          Consent Received ?<lightning:input
+            class="slds-size_1-of-4"
+            type="checkbox"
+            aura:id="membershipField"
+            checked="{!v.simpleMembership.Consent_received__c}"
+          />
+          <br />
+          <br />
+          <lightning:button
+            type="submit"
+            label="Add Membership"
+            variant="brand"
+            onclick="{!c.handleSaveMembership}"
+          />
+        </div>
+      </div>
+    </lightning:card>
+  </aura:if>
+</aura:component>

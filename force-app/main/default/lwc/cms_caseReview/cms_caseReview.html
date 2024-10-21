@@ -1,0 +1,62 @@
+<template>
+    <div class="slds-p-bottom_small reviewPageError slds-box" if:true={hasError}>
+      {errorMessage}
+    </div>
+    <div class="slds-p-bottom_small">
+      <h3 class="slds-section__title slds-theme_shade">
+        <span class="slds-truncate slds-p-horizontal_small" title="Section Title"
+          >Review</span
+        >
+      </h3>
+    </div>
+    <div
+      class="
+        slds-grid slds-wrap
+        slds-p-bottom_small
+        slds-p-horizontal_small
+        slds-gutters
+      "
+    >
+      <div class="slds-col slds-size_6-of-12">
+        <lightning-combobox
+          required
+          name="correspondence_Method"
+          label="Correspondence Method"
+          value={correspondenceMethod}
+          placeholder="Please Select"
+          options={correspondenceMethodOptions}
+          data-id="correspondence_Method"
+          onchange={handleChange}
+          class="reportValidityClass"
+        ></lightning-combobox>
+      </div>
+    </div>
+    <div class="slds-p-horizontal_small slds-p-bottom_small">
+      <!--<div class="slds-box">
+          <div class="container" lwc:dom="manual"></div>
+      </div>-->
+  
+      <div class="slds-box">
+        <div class="container">
+          <lightning-formatted-rich-text
+            value={richtext}
+          ></lightning-formatted-rich-text>
+        </div>
+      </div>
+    </div>
+<!--
+    <template if:true={setFlowToActive}>
+      <lightning-modal-header label="Close Case"></lightning-modal-header>
+      <lightning-modal-body> 
+          <lightning-flow
+            flow-api-name='Screen_Flow_Case_Close_Resolve_Button'
+            flow-input-variables={flowInputVariables}
+          >
+          </lightning-flow>  
+      </lightning-modal-body>    
+    </template>
+-->
+<template if:true={isEmailContentloaded}>
+  <lightning-spinner alternative-text="Loading"></lightning-spinner>
+</template>
+  </template>

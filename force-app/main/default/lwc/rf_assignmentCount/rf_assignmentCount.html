@@ -1,0 +1,64 @@
+<template>
+    <div style="height: 300px;">
+        <!-- version 19 -->
+        <lightning-card  title="Assignment Count View">
+            <lightning-button label="Show" title="Show results" onclick={handleShow} class="slds-m-left_x-small" slot="actions"></lightning-button>
+            <p class="slds-p-horizontal_small">
+                <lightning-layout vertical-align="stretch" multiple-rows="true" >
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                        <lightning-select
+                            name="roles"
+                            label="Roles"
+                            value={roleSelected}
+                            options={roleOptiones}
+                            onchange={handleRole}
+                            required="true">
+                        </lightning-select>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item flexibility="auto" padding="around-small" >
+                        <lightning-select
+                            name="groups"
+                            label="Pooling Groups"
+                            value={groupSelected}
+                            options={groupOptions}
+                            onchange={handleGroup}
+                            disabled={groupDisabled}>
+                        </lightning-select>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                        <lightning-select
+                            name="users"
+                            label="Users"
+                            value={userSelected}
+                            options={userOptions}
+                            onchange={handleUser}
+                            disabled={userDisabled}>
+                        </lightning-select>
+                    </lightning-layout-item>
+
+                </lightning-layout>
+
+                <!-- Spinner -->
+                <template if:true = {showDataSpinner}>
+                    <div class="spinner">
+                        <lightning-spinner
+                            variant="brand"
+                            size="medium"
+                        ></lightning-spinner>
+                    </div>
+                </template>
+                <!-- Spinner -->
+            </p>
+            <p slot="footer">
+                <lightning-datatable
+                        key-field="id"
+                        data={data}
+                        columns={columns}
+                        hide-checkbox-column>
+                </lightning-datatable>
+            </p> 
+        </lightning-card>
+    </div>
+</template>

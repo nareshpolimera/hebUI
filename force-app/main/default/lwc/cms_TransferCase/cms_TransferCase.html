@@ -1,0 +1,49 @@
+<template>
+    <div class="slds-modal__header custom-header">
+        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Transfer Complaint</h1>
+    </div>
+    <div class="slds-m-top_medium slds-wrap slds-m-vertical_none slds-grid_vertical-align-center slds-grid_align-center">
+        <div class="slds-col slds-text-align_center center-radio-group"></div>
+        <lightning-radio-group 
+            name="radio-group" 
+            options={radioOptions} 
+            value={selectedValue}
+            class="center-radio-group" 
+            onchange={handleRadioChange}>
+        </lightning-radio-group>
+    </div>
+
+    <!-- Conditionally show the user search box and dropdown when FPOC is selected -->
+    <template if:true={isFpocSelected}>
+        <div class="slds-m-top_medium slds-wrap slds-m-vertical_none slds-grid_vertical-align-center slds-grid_align-center slds-var-p-around_xx-large slds-search-box-container">
+            <lightning-input 
+                label="Search for an FPOC" 
+                placeholder="Type to search..." 
+                onchange={handleSearchChange}
+                value={searchTerm}
+                onfocus={handleFocus}
+                onblur={handleBlur}>
+            </lightning-input>
+            
+            <!-- Dropdown to show filtered user options -->
+            <template if:true={dropdownVisible}>
+                <template if:true={filteredUserOptions.length}>
+                    <div class="slds-dropdown slds-dropdown_fluid slds-show">
+                        <ul class="slds-list_vertical slds-dropdown__list">
+                            <template for:each={filteredUserOptions} for:item="user">
+                                <li key={user.value} class="slds-item slds-dropdown__item" onclick={handleUserSelect} data-id={user.value}>
+                                    <span>{user.label}</span>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </template>
+
+    <div class="slds-modal__footer slds-m-top_xx-large">
+        <button class="slds-button slds-button_neutral" onclick={handleCancel}>Cancel</button>
+        <button class="slds-button slds-button_brand" onclick={handleTransfer}>Transfer</button>
+    </div>
+</template>

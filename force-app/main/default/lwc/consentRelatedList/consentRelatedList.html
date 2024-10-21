@@ -1,0 +1,11 @@
+<template>
+    <lightning-card title="Contact Point Type Consents" if:true={data} icon-name="standard:contact_list">
+        <div class="slds-m-around_medium">
+            <lightning-datatable data={data} 
+                                 columns={columns} 
+                                 key-field="Id"
+                                 hide-checkbox-column="false">
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+</template>

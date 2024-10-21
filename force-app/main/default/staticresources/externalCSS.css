@@ -1,0 +1,150 @@
+.newHeaderTheme .slds-card__header .slds-media__body{
+    text-align: center !important;
+}
+.complaint-header-title .slds-card__header .slds-media__body {
+    text-align: center !important;
+}
+.complaint-header-title .slds-media__body {
+    text-align: left !important;
+}
+/*.complaint-header-title  .slds-media__body{
+text-align: center;
+}*/
+.complaint-header-title .slds-card__header-title{
+    text-align: center;
+}
+header.flexipageHeader.slds-page-header.uiBlock.oneAnchorHeader { 
+    display: none;
+}
+.complaint-header-title  {
+    display: unset;
+}
+.slds-card__header-title {
+    display: unset !important;
+}
+
+
+abbr{padding-right: 2px;}
+.remove_input-border{
+    border: 0px;
+}
+
+.slds-pill__action{
+    height: 32px;
+}
+.slds-pill__label{
+        line-height: 24px;
+}
+.pill-contianer1 .slds-pill__icon_container .slds-icon{height: 14px;}
+.detailPage .slds-media_small .slds-media__figure{
+    display: none;
+}
+/*.caseRedress .textarea-container{
+        padding-left: 15%;
+}*/
+.newstyle{
+    
+}
+.slds-form-element_horizontal .slds-form-element__control{
+    padding-left: 0%;
+    clear: both;
+}
+.slds-form-element_horizontal .slds-form-element__label{
+    max-width:100%;
+}
+.resolution .slds-textarea{
+    min-height: 100px;
+}
+.slds-form-element__help{
+    margin-left:0% !important;
+}
+.remove-label label{
+    display: none !important;
+}
+.icon-size svg{
+    width: 13px !important;
+    height: 13px !important;
+}
+.invLabel{
+    padding-right: 3px !important;
+}
+.removeUnwanted .slds-size_4-of-6{
+    width: 49% !important;
+    margin-right: 2% !important;
+}
+
+.removeUnwanted .slds-size_2-of-6{
+    width:49% !important;
+}
+.complainant .slds-form-element_horizontal{
+    padding:0px !important;
+}
+
+.newHeaderTheme .slds-text-heading_small{
+    font-size: 20px;
+}
+.consentRequired .slds-checkbox_faux{
+    border: red 2px solid;
+}
+.removeUnwanted .slds-form-element__group .slds-form-element__row:nth-child(2){
+    display:none
+}
+.removeUnwanted .slds-form-element__group .slds-form-element__row:nth-child(3){
+    display:none
+}
+.removeUnwanted .slds-form-element__group .slds-form-element__row:nth-child(4){
+    display:none
+}
+.removeUnwanted .slds-form-element__group .slds-form-element__row:nth-child(5){
+    display:none
+}
+.removeUnwanted .slds-form-element__group .slds-form-element__row:nth-child(6){
+    display:none
+}
+.removeUnwanted .slds-form-element__legend{
+    display:none
+}
+.slds-tabs_default__link[tabindex="0"]:focus{
+   text-decoration: none; 
+}
+.forceBrandBand{
+    padding:0px !important;
+}
+
+.newHeaderTheme .slds-card{
+    margin-top:20px;
+}
+.navexWorkspace .wsTabset .slds-template__container .slds-spinner_container {
+    z-index: 98 !important;
+}
+.slds-spinner_container {
+   bottom: -120px !important; 
+}
+.remove-label label{
+    display: none;
+  }
+.cell3{
+    width:10%;
+}
+.cell1,.cell2{
+    width:15%;
+}
+.cell6{
+   width:11%; 
+}
+
+
+.slds-table th .slds-truncate, .slds-table td .slds-truncate{
+    white-space: break-spaces !important;
+    word-wrap: break-word  !important;
+}
+
+.slds-table th, .slds-table td{
+    white-space: break-spaces !important;
+}
+td, th {
+vertical-align:top;
+}
+.slds-textarea[disabled]{
+        background-color: #f3f3f3;
+}

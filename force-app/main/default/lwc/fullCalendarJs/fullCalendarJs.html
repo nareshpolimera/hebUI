@@ -1,0 +1,103 @@
+<template>
+    <!-- Let's give it a white background -->
+    <div style="background:#ffffff;" class="slds-grid">
+        <div id="newEventModal" class="slds-hide createNewEvent">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+               <div class="slds-modal__container">
+                  <!-- modal header start -->
+                  <header class="slds-modal__header">
+                     <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                           alternative-text="close"
+                           variant="inverse"
+                           size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                     </button>
+                     <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Meeting</h2>
+                  </header>
+                  <!-- modal body start -->
+
+
+
+                  <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                     <div class="slds-form">
+
+                        <div class="slds-form-element slds-form-element_horizontal subject">
+                           <label class="slds-form-element__label" for="horizontal-input-id-01"><abbr class="slds-required" title="required">* </abbr> Subject</label>
+                           <div class="slds-form-element__control">
+                              <select id="horizontal-input-id-009" class="slds-input subject"  required="" aria-describedby="form-error-01">
+                                 <option value="Call">Call </option>
+                                 <option value="Email" >Email </option>
+                                 <option value="Meeting" >Meeting </option>
+                                 <option value="Send Letter/Quote" >Send Letter/Quote </option>
+                                 <option value="Other" >Other </option>
+                              </select>
+                              <div class="slds-form-element__help slds-hide subject" id="form-error-01" >Enter a value.</div>
+                           </div>
+                       </div>
+
+                        <div class="slds-form-element slds-form-element_horizontal">
+                           <label class="slds-form-element__label" for="horizontal-input-id-01"><abbr class="slds-required" title="required">* </abbr> Assigned To</label>
+                           <div class="slds-form-element__control">
+                             <input type="text" id="horizontal-input-id-005" placeholder="" class="slds-input assignedTo" disabled/>
+                           </div>
+                       </div>
+                        <div class="slds-form-element slds-form-element_horizontal">
+                           <label class="slds-form-element__label" for="horizontal-input-id-01">Location</label>
+                           <div class="slds-form-element__control">
+                             <input type="text" id="horizontal-input-id-00" placeholder="" class="slds-input location" />
+                           </div>
+                       </div>
+                        <div class="slds-form-element slds-form-element_horizontal">
+                            <label class="slds-form-element__label" for="horizontal-input-id-01"><abbr class="slds-required" title="required">* </abbr> Start Date</label>
+                            <div class="slds-form-element__control">
+                              <input type="date" id="horizontal-input-id-01" placeholder="Placeholder text…" class="slds-input startDate" />
+                            </div>
+                        </div>
+                        <div class="slds-form-element slds-form-element_horizontal">
+                            <label class="slds-form-element__label" for="horizontal-input-id-01"><abbr class="slds-required" title="required">* </abbr> Start Time</label>
+                            <div class="slds-form-element__control">
+                              <input type="time" id="horizontal-input-id-02" placeholder="Placeholder text…" class="slds-input startTime" />
+                            </div>
+                        </div>
+                        <div class="slds-form-element slds-form-element_horizontal">
+                           <label class="slds-form-element__label" for="horizontal-input-id-01"><abbr class="slds-required" title="required">* </abbr> End Date</label>
+                           <div class="slds-form-element__control">
+                             <input type="date" id="horizontal-input-id-03" placeholder="Placeholder text…" class="slds-input endDate" />
+                           </div>
+                       </div>
+                       <div class="slds-form-element slds-form-element_horizontal">
+                           <label class="slds-form-element__label" for="horizontal-input-id-01"><abbr class="slds-required" title="required">* </abbr> End Time</label>
+                           <div class="slds-form-element__control">
+                             <input type="time" id="horizontal-input-id-04" placeholder="Placeholder text…" class="slds-input endTime" />
+                           </div>
+                       </div>
+                       <div class="slds-form-element slds-form-element_horizontal">
+                           <label class="slds-form-element__label" for="horizontal-input-id-05">Description</label>
+                           <div class="slds-form-element__control">
+                              <input type="text" id="horizontal-input-id-05" placeholder="" class="slds-input description" />
+                        </div>
+                        </div>
+                        <div class="slds-form-element slds-form-element_horizontal">
+                           <label class="slds-form-element__label" for="horizontal-input-id-06">Is Live Transfer</label>
+                              <div class="slds-form-element__control">
+                                 <input type="checkbox" id="horizontal-input-id-06" placeholder="" class="slds-checkbox is-live-transfer" />
+                              </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- modal footer start-->
+                  <footer class="slds-modal__footer">
+                     <button class="slds-button slds-button_success saveEvent" onclick={saveEvent}>Save</button>
+                     <button class="slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+                  </footer>
+               </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+      <!-- This is where the calendar gets loaded. -->
+      <!-- We'll use the class name "fullcalendarjs" as our dom target instead of the ID -->
+      <!-- In LWC, the id can changed dynamically -->
+      <div id="calendar" class="fullcalendarjs"></div>
+    </div>
+  </template>

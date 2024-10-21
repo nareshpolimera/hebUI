@@ -1,0 +1,18 @@
+@import 'c/cms_cssUtility';
+.complaint-header-title .slds-card__header-title{
+    text-align: center;
+}
+header.flexipageHeader.slds-page-header.uiBlock.oneAnchorHeader { 
+    display: none;
+}
+.complaint-header-title  {
+    display: unset;
+}
+.slds-card__header-title {
+    display: unset !important;
+}
+.slds-box{
+    border-color:red ;
+    color: red;
+    margin: 20px;
+}

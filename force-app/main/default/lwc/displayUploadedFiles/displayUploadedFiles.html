@@ -1,0 +1,18 @@
+<template>
+    <template if:true={content_version_records}>
+        <lightning-datatable
+                data={content_version_records}
+                columns={columns}
+                key-field="Id"
+                sorted-by={sortBy}
+                sorted-direction={sortDirection}
+                onsort={doSorting}
+                hide-checkbox-column
+                row-number-offset={rowOffset}
+                onrowaction={handleRowAction}>
+        </lightning-datatable>
+    </template>
+    <template if:true={error}>
+        {error}
+    </template>
+ </template>

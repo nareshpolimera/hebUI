@@ -1,0 +1,22 @@
+<aura:component controller="QuoteRequestValidationController" 
+                implements="force:lightningQuickAction,force:hasRecordId,force:hasSObjectName,force:appHostable" 
+                >
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="sObjectName" type="String" />
+
+    <aura:attribute name="message" type="String" default="" />
+	<aura:attribute name="messageType" type="String" default="error" />
+	<aura:attribute name="messageBackground" type="String" default="error" />
+       
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:html tag="style">
+    .slds-modal__container {
+     			max-width: 40rem;
+               	height:50% ;
+    }
+	</aura:html>
+    <div> 
+        <c:pageMessage message="{!v.message}" messageType="{!v.messageType}" background="{!v.messageBackground}" />
+    </div>
+</aura:component>

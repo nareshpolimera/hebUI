@@ -1,0 +1,24 @@
+<aura:component controller="AccountService" implements="lightning:actionOverride,lightning:hasPageReference,force:lightningQuickAction,flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="recordtypeId" type="String"/>
+    <aura:attribute name="isClientRecordType" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+    <lightning:navigation aura:id="navService"/>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.handleClose}">
+                    <lightning:icon iconName="utility:close" alternativeText="Close" title="Close" />
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">New Account</h2>
+            </header>
+            <aura:if isTrue="{!v.isClientRecordType}">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <c:createNewAccountLWC oncloseTab="{!c.closeTab}" selectedRecordType="{!v.recordtypeId}"/>
+                </div>
+            </aura:if>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

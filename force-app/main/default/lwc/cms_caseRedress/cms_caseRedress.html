@@ -1,0 +1,30 @@
+<template>{redressId}
+    <template if:true={pageLoaded}><div class="caseRedress" ><br/>
+            <lightning-record-edit-form  object-api-name={objectApiName} onsuccess={handleSuccessData} record-id={redressId} onerror={handleError} onload={handleLoad}>
+                
+                <div class="slds-grid slds-wrap slds-p-bottom_small slds-gutters">
+                    <div class="slds-col slds-size_3-of-12">
+                        <lightning-input-field class="reportValidityClass" value={redressData.Financial_Redress_Type__c} field-name="Financial_Redress_Type__c" data-id="Financial_Redress_Type__c" label="Finacncial Type" required="true" onchange={handleChange}> </lightning-input-field>
+                    </div>
+                    
+                    
+                    <div class="slds-col slds-size_3-of-12">
+                        <lightning-input-field class="reportValidityClass" value={redressData.Redress_Method__c} field-name="Redress_Method__c" data-id="Redress_Method__c" label="Method" required="true" onchange={handleChange}> </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_3-of-12">
+                        <lightning-input type="number" step="0.01" class="reportValidityClass currency-class"  formatter="currency" autocomplete="off" value={redressData.Redress_Amount__c} field-name="Redress_Amount__c" data-id="Redress_Amount__c" required="true" label="Amount" onchange={handleChange} > </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_3-of-12">
+                        <lightning-input-field class="reportValidityClass" value={redressData.Is_Redress_received__c} field-name="Is_Redress_received__c" data-id="Is_Redress_received__c" required="true" label="Recieved" onchange={handleChange}> </lightning-input-field>
+                    </div>
+                    
+                    <div class="slds-col slds-size_12-of-12">
+                        <lightning-textarea required class="reportValidityClass" value={redressData.Resolution_Rationale__c} field-name="Resolution_Rationale__c" data-id="Resolution_Rationale__c" label="Rationale" onchange={handleChange}> </lightning-textarea>
+                    </div>
+                  <!-- <div class="slds-col slds-size_12-of-12 slds-hide">
+                        <lightning-input-field class="reportValidityClass" field-name="Case__c" data-id="Case__c" label="Case" value={caseId} onchange={handleChange}> </lightning-input-field>
+                    </div>--> 
+                
+            </div>
+            </lightning-record-edit-form></div></template>
+    </template>

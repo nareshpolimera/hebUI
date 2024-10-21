@@ -1,0 +1,119 @@
+<aura:component>
+  <aura:attribute
+    name="fileId"
+    type="Id"
+    required="true"
+    description="Id of the Lead/Opportunity"
+  />
+  <aura:attribute
+    name="sObjectName"
+    type="String"
+    required="true"
+    description="SObject this applies to"
+  />
+  <aura:attribute
+    name="applicationId"
+    type="Id"
+    required="true"
+    description="Id of the Applciation"
+  />
+  <aura:attribute
+    name="applicationName"
+    type="String"
+    required="true"
+    description="Application SObject this applies to"
+  />
+  <c:headerSection
+    icon="utility:money"
+    headerText="{!$Label.c.Header_Credit_Assessment}"
+  />
+    <div class="slds-grid">
+      <div class="slds-col slds-size_1-of-2">
+        <lightning:recordViewForm
+          recordId="{!v.fileId}"
+          objectApiName="{!v.sObjectName}"
+        >
+        <lightning:messages />
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField fieldName="Credit_Assessment_Successful__c" />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField fieldName="Willingness__c" />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField fieldName="Capacity__c" />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField fieldName="Annual_Property_Obligation__c" />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField fieldName="Holdback_Amount__c" />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField fieldName="Holdback_Number_Of_Years__c" />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField fieldName="Holdback_Number_Of_Payments__c" />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField fieldName="Holdback_Payment_Amount__c" />
+          </div>
+        </lightning:recordViewForm>
+
+        <lightning:recordViewForm
+          recordId="{!v.applicationId}"
+          objectApiName="{!v.applicationName}"
+        >
+          <div class="slds-col slds-size_1-of-1">
+            <b><lightning:outputField fieldName="TDSR_percent_value__c" /></b>
+          </div>
+        </lightning:recordViewForm>
+      </div>
+
+      <div class="slds-col slds-size_1-of-2">
+        <lightning:recordViewForm
+          recordId="{!v.fileId}"
+          objectApiName="{!v.sObjectName}"
+        >
+        <lightning:messages />
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField fieldName="Credit_Assessment_Status__c" />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField
+              fieldName="Credit_Assessment_Requested_By__c"
+            />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField
+              fieldName="Credit_Assessment_Requested_On__c"
+            />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField fieldName="Credit_Assessment_Reviewed_By__c" />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning:outputField fieldName="Credit_Assessment_Reviewed_On__c" />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <label class="slds-form-element__label"
+              >Additional Information for Underwriting</label
+            >
+            <lightning:outputField
+              variant="label-hidden"
+              fieldName="Credit_Assessment_Additional_Information__c"
+            />
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <label class="slds-form-element__label"
+              >Special Instructions from Underwriting</label
+            >
+            <lightning:outputField
+              variant="label-hidden"
+              fieldName="Credit_Assessment_Review_Comments__c"
+            />
+          </div>
+        </lightning:recordViewForm>
+      </div>
+    </div>
+</aura:component>

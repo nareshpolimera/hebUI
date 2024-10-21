@@ -1,0 +1,7 @@
+@import 'c/cms_cssUtility';
+.slds-error{
+    color:red;
+}
+.slds-error-button{
+    border: solid red 1px;
+}

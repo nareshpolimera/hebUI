@@ -1,0 +1,491 @@
+<aura:component controller="AppraisalOrderController">
+  <aura:attribute
+    name="order"
+    type="Appraisal_Order__c"
+    default="false"
+    description="Appraisal Order being managed"
+  />
+  <aura:attribute
+    name="notesColumns"
+    type="String[]"
+    description="Used for headings in Notes table"
+  />
+  <aura:attribute
+    name="statusColumns"
+    type="String[]"
+    description="Used for headings in Status table"
+  />
+  <aura:attribute
+    name="notes"
+    type="Appraisal_Note__c[]"
+    description="Notes related to the Order"
+  />
+  <aura:attribute
+    name="statuses"
+    type="Object[]"
+    description="Statuses related to the Order"
+  />
+
+  <aura:attribute name="message" type="String" default="" />
+  <aura:attribute name="messageType" type="String" default="error" />
+  <aura:attribute name="messageBackground" type="String" default="error" />
+
+  <aura:attribute
+    name="showSpinner"
+    type="boolean"
+    default="false"
+    description="Show/Hide spinner"
+  />
+  <aura:attribute
+    name="showActionButtons"
+    type="boolean"
+    default="false"
+    description="Indicates if the buttons to update the Appraisal are visible"
+  />
+  <aura:attribute
+    name="isCancelDisabled"
+    type="boolean"
+    default="true"
+    description="Is Cancel button"
+  />
+
+  <aura:attribute
+    name="step"
+    type="String"
+    default="view"
+    description="which step the Order view is on"
+  />
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <!-- Spinner -->
+  <aura:if isTrue="{!v.showSpinner}">
+    <c:loadingSpinner />
+  </aura:if>
+
+  <aura:if isTrue="{!v.step == 'view'}">
+    <aura:if isTrue="{!v.message != ''}">
+      <div>
+        <c:pageMessage
+          message="{!v.message}"
+          messageType="{!v.messageType}"
+          background="{!v.messageBackground}"
+        />
+      </div>
+    </aura:if>
+
+    <aura:iteration items="{!v.order.Appraisal_Status__r}" var="status">
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-4">
+          <p>{!$Label.c.Field_Status}: {!status.Status__c}</p>
+          <p>
+            {!$Label.c.Field_StatusDate}:
+            <lightning:formattedDateTime
+              value="{!status.Status_Date__c}"
+              year="numeric"
+              month="numeric"
+              day="numeric"
+            />
+          </p>
+        </div>
+        <aura:if isTrue="{!v.showActionButtons}">
+          <div class="slds-col slds-size_1-of-4 button-header">
+            <lightning:button
+              class="slds-m-top_small"
+              type="submit"
+              label="{!$Label.c.Btn_Update_Fee}"
+              variant="brand"
+              onclick="{!c.startUpdateFee}"
+            />
+          </div>
+          <div class="slds-col slds-size_1-of-4 button-header">
+            <lightning:button
+              class="slds-m-top_small"
+              type="submit"
+              label="{!$Label.c.Btn_Send_Note}"
+              variant="brand"
+              onclick="{!c.sendNote}"
+            />
+          </div>
+          <div class="slds-col slds-size_1-of-4 button-header"> 
+            <lightning:button
+              class="slds-m-top_small"
+              type="submit"
+              label="{!$Label.c.Btn_Cancel_Order}"
+              variant="brand"
+              onclick="{!c.cancelOrder}"
+              disabled="{!v.isCancelDisabled}"
+            />
+          </div>
+        </aura:if>
+      </div>
+    </aura:iteration>
+
+    <hr />
+
+    <lightning:recordEditForm
+      recordId="{!v.order.Id}"
+      objectApiName="Appraisal_Order__c"
+    >
+      <lightning:messages />
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Reference_ID__c" />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Cancellation_Reason__c" />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Contact_First_Name__c" />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Contact_Last_Name__c" />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Contact_Email__c" />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Primary_Phone__c" />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Rush_Order__c" />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Alternate_Phone__c" />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Requested_Date__c" />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Requested_Time_Window__c" />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Special_Instructions__c" />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Specify_Other_Time__c" />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Appointment_Booked_For__c" />
+        </div>
+      </div>
+    </lightning:recordEditForm>
+
+    <hr />
+    <c:headerSection
+      icon="standard:customer_360"
+      headerText="{!$Label.c.Header_Appraisal_Details}"
+      headerSize="small"
+    />
+    <lightning:recordViewForm
+      recordId="{!v.order.Appraisal__c}"
+      objectApiName="Appraisal__c"
+    >
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Appraisal_Product__c" />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Appraised_Amount__c" />
+        </div>
+      </div>
+
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Appraised_On__c" />
+        </div>
+      </div>
+
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Actual_Cost__c" />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Cost_Split_Type__c" />
+        </div>
+      </div>
+
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Customer_Split__c" />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Paid_From_Proceeds__c" />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Partner_Split__c" />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="Cost_Exception_Approval__c" />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:outputField fieldName="HEB_Split__c" />
+        </div>
+      </div>
+    </lightning:recordViewForm>
+
+    <hr />
+
+    <c:headerSection
+      icon="standard:bot"
+      headerText="{!$Label.c.Header_Statuses}"
+      headerSize="x-small"
+    />
+
+    <lightning:datatable
+      keyField="Id"
+      data="{! v.statuses }"
+      columns="{! v.statusColumns }"
+      hideCheckboxColumn="true"
+    />
+
+    <hr />
+
+    <c:headerSection
+      icon="standard:note"
+      headerText="{!$Label.c.Header_Notes}"
+      headerSize="x-small"
+    />
+
+    <lightning:datatable
+      keyField="Id"
+      data="{! v.notes }"
+      columns="{! v.notesColumns }"
+      hideCheckboxColumn="true"
+    />
+  </aura:if>
+
+  <aura:if isTrue="{!v.step == 'updateFee'}">
+    <c:headerSection
+      icon="standard:document"
+      headerText="{!$Label.c.Header_Appraisal_Fee_Breakdown}"
+      headerSize="small"
+    />
+
+    <lightning:recordEditForm
+      objectApiName="Appraisal__c"
+      recordId="{!v.order.Appraisal__c}"
+      onsubmit="{!c.runUpdateFees}"
+      onload="{!c.handleCreateLoad}"
+    >
+      <lightning:messages />
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-1">
+          <lightning:inputField
+            fieldName="Cost_Split_Type__c"
+            aura:id="costSplitTypeField"
+            onchange="{!c.toggleCostSplitType}"
+          />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-1">
+          <lightning:inputField
+            fieldName="Actual_Cost__c"
+            aura:id="actualCostField"
+            onchange="{!c.updateSplitTotalCheck}"
+          />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-1">
+          <lightning:inputField
+            fieldName="Customer_Split__c"
+            aura:id="customerSplitField"
+            onchange="{!c.updateSplitTotalCheck}"
+          />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-1">
+          <lightning:inputField
+            fieldName="Partner_Split__c"
+            aura:id="partnerSplitField"
+            onchange="{!c.updateSplitTotalCheck}"
+          />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-1">
+          <lightning:inputField
+            fieldName="HEB_Split__c"
+            aura:id="hebSplitField"
+            onchange="{!c.updateSplitTotalCheck}"
+          />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-1">
+          <lightning:inputField
+            fieldName="Paid_From_Proceeds__c"
+            aura:id="paidFromProceeds"
+            onchange="{!c.toggleCustomerRequired}"
+          />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-1">
+          <lightning:inputField
+            fieldName="Cost_Exception_Approval__c"
+            aura:id="costExceptionApproval"
+          />
+        </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:button
+            class="slds-m-top_small"
+            type="button"
+            label="{!$Label.c.Btn_Back}"
+            variant="brand"
+            onclick="{!c.goBack}"
+          />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:button
+            class="slds-m-top_small"
+            type="submit"
+            label="{!$Label.c.Btn_Update_Fee}"
+            variant="brand"
+            aura:id="updateFeesBtn"
+          />
+        </div>
+      </div>
+    </lightning:recordEditForm>
+    <aura:if isTrue="{!v.message != ''}">
+      <div>
+        <c:pageMessage
+          message="{!v.message}"
+          messageType="{!v.messageType}"
+          background="{!v.messageBackground}"
+        />
+      </div>
+    </aura:if>
+  </aura:if>
+
+  <aura:if isTrue="{!v.step == 'sendNote'}">
+    <c:headerSection
+      icon="standard:document"
+      headerText="{!$Label.c.Header_SendNote}"
+      headerSize="small"
+    />
+
+    <lightning:recordEditForm
+      objectApiName="Appraisal_Note__c"
+      onsuccess="{!c.confirmNote}"
+    >
+      <lightning:inputField
+        fieldName="Appraisal_Order__c"
+        value="{!v.order.Id}"
+        class="slds-hide"
+      />
+
+      <lightning:messages />
+
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-1">
+          <lightning:inputField fieldName="Content__c" />
+        </div>
+      </div>
+
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:button
+            class="slds-m-top_small"
+            type="button"
+            label="{!$Label.c.Btn_Back}"
+            variant="brand"
+            onclick="{!c.goBack}"
+          />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:button
+            class="slds-m-top_small"
+            type="submit"
+            label="{!$Label.c.Btn_Send_Note}"
+            variant="brand"
+          />
+        </div>
+      </div>
+    </lightning:recordEditForm>
+
+    <aura:if isTrue="{!v.message != ''}">
+      <div>
+        <c:pageMessage
+          message="{!v.message}"
+          messageType="{!v.messageType}"
+          background="{!v.messageBackground}"
+        />
+      </div>
+    </aura:if>
+  </aura:if>
+
+  <aura:if isTrue="{!v.step == 'confirmCancel'}">
+    <c:headerSection
+      icon="standard:document"
+      headerText="{!$Label.c.Header_CancelAppraisal}"
+      headerSize="small"
+    />
+
+    <lightning:recordEditForm
+      objectApiName="Appraisal_Order__c"
+      recordId="{!v.order.Id}"
+      onsuccess="{!c.finishCancel}"
+    >
+      <lightning:messages />
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-1">
+          <lightning:inputField
+            fieldName="Cancellation_Reason__c"
+            aura:id="cancellationField"
+          />
+        </div>
+      </div>
+
+      <div class="slds-grid">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:button
+            class="slds-m-top_small"
+            type="button"
+            label="{!$Label.c.Btn_Back}"
+            variant="brand"
+            onclick="{!c.goBack}"
+          />
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning:button
+            class="slds-m-top_small"
+            type="submit"
+            label="{!$Label.c.Btn_Cancel_Order}"
+            variant="brand"
+          />
+        </div>
+      </div>
+    </lightning:recordEditForm>
+
+    <aura:if isTrue="{!v.message != ''}">
+      <div>
+        <c:pageMessage
+          message="{!v.message}"
+          messageType="{!v.messageType}"
+          background="{!v.messageBackground}"
+        />
+      </div>
+    </aura:if>
+  </aura:if>
+</aura:component>

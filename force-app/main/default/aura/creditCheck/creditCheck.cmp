@@ -1,0 +1,525 @@
+<aura:component
+    controller="CreditCheckRequestService"
+    implements="flexipage:availableForRecordHome,force:hasRecordId"
+    access="global"
+>
+    <aura:attribute name="borrowers" type="Map" />
+    <aura:attribute name="borrower1" type="LoanApplicant" />
+    <aura:attribute name="borrower2" type="LoanApplicant" />
+    <aura:attribute name="property" type="LoanApplicationProperty" />
+    <aura:attribute name="assessment" type="Credit_Assessment__c" />
+    <aura:attribute name="pension1" type="LoanApplicantIncome" />
+    <aura:attribute name="employment1" type="LoanApplicantIncome" />
+    <aura:attribute name="investment1" type="LoanApplicantIncome" />
+    <aura:attribute name="rental1" type="LoanApplicantIncome" />
+    <aura:attribute name="supportassets1" type="LoanApplicantIncome" />
+    <aura:attribute name="pension2" type="LoanApplicantIncome" />
+    <aura:attribute name="employment2" type="LoanApplicantIncome" />
+    <aura:attribute name="investment2" type="LoanApplicantIncome" />
+    <aura:attribute name="rental2" type="LoanApplicantIncome" />
+    <aura:attribute name="supportassets2" type="LoanApplicantIncome" />
+
+    <aura:attribute
+        name="showSpinner"
+        type="boolean"
+        default="false"
+        description="Show/Hide Spinner"
+    />
+    <aura:attribute
+        name="step"
+        type="String"
+        description="Step of the Credit Assessment the user is on"
+    />
+
+    <aura:attribute name="message" type="String" default="" />
+    <aura:attribute name="messageType" type="String" default="error" />
+    <aura:attribute name="messageBackground" type="String" default="error" />
+
+    <aura:attribute name="podMessage" type="String" default="" />
+    <aura:attribute name="podMessageType" type="String" default="error" />
+    <aura:attribute name="podMessageBackground" type="String" default="error" />
+
+    <aura:attribute name="simpleRecord" type="Object" />
+    <aura:attribute name="recordError" type="String" />
+    <aura:attribute name="quoteAmount" type="Decimal" />
+
+    <!-- LoanApplicationLibility.Annual_Property_Obligation__c -->
+    <!-- Credit_Assessment__c.Credit_Assessment_Additional_Information__c -->
+    <!-- Credit_Assessment__c.Credit_Assessment_Review_Comments__c -->
+    <!-- Credit_Assessment__c.Credit_Assessment_Requested_By_ID__c -->
+    <!-- Credit_Assessment__c.Credit_Assessment_Reviewed_By__c -->
+    <!-- Credit_Assessment__c.Credit_Assessment_Reviewed_On__c -->
+    <!-- ResidentialLoanApplication.Opportunity.Capacity__c -->
+    <force:recordData
+        aura:id="recordLoader"
+        recordId="{!v.recordId}"
+        fields="Name, AccountId, OpportunityId, Opportunity.Quote_Amount__c, 
+        Opportunity.Credit_Bureau_Status__c, TDSR_percent_value__c"
+        targetFields="{!v.simpleRecord}"
+        targetError="{!v.recordError}"
+        recordUpdated="{!c.handleRecordUpdated}"
+    />
+
+    <aura:if isTrue="{!v.message != ''}">
+        <c:pageMessage
+            message="{!v.message}"
+            messageType="{!v.messageType}"
+            background="{!v.messageBackground}"
+        />
+    </aura:if>
+
+    <!-- Spinner -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <c:loadingSpinner />
+    </aura:if>
+
+    <aura:if isTrue="{!v.step == 'creditForm'}">
+        <c:headerSection
+            icon="utility:money"
+            headerText="{!$Label.c.Header_Credit_Assessment + ' - ' + $Label.c.Header_QuoteAmount + ': ' + v.simpleRecord.Opportunity.Quote_Amount__c}"
+        />
+
+        <!-- Show borrower1 income details -->
+        <c:headerSection
+            icon="utility:money"
+            headerText="{!v.borrower1.Contact.FirstName + ' ' + v.borrower1.Contact.LastName + ' - ' + $Label.c.Header_Income_Details}"
+            headerSize="x-small"
+        />
+
+        <div class="slds-grid">
+            <div class="slds-col slds-size_1-of-7">
+                <label for="employmentIncome1" class="slds-form-element__label"
+                    >{!$Label.c.Header_Employment}</label
+                >
+            </div>
+            <div class="slds-col slds-size_1-of-7">
+                <label for="investmentIncome1" class="slds-form-element__label"
+                    >{!$Label.c.Header_Investment}</label
+                >
+            </div>
+            <div class="slds-col slds-size_1-of-7">
+                <label for="pensionIncome1" class="slds-form-element__label"
+                    >{!$Label.c.Header_Pension}</label
+                >
+            </div>
+            <div class="slds-col slds-size_1-of-7">
+                <label for="rentalIncome1" class="slds-form-element__label"
+                    >{!$Label.c.Header_Rental}</label
+                >
+            </div>
+            <div class="slds-col slds-size_1-of-7">
+                <label for="supportassetsIncome2" class="slds-form-element__label"
+                    >{!$Label.c.Header_Support}</label
+                >
+            </div>
+        </div>
+        <lightning:recordEditForm
+            recordId="{!v.borrower1.Id}"
+            objectApiName="LoanApplicant"
+        >
+            <lightning:messages />
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-7">
+                    <lightning:inputField
+                        fieldName="Total_Employment_Income__c"
+                        required="true"
+                        aura:id="employmentIncome1"
+                        variant="label-hidden"
+                        readonly="true"
+                    />
+                </div>
+                <div class="slds-col slds-size_1-of-7">
+                    <lightning:inputField
+                        fieldName="Total_Investment_Income__c"
+                        required="true"
+                        aura:id="investmentIncome1"
+                        variant="label-hidden"
+                        readonly="true"
+                    />
+                </div>
+                <div class="slds-col slds-size_1-of-7">
+                    <lightning:inputField
+                        fieldName="Total_Pension_Income__c"
+                        required="true"
+                        aura:id="pensionIncome1"
+                        variant="label-hidden"
+                        readonly="true"
+                    />
+                </div>
+                <div class="slds-col slds-size_1-of-7">
+                    <lightning:inputField
+                        fieldName="Total_Rental_Income__c"
+                        required="true"
+                        aura:id="rentalIncome1"
+                        variant="label-hidden"
+                        readonly="true"
+                    />
+                </div>
+                <div class="slds-col slds-size_1-of-7">
+                    <lightning:inputField
+                        fieldName="Total_Support_Income__c"
+                        required="true"
+                        aura:id="supportassetsIncome1"
+                        variant="label-hidden"
+                        readonly="true"
+                    />
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_7-of-7">
+                    <lightning:inputField
+                        fieldName="On_Title__c"
+                        aura:id="onTitle1"
+                    />
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_7-of-7">
+                    <lightning:outputField
+                        fieldName="Income_Documents_Required__c"
+                        aura:id="incomeDocuments1"
+                    />
+                </div>
+            </div>
+        </lightning:recordEditForm>
+
+        <hr />
+        <aura:if isTrue="{!v.borrower2 != null }">
+            <c:headerSection
+                icon="utility:money"
+                headerText="{!v.borrower2.Contact.FirstName + ' ' + v.borrower2.Contact.LastName + ' - ' + $Label.c.Header_Income_Details}"
+                headerSize="x-small"
+            />
+
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-7">
+                    <label
+                        for="employmentIncome2"
+                        class="slds-form-element__label"
+                        >{!$Label.c.Header_Employment}</label
+                    >
+                </div>
+                <div class="slds-col slds-size_1-of-7">
+                    <label
+                        for="investmentIncome2"
+                        class="slds-form-element__label"
+                        >{!$Label.c.Header_Investment}</label
+                    >
+                </div>
+                <div class="slds-col slds-size_1-of-7">
+                    <label for="pensionIncome2" class="slds-form-element__label"
+                        >{!$Label.c.Header_Pension}</label
+                    >
+                </div>
+                <div class="slds-col slds-size_1-of-7">
+                    <label for="rentalIncome2" class="slds-form-element__label"
+                        >{!$Label.c.Header_Rental}</label
+                    >
+                </div>
+                <div class="slds-col slds-size_1-of-7">
+                    <label for="supportassetsIncome2" class="slds-form-element__label"
+                        >{!$Label.c.Header_Support}</label
+                    >
+                </div>
+            </div>
+            <lightning:recordEditForm
+                recordId="{!v.borrower2.Id}"
+                objectApiName="LoanApplicant"
+            >
+                <lightning:messages />
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-7">
+                        <lightning:inputField
+                            fieldName="Total_Employment_Income__c"
+                            required="true"
+                            aura:id="employmentIncome2"
+                            variant="label-hidden"
+                            readonly="true"
+                        />
+                    </div>
+                    <div class="slds-col slds-size_1-of-7">
+                        <lightning:inputField
+                            fieldName="Total_Investment_Income__c"
+                            required="true"
+                            aura:id="investmentIncome2"
+                            variant="label-hidden"
+                            readonly="true"
+                        />
+                    </div>
+                    <div class="slds-col slds-size_1-of-7">
+                        <lightning:inputField
+                            fieldName="Total_Pension_Income__c"
+                            required="true"
+                            aura:id="pensionIncome2"
+                            variant="label-hidden"
+                            readonly="true"
+                        />
+                    </div>
+                    <div class="slds-col slds-size_1-of-7">
+                        <lightning:inputField
+                            fieldName="Total_Rental_Income__c"
+                            required="true"
+                            aura:id="rentalIncome2"
+                            variant="label-hidden"
+                            readonly="true"
+                        />
+                    </div>
+                    <div class="slds-col slds-size_1-of-7">
+                        <lightning:inputField
+                            fieldName="Total_Support_Income__c"
+                            required="true"
+                            aura:id="supportassetsIncome2"
+                            variant="label-hidden"
+                            readonly="true"
+                        />
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_7-of-7">
+                        <lightning:inputField
+                            fieldName="On_Title__c"
+                            aura:id="onTitle1"
+                        />
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_7-of-7">
+                        <lightning:outputField
+                            fieldName="Income_Documents_Required__c"
+                            aura:id="incomeDocuments1"
+                        />
+                    </div>
+                </div>
+            </lightning:recordEditForm>
+            <hr />
+        </aura:if>
+
+        <!-- 
+           Show obligations for the Property/File itself
+            - taxes/fees
+               - fire insurance
+            - etc.
+        -->
+        <c:headerSection
+            icon="utility:money"
+            headerText="{!$Label.c.Header_Credit_Property_Obligations}"
+            headerSize="x-small"
+        />
+        <lightning:recordEditForm
+            recordId="{!v.property.Id}"
+            objectApiName="LoanApplicationProperty"
+        >
+            <lightning:messages />
+
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning:inputField
+                        fieldName="Annual_Property_Taxes__c"
+                        required="true"
+                        aura:id="propTaxes"
+                    />
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning:inputField
+                        fieldName="Property_Taxes_Current__c"
+                        aura:id="propTaxesCurrent"
+                        onchange="{!c.taxOwingRequired}"
+                    />
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning:inputField
+                        fieldName="Property_Tax_Owing__c"
+                        aura:id="propTaxesOwing"
+                        onchange="{!c.taxOwingReset}"
+                    />
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning:inputField
+                        fieldName="Monthly_Condo_Fees__c"
+                        aura:id="condoFees"
+                        onchange="{!c.feesOwingRequired}"
+                    />
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning:inputField
+                        fieldName="Condo_Fees_Current__c"
+                        aura:id="condoFeesCurrent"
+                        onchange="{!c.feesOwingRequired}"
+                    />
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning:inputField
+                        fieldName="Condo_Fees_Owing__c"
+                        aura:id="condoFeesOwing"
+                        onchange="{!c.feesOwingReset}"
+                    />
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning:inputField
+                        fieldName="Fire_Insurance_Premium__c"
+                        required="true"
+                        aura:id="firePremium"
+                    />
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning:inputField
+                        fieldName="Fire_Insurance_in_place_for_12_Months__c"
+                        aura:id="fireInsurance"
+                    />
+                </div>
+            </div>
+
+            <aura:if isTrue="{!v.podMessage != ''}">
+                <c:pageMessage
+                    message="{!v.podMessage}"
+                    messageType="{!v.podMessageType}"
+                    background="{!v.podMessageBackground}"
+                />
+            </aura:if>
+        </lightning:recordEditForm>
+        <hr />
+
+        <!--
+            Collect consent from each borrower
+        -->
+        <div class="slds-grid">
+            <div class="slds-col slds-size_1-of-1">
+                <h3 class="slds-card__header-title">
+                    {!$Label.c.Header_Credit_Consent}
+                </h3>
+            </div>
+        </div>
+        <div class="slds-grid consent">
+            <div class="slds-col slds-size_1-of-1">
+                <p>{!$Label.c.Alert_Credit_Consent}</p>
+            </div>
+        </div>
+        <div class="slds-grid consent">
+            <div class="slds-col slds-size_1-of-1">
+                <p>{!$Label.c.Alert_Credit_Consent2}</p>
+            </div>
+        </div>
+        
+        <br></br>
+        <lightning:recordEditForm
+            recordId="{!v.borrower1.Contact.AccountId}"
+            objectApiName="Account"
+            onload="{!c.onConsentLoad}"
+            onsubmit="{!c.onCreditUpdate}"
+        >
+            <c:headerSection
+                icon="utility:money"
+                headerText="{!$Label.c.Header_ConfirmConsent + ' - ' + v.borrower1.Contact.FirstName + ' ' + v.borrower1.Contact.LastName}"
+                headerSize="x-small"
+            />
+            <lightning:messages />
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField
+                        fieldName="Credit_Check_Consent_Granted__pc"
+                        aura:id="consentField1"
+                        required="true"
+                    />
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField
+                        fieldName="Credit_Check_Consent_Date__pc"
+                        aura:id="consentDate1"
+                        required="true"
+                    />
+                </div>
+            </div>
+            <!--
+            <aura:if isTrue="{!v.borrower2 == null}">
+                <lightning:button class="slds-var-m-top_small" type="submit" label="{!$Label.c.Btn_Run_Credit_Assessment}" variant="brand" onclick="{!c.onCreditUpdate}" />
+                <aura:set attribute="else">
+                    <hr />
+                </aura:set>
+            </aura:if>
+            -->
+        </lightning:recordEditForm>
+
+        <aura:if isTrue="{!v.borrower2 != null}">
+            <lightning:recordEditForm
+                recordId="{!v.borrower2.Contact.AccountId}"
+                objectApiName="Account"
+                onload="{!c.onConsentLoad}"
+                onsubmit="{!c.onCreditUpdate}"
+            >
+                <c:headerSection
+                    icon="utility:money"
+                    headerText="{!$Label.c.Header_ConfirmConsent + ' - ' + v.borrower2.Contact.FirstName + ' ' + v.borrower2.Contact.LastName}"
+                    headerSize="x-small"
+                />
+
+                <lightning:messages />
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:inputField
+                            fieldName="Credit_Check_Consent_Granted__pc"
+                            aura:id="consentField2"
+                            required="true"
+                        />
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:inputField
+                            fieldName="Credit_Check_Consent_Date__pc"
+                            aura:id="consentDate2"
+                            required="true"
+                        />
+                    </div>
+                </div>
+
+                <!-- 
+                <lightning:button class="slds-var-m-top_small" type="submit" label="{!$Label.c.Btn_Run_Credit_Assessment}" variant="brand" onclick="{!c.onCreditUpdate}" />
+                -->
+            </lightning:recordEditForm>
+        </aura:if>
+
+        <!-- 
+            Additional Information to Underwriting
+        -->
+        <!-- <c:headerSection headerText="Additional Information to Underwriting" headerSize="x-small" /> -->
+        <lightning:recordEditForm recordId="{!v.assessment.Id}" objectApiName="Credit_Assessment__c">
+            <lightning:messages />
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField
+                        fieldName="Credit_Assessment_Additional_Information__c"
+                        required="false"
+                        variant="label-stacked"
+                        aura:id="additionalInfo"
+                    />
+                </div>
+            </div>
+        </lightning:recordEditForm>
+
+        <lightning:button
+            class="slds-var-m-top_small"
+            type="submit"
+            label="{!$Label.c.Btn_Run_Credit_Assessment}"
+            variant="brand"
+            onclick="{!c.onCreditUpdate}"
+        />
+        <aura:if isTrue="{!v.message != ''}">
+            <c:pageMessage
+                message="{!v.message}"
+                messageType="{!v.messageType}"
+                background="{!v.messageBackground}"
+            />
+        </aura:if>
+    </aura:if>
+
+    <aura:if isTrue="{!v.step == 'showAssessment'}">
+        <c:creditSummary
+            fileId="{!v.assessment.Id}"
+            sObjectName="Credit_Assessment__c"
+            applicationId="{!v.assessment.Application__c}"
+            applicationName="ResidentialLoanApplication"
+        />
+    </aura:if>
+</aura:component>

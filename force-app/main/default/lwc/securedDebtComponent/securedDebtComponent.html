@@ -1,0 +1,14 @@
+<template>
+    <lightning-card>
+        <p><b>Secured debt</b></p>
+        <div class="slds-p-top_small slds-p-bottom_small">
+            <lightning-datatable class="slds-table slds-table_bordered slds-table_col-bordered" data={data}
+                columns={columns} key-field="Record" hide-checkbox-column>
+            </lightning-datatable>
+        </div>
+        <div class="slds-clearfix">
+            <lightning-button variant="brand" label="Add secured debt" title="Add secured debt" class="secured-debt-button slds-float_right">
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>

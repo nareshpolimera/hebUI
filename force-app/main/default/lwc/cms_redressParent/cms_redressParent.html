@@ -1,0 +1,210 @@
+<template>
+    <div>
+        <h3 class="slds-section__title slds-theme_shade">
+            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Redress</span>
+        </h3>
+    </div></br>
+
+    <template if:true={redressExists}>
+
+        
+            <table aria-multiselectable="true" 
+                class="slds-m-bottom_small slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid"
+                aria-label="Example advanced table of Opportunities in actionable mode with descending column sorting">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        
+                        <th aria-label="Financial Type" class="cell1 slds-is-resizable slds-is-sortable slds-is-sorted slds-is-sorted_desc slds-cell_action-mode"
+                            scope="col">
+                            <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                    <span class="slds-truncate" title="Financial Type">Financial Type</span>
+                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon "
+                                            aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                            </use>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </a>
+                            <span class="slds-assistive-text" aria-live="polite" aria-atomic="true">Sorted
+                                descending</span>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="Name column width"
+                                    class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-554"
+                                    max="1000" min="20" tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </th>
+                        <th aria-label="Method" aria-sort="none"
+                            class="slds-is-resizable slds-is-sortable slds-cell_action-mode cell2" scope="col">
+                            <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                    <span class="slds-truncate" title="Account Name">Method</span>
+                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon "
+                                            aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                            </use>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="Account Name column width"
+                                    class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-555"
+                                    max="1000" min="20" tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </th>
+                        <th aria-label="Amount" aria-sort="none"
+                            class="cell3 slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                            <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                    <span class="slds-truncate" title="Close Date">Amount</span>
+                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon "
+                                            aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                            </use>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="Close Date column width"
+                                    class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-556"
+                                    max="1000" min="20" tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </th>
+                        <th aria-label="Received" aria-sort="none"
+                            class="cell3 slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                            <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                    <span class="slds-truncate" title="Stage">Received</span>
+                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon "
+                                            aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                            </use>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="Stage column width"
+                                    class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-557"
+                                    max="1000" min="20" tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </th>
+                        <th aria-label="Rationale" aria-sort="none"
+                            class="cell4 slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                            <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                                <span class="slds-assistive-text">Sort by: </span>
+                                <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                    <span class="slds-truncate" title="Confidence">Rationale</span>
+                                    <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                        <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon "
+                                            aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown">
+                                            </use>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </a>
+                            <div class="slds-resizable">
+                                <input type="range" aria-label="Confidence column width"
+                                    class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-558"
+                                    max="1000" min="20" tabindex="0" />
+                                <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </th>
+                        
+                        <th class="cell6 slds-cell_action-mode" scope="col" >
+                            <div class="slds-truncate slds-assistive-text" title="Actions">Actions</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={redressList} for:item="redressData">
+                    <tr key={redressData.IdIndex} aria-selected="false" class="slds-hint-parent">
+                        
+                        <td class="slds-cell_action-mode" scope="row">
+                            <div class="slds-truncate" title="salesforce.com - 1,000 Widgets">
+                                {redressData.Financial_Redress_Type__c}
+                            </div>
+                        </td>
+                        <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate" title="salesforce.com">{redressData.Redress_Method__c}</div>
+                        </td>
+                        
+                        <td class="slds-cell_action-mode" role="gridcell">
+                            
+                            <div class="slds-truncate" ><P><lightning-formatted-number value={redressData.Redress_Amount__c}  format-style="currency"></lightning-formatted-number></P></div>
+                        </td>
+                        <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate" title="Id. Decision Makers">{redressData.Is_Redress_received__c}</div>
+                        </td>
+                        <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate" title="70%">{redressData.Resolution_Rationale__c}</div>
+                        </td>
+                        
+                        <td class="slds-cell_action-mode" role="gridcell">
+                            <div class="slds-truncate" title="nathan@salesforce.com">
+                                <lightning-button class="slds-float_right" label="Remove" variant="brand"
+                                data-id={redressData.IdIndex} onclick={Remove}></lightning-button>
+                            </div>
+                        </td>
+                        
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+            <!-- <div class="slds-section__title slds-theme_shade slds-p-bottom_small slds-m-bottom_small"
+                key={redressData.IdIndex}>
+                <span class="slds-truncate slds-p-horizontal_small width100" title="Section Title" >
+                    <p class="slds-truncate" title="Financial Redress"><b>Financial Redress :</b>
+                        {redressData.Financial_Redress_Type__c}</p>
+                    <p class="slds-truncate" title="Redress Method"><b>Redress Method :</b>
+                        {redressData.Redress_Method__c}</p>
+                    <p class="slds-truncate" title="Amount of Redress"><b>Amount of Redress :</b>
+                        {redressData.Redress_Amount__c}</p>
+                    <p class="slds-truncate" title="Redress applied/received?"><b>Redress applied/received? :</b>
+                        {redressData.Is_Redress_received__c}</p>
+                    <div class="width100">
+                        <div class="slds-float_right">
+                            <lightning-button class="slds-m-right_small" label="Remove" variant="brand"
+                                data-id={redressData.IdIndex} onclick={Remove}></lightning-button>
+                        </div>
+                    </div>
+                </span>
+            </div>-->
+        
+    </template>
+    <div class="width100">
+        <div class="slds-float_right">
+            <lightning-button class="slds-m-right_small" label="Add" variant="brand"
+                onclick={addMoreRedress}></lightning-button>
+        </div>
+    </div><br/><br/>
+    <c-cms_case-redress onclosespiner={closeSpinner} onopenspiner={openSpiner} onfetchredressddetails={passRedress}
+        onnavigatenextfromredress={navigateFromRedress}></c-cms_case-redress>
+   <!-- <c-simple-test></c-simple-test>-->
+</template>

@@ -1,0 +1,15 @@
+<aura:component controller="PartnerEstimateLetterService" 
+                implements="force:lightningQuickAction,force:hasRecordId"
+                >
+    <aura:attribute name="recordId" type="Id"/>
+    
+    <aura:attribute name="message" type="String" default="" />
+	<aura:attribute name="messageType" type="String" default="error" />
+    <aura:attribute name="messageBackground" type="String" default="error" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.openActionWindow}"/>
+
+    <div> 
+        <c:pageMessage message="{!v.message}" messageType="{!v.messageType}" background="{!v.messageBackground}" />
+    </div>
+</aura:component>

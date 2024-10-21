@@ -1,0 +1,6 @@
+<design:component >
+    <sfdc:objects>
+        <sfdc:object>Opportunity</sfdc:object>
+        <sfdc:object>ResidentialLoanApplication</sfdc:object>
+    </sfdc:objects>
+</design:component>

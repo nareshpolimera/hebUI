@@ -1,0 +1,4 @@
+.THIS .error svg { fill: white; }
+.THIS .success svg { fill:white; }
+.THIS .warning-alert, .THIS .slds-theme_warning-alert { background: #69B3E7; }
+.THIS .slds-theme_warning-alert  { color:rgb(62, 62, 60); }

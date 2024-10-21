@@ -1,0 +1,227 @@
+<template>
+    <template if:true={pageLoaded}>
+        <lightning-record-edit-form object-api-name={objectApiName} onsuccess={handleSuccessData}
+            record-id={compianantId} onload={handleLoad}>
+            <div class="slds-p-bottom_small">
+                <h3 class="slds-section__title slds-theme_shade ">
+                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Complainant</span>
+                </h3>
+            </div>
+            <div if:false={propertyMembersOptions}
+                class="slds-grid slds-wrap slds-p-bottom_small slds-p-horizontal_small">
+                <div class="slds-col slds-size_12-of-12">
+                    <lightning-checkbox-group class="slds-float_right" options={optionsAnonymous} value={valueAnonymous}
+                        onchange={handleAnonymousChange}></lightning-checkbox-group>
+                </div>
+            </div>
+            <template if:false={compianantData.Anonymous}> 
+                <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-horizontal_small slds-gutters complainant">
+
+                    <div class="slds-col slds-size_6-of-12" if:true={propertyMembersOptions}>
+                        <lightning-combobox name="Complainant" label="Complainant"
+                            value={compianantData.ComplainantData} placeholder="Please Select"
+                            options={propertyMembersOptions} required="true" data-id="ComplainantData"
+                            onchange={handleChange} class="reportValidityClass"></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12" if:true={relationshipOptions}>
+                        <lightning-combobox name="Relationship to Client" label="Relationship to Client"
+                            disabled={relationShipToClientOptionsDisable} required={relationShipRequired}
+                            value={compianantData.relationshipValue} placeholder="Please Select"
+                            options={relationshipOptions} data-id="Relationship_to_Client" onchange={handleChange}
+                            class="reportValidityClass"></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12" if:true={showOtherSpecifyOption}>
+
+
+                    </div>
+
+
+
+                    <div class="slds-col slds-size_6-of-12" if:true={showOtherSpecifyOption}>
+                        <lightning-input name="Other Relationship to Client" required={showOtherSpecifyOption}
+                            data-id="Other_Relationship_to_Client__c" class="reportValidityClass"
+                            value={compianantData.otherRelationValue} onchange={handleChange}
+                            label="Other Relationship to Client" type="text" max-length="50"></lightning-input>
+                    </div>
+
+
+
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input field-name="First_Name__c" data-id="First_Name__c" required="true"
+                            label="First Name" class="reportValidityClass" onchange={handleChange}
+                            value={compianantData.FirstName} maxlength="80">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input field-name="Last_Name__c" data-id="Last_Name__c" required="true"
+                            label="Last Name" class="reportValidityClass" onchange={handleChange}
+                            value={compianantData.LastName} maxlength="40">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <!-- <lightning-input-field field-name="Preferred_Contact_Method__c" required="true" 
+                        data-id="Preferred_Contact_Method__c" onchange={handleChange} class="reportValidityClass"
+                        value={compianantData.Preferred_Contact_Method__c}> </lightning-input-field>
+                        
+                        <lightning-combobox placeholder="Please Select" options={preferedContactMetodOptions}
+                            field-name="Preferred_Contact_Method__c" required="true" label="Preferred Contact Method"
+                            data-id="Preferred_Contact_Method__c" onchange={handleChange} class="reportValidityClass"
+                            value={compianantData.FinServ__ContactPreference__pc}>
+                        </lightning-combobox> -->
+
+                        <lightning-combobox placeholder="Please Select" options={preferedContactMetodOptions}
+                            field-name="Contact_Preference__c" required="true" label="Preferred Contact Method"
+                            data-id="Contact_Preference__c" onchange={handleChange} class="reportValidityClass"
+                            value={compianantData.Contact_Preference__c}>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <!-- <lightning-input-field  required="true" field-name="Language__c" data-id="Language__c"
+                        class="reportValidityClass" onchange={handleChange} value={compianantData.Language__c}>
+                    </lightning-input-field>-->
+                        <lightning-combobox placeholder="Please Select" options={languageOptions} required="true"
+                            field-name="Language__pc" data-id="Language__pc" class="reportValidityClass"
+                            onchange={handleChange} value={compianantData.Language__pc} label="Language">
+
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input onfocus={inputClicked} field-name="Phone__c" data-id="Phone__c" label="Phone"
+                            class="phoneValidity reportValidityClass" pattern="^\(\d{3}\)\s\d{3}-\d{4}$"
+                            required={phoneRequired} message-when-pattern-mismatch="Not a valid phone number"
+                            message-when-value-missing="Complete this field" onchange={handleChange} value={phone}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input onfocus={inputClicked} required={emailRequired} field-name="Email__c"
+                            data-id="Email__c" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+                            label="Email" onchange={handleChange} class="reportValidityClass emailValidity"
+                            value={compianantData.PersonEmail} message-when-pattern-mismatch="Please enter a valid email">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 addressElement">
+                        <lightning-input if:false={setaddresslookup} name="enter-search"
+                            label="Search when user hits the 'enter' key" type="search"></lightning-input>
+                        <lightning-input-address street-label='Street' city-label='City'
+                            address-lookup-placeholder="Search Address" country-label='Country' value={addressValue}
+                            province-label='Province' postal-code-label='Postal Code' onchange={addressInputChange}
+                            autocomplete="off" class="removeUnwanted reportValidityClass"
+                            show-address-lookup={setaddresslookup} street={compianantData.PersonMailingStreet}
+                            city={compianantData.PersonMailingCity} country={compianantData.PersonMailingCountry}
+                            province={compianantData.PersonMailingState}
+                            postal-code={compianantData.PersonMailingPostalCode}></lightning-input-address>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 country-add-address">
+                        <lightning-textarea onfocus={inputClicked} label="Street" required={addressFiedsRequired}
+                            field-name="Street__c" data-id="Street__c" onchange={handleChange}
+                            class="reportValidityClass addressfields1" value={compianantData.PersonMailingStreet} maxlength="255">
+                        </lightning-textarea>
+                    </div>
+
+
+
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input onfocus={inputClicked} label="City" required={addressFiedsRequired}
+                            field-name="City__c" data-id="City__c" onchange={handleChange}
+                            class="reportValidityClass addressfields2" value={compianantData.PersonMailingCity} maxlength="40">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input onfocus={inputClicked} label="State/Province" required={addressFiedsRequired}
+                            field-name="State_Province__c" data-id="State_Province__c"
+                            class="reportValidityClass addressfields3" onchange={handleChange}
+                            value={compianantData.PersonMailingState} maxlength="80">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input onfocus={inputClicked} label="Zip/Postal Code" required={addressFiedsRequired}
+                            field-name="Postal_Code__c" data-id="Postal_Code__c" onchange={handleChange}
+                            class="reportValidityClass addressfields4" value={compianantData.PersonMailingPostalCode}
+                            maxlength="20">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 country-add-address">
+                        <lightning-input onfocus={inputClicked} label="Country" required={addressFiedsRequired}
+                            field-name="Country__c" data-id="Country__c" onchange={handleChange}
+                            class="reportValidityClass addressfields5" value={compianantData.PersonMailingCountry} maxlength="80">
+                        </lightning-input>
+                    </div>
+
+                </div>
+                <div>
+                </div>
+            </template>
+            <template if:true={compianantData.Anonymous}>
+                <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-horizontal_small slds-gutters complainant">
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input field-name="First_Name__c"
+                            label="First Name" disabled=true>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input field-name="Last_Name__c" 
+                            label="Last Name" disabled=true
+                             maxlength="40">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <!-- <lightning-input-field field-name="Preferred_Contact_Method__c" required="true" 
+                        data-id="Preferred_Contact_Method__c" onchange={handleChange} class="reportValidityClass"
+                        value={compianantData.Preferred_Contact_Method__c}> </lightning-input-field>-->
+                        <lightning-combobox placeholder="Please Select" 
+                            field-name="Preferred_Contact_Method__c"  label="Preferred Contact Method"
+                            disabled=true>
+
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <!-- <lightning-input-field  required="true" field-name="Language__c" data-id="Language__c"
+                        class="reportValidityClass" onchange={handleChange} value={compianantData.Language__c}>
+                    </lightning-input-field>-->
+                        <lightning-combobox placeholder="Please Select" 
+                        disabled=true  label="Language">
+
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input  label="Phone"
+                        disabled=true >
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input field-name="Email__c"
+                            label="Email" disabled=true>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 addressElement">
+                        <lightning-input  placeholder="Search Address"  disabled=true></lightning-input>
+                       
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 country-add-address">
+                        <lightning-textarea  label="Street" 
+                        disabled=true>
+                        </lightning-textarea>
+                    </div>
+
+
+
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input label="City" disabled=true maxlength="40">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input label="State/Province" disabled>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <lightning-input label="Zip/Postal Code" disabled>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 country-add-address">
+                        <lightning-input label="Country" disabled>
+                        </lightning-input>
+                    </div>
+                </div>
+            </template>
+        </lightning-record-edit-form></template>
+</template>

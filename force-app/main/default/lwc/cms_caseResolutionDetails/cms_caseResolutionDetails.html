@@ -1,0 +1,99 @@
+<template >
+    <div class="resolution">
+    <div class="slds-p-bottom_small">
+        <h3 class="slds-section__title slds-theme_shade">
+            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Resolution</span>
+        </h3>
+    </div>
+    <div class="slds-p-bottom_small slds-grid">
+        <div class="slds-col slds-size_12-of-12">
+            <abbr  class="slds-required" title="required" if:true={customerSatisfieddependandRequired}>*</abbr>
+            <label for="textInput" 
+            class="slds-form-element__label slds-no-flex invLabel">
+            Resolution Details (for reporting)
+     </label><div  class="postion-tooltip" onmousemove={showTooltip} onmouseenter={showTooltip} onmouseout={hideTooltip} >
+        <button class="slds-button slds-button_icon slds-button slds-button_icon" aria-describedby="help" aria-disabled="true" title="Help">
+
+            <lightning-icon class="icon-size" icon-name="utility:info_alt" alternative-text="tooltip" title="tooltip"></lightning-icon>
+
+          <span class="slds-assistive-text">Help</span>
+        </button>
+        <div if:true={showTooltipSection} class="slds-popover hide slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" >
+          <div class="slds-popover__body">
+            <p>Under Investigation details please include the following information as per FCAC guidelines</p>
+            <p>1. Investigation details - Documents reviewed, calls listened too etc.</p>
+            <p>2. Chronology of events - Events that led up to the complaint</p>
+            <p>3. Factors Considered</p>
+            <p>4. Recommendation</p>
+        </div>
+            
+        </div>
+      </div>
+        <lightning-textarea   onfocus={setFocusInitiated}  required={customerSatisfieddependandRequired} name="Investigation Details" onchange={handleChange} class="reportValidityClass remove-label Investigation"
+        disabled={caseData.Is_this_about_fraud__c}     data-id="Investigation Details" value={caseData.Investigation_Details__c}  placeholder="Eg. What happened why did it happen, and what we are doing to fix it." max-length="3500"></lightning-textarea>
+        </div> </div>
+    <!--<div><abbr title="required" class="slds-required">*</abbr>Outcome</div>-->
+    <div class="slds-p-bottom_small slds-grid">
+        <div class="slds-col slds-size_12-of-12" >
+            <lightning-textarea required={customerSatisfieddependandRequired}  name="Statement of Fact" label="Investigation Result (shown in communications)" 
+            onfocus={setFocusInitiated}  value={caseData.Statement_of_Fact__c}  
+                data-id="Statement_of_Fact__c" onchange={handleChange} max-length="2000" class="reportValidityClass Statement"></lightning-textarea>
+                
+        </div>
+    </div>
+    <div class="slds-p-bottom_small slds-grid">
+        <div class="slds-col slds-size_12-of-12" if:true={Complaint_Outcome_Options}>
+            <lightning-combobox  name="Outcome" label="Outcome" required={customerSatisfieddependandRequired}
+            onfocus={setFocusInitiated}    value={caseData.Complaint_Outcome__c} placeholder="Please Select" options={Complaint_Outcome_Options}
+                data-id="Complaint_Outcome__c" onchange={handleChange}  class="reportValidityClass Outcome"></lightning-combobox>
+                
+        </div>
+    </div>
+    
+    <div class="slds-p-bottom_small slds-grid slds-gutters">
+        <div class="slds-col slds-size_6-of-12" if:true={applyRedressOptions}>
+            <lightning-combobox if:false={isAnonymous} name="Apply redress" label="Apply Redress" required={customerSatisfieddependandRequired} disabled={isAnonymous}
+            onfocus={setFocusInitiated}   value={caseData.Apply_Redress__c} placeholder="Please Select" options={applyRedressOptions}
+                data-id="Apply_Redress__c" onchange={handleChange}  class="reportValidityClass applyRedress"></lightning-combobox>
+                <lightning-combobox if:true={isAnonymous} name="Apply redress" label="Apply Redress"  disabled={isAnonymous}
+                onfocus={setFocusInitiated}   value={caseData.Apply_Redress__c} placeholder="Please Select" options={applyRedressOptions}
+                    data-id="Apply_Redress__c" onchange={handleChange}  class="reportValidityClass applyRedress"></lightning-combobox>    
+        </div>
+        <div class="slds-col slds-size_6-of-12" if:true={customerSatisfiedOptions}>
+            <lightning-combobox  name="Complainant satisfied?" label="Complainant Satisfied" 
+                value={caseData.Is_Customer_Satisfied__c} placeholder="Please Select" options={customerSatisfiedOptions}
+                data-id="Is_Customer_Satisfied__c" onchange={handleChange}  class="reportValidityClass"></lightning-combobox>
+                
+        </div>
+    </div>
+   <!-- <div><abbr title="required" class="slds-required">*</abbr>Redress type</div>
+    <div class="slds-p-bottom_small ">
+      <div class="slds-col slds-size_6-of-12" if:true={typeOptionsDataValues}>
+            <lightning-combobox required="true" name="Fraud, reputational risk, or employee misconduct?" label="Fraud, reputational risk, or employee misconduct?"
+                value={reputationalRisk} placeholder="Please Select" options={typeOptionsDataValues}
+                data-id="reputational-risk" onchange={handleChange}  class="reportValidityClass"></lightning-combobox>
+                
+        </div>
+    </div>
+    <div class="slds-grid slds-p-bottom_small slds-input-has-icon slds-input-has-icon_left">
+        <lightning-icon size="x-small"
+                    class="iconMargin slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+                    icon-name="utility:moneybag"></lightning-icon>
+    <lightning-input required="true" type="text" label="Redress amount" value="0"></lightning-input></div>-->
+  <!--  <div><abbr title="required" class="slds-required">*</abbr>Apply redress</div>
+    <div class="slds-p-bottom_small ">
+        <lightning-button-group>
+            <lightning-button label="Yes" variant={applyRedressYes} data-id="Apply redress Yes" onclick={handleChange}></lightning-button>
+            <lightning-button label="No" variant={applyRedressNo} data-id="Apply redress No" onclick={handleChange}></lightning-button>
+        </lightning-button-group>
+    </div>
+    
+    <div><abbr title="required" class="slds-required">*</abbr>Complainant satisfied?</div>
+    <div class="slds-p-bottom_small ">
+        <lightning-button-group>
+            <lightning-button label="Yes" variant={satisfiedYes} data-id="satisfied Yes" onclick={handleChange}></lightning-button>
+            <lightning-button label="No" variant={satisfiedNo} data-id="satisfied No" onclick={handleChange}></lightning-button>
+        </lightning-button-group>
+    </div>-->
+</div>
+</template>

@@ -1,0 +1,31 @@
+<template>
+    <lightning-card title="Upload Document" icon-name="custom:custom14">
+        <div class="slds-m-around_medium">
+
+
+            <lightning-combobox  name="Document Type" label="Document" 
+                placeholder="Select Document Type" options={document_types_option_list}
+                onchange={handleDocumentSelection} dropdown-alignment="auto" required></lightning-combobox>
+        </div>
+
+        <div class="slds-m-around_medium">
+
+            <lightning-combobox  class="RelatedEntity" name="Related Entity" label="Related To" value={value}
+                placeholder="Select Related Entity" options={related_entity_option_list}
+                onchange={handleEntitySelection}  required></lightning-combobox>
+
+        </div>
+
+        <div class="slds-m-around_medium">
+            <lightning-input type="file" label="Attachment" accept={accepted_extensions} onchange={fileUploadHandler} required message-when-value-missing="Please upload a file"></lightning-input>
+        </div>
+        <template if:true={uploaded_file}>
+            <div class="slds-m-around_medium ">
+                {uploaded_file.filename}
+            </div>
+        </template>
+
+        <lightning-button variant="brand" label="Attach" title="Submit" onclick={submitHandler}
+            class="slds-m-left_x-small"></lightning-button>
+    </lightning-card>
+</template>

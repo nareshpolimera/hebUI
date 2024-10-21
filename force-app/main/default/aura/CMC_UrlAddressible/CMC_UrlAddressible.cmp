@@ -1,0 +1,18 @@
+<aura:component implements="lightning:isUrlAddressable" description="c:helloTarget component">
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:attribute name="id" type="String" />
+    <aura:attribute name="tabInfo" type="String" />
+    <!-- Add an "init" handler to handle the first "v.pageReference" value -->
+    <aura:handler name="init" value="{!this}" action="{!c.onPageReferenceChange}"/>
+    <!-- Add a "change" handler to handle all changes to the "v.pageReference" value -->
+    <aura:handler name="change" value="{!v.pageReference}" action="{!c.onPageReferenceChange}"/>
+    <div class="slds-grid slds-wrap slds-p-bottom_small">
+        <div class="slds-col slds-size_2-of-12">
+        </div>
+        <div class="slds-col slds-size_8-of-12">
+            <c:cms_caseComplaintParentComponent oncloseclicked="{!c.handleFilterChange}"></c:cms_caseComplaintParentComponent>
+        </div>
+        <div class="slds-col slds-size_2-of-12">
+        </div>
+    </div>
+</aura:component>

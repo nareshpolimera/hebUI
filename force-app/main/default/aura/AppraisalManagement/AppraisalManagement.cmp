@@ -1,0 +1,289 @@
+<aura:component controller="AppraisalOrderController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="hasActivePOA" type="Boolean" default="false" description="Flag that there is a Power of Attorney on the file" />
+    <aura:attribute name="step" type="String" default="orderOptions" description="used to track which step in the process the user is on" />
+    <aura:attribute name="showRushWarning" type="Boolean" default="false" description="used for warnings around Rush orders" />
+    <aura:attribute name="defaultCostAlert" type="String" default="false" description="Displays the Default Cost, $ or %" />
+    <aura:attribute name="orderCompleteMessage" type="String" default="false" description="Message to end user when order is complete" />
+
+    <aura:attribute name="existingOrders" type="Appraisal_Order__c[]" default="false" description="Existing Appraisal Orders associated with the Opportunity" />
+    <aura:attribute name="allowOrder" type="Boolean" default="false" description="Only allow creation of new Order if no active order exists" />
+    
+    <aura:attribute name="myAppraisal" type="Appraisal__c" default="false" description="Appraisal Record being processed" />
+    <aura:attribute name="myAppraisalOrder" type="Appraisal_Order__c" default="false" description="Appraisal Order being managed" />
+    <aura:attribute name="myProperty" type="LoanApplicationProperty" default="false" description="Property in file" />
+    <aura:attribute name="primaryBorrower" type="LoanApplicant" default="false" description="Default Primary Borrower" />
+   
+    <aura:attribute name="acError" type="Boolean" default="false" description="flag that the Address Confirmation details Error" />
+    <aura:attribute name="acErrorMessage" type="String" default="false" description="Address Confirmation Details Error" />
+
+    <aura:attribute name="odError" type="Boolean" default="false" description="flag that the order details failed" />
+    <aura:attribute name="odErrorMessage" type="String" default="false" description="Order Details Error" />
+
+    <aura:attribute name="fctError" type="Boolean" default="false" description="flag that the FCT order failed" />
+    <aura:attribute name="fctErrorMessage" type="String" default="false" description="FCT Error" />
+
+    <aura:attribute name="myFile" type="AppraisalOrderController.AppraisalFile"/>
+    <aura:attribute name="showSpinner" type="boolean" default="false" description="Show/Hide spinner" />
+
+    <aura:attribute name="message" type="String" default="" />
+    <aura:attribute name="messageType" type="String" default="error" />
+    <aura:attribute name="messageBackground" type="String" default="error" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="minDate" type="Date" />
+    <aura:handler event="force:refreshView" action="{!c.refreshView}" />
+    <aura:attribute name="leadQuote" type="Lead" default="false" description="Lead record along with Quote Amount" />
+
+    <!-- Spinner -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <c:loadingSpinner />
+    </aura:if>
+    
+    <aura:if isTrue="{!v.message != ''}">
+        <c:pageMessage message="{!v.message}" messageType="{!v.messageType}" background="{!v.messageBackground}" />
+    </aura:if>
+
+    <aura:if isTrue="{!v.hasActivePOA}">
+        <c:pageMessage message="{!$Label.c.Alert_Appraisal_POA_On_File}" messageType="warning" background="warning" />
+    </aura:if>
+    
+    <aura:if isTrue="{!and(v.allowOrder,v.step == 'orderOptions')}">
+        <c:headerSection icon="standard:customer_360" headerText="{!$Label.c.Header_Appraisal_Order_Options}" headerSize="small" />
+
+        <aura:if isTrue="{!and(v.myFile.fileStatus == $Label.c.Lead_Pre_Application, v.myFile.appraisalOption == $Label.c.MARS_APPRAISAL_OPTION)}">
+            <p>{!$Label.c.Aura_AppraisalOrderNowAfterOrderLaterMessage}</p>
+        </aura:if>
+        
+        <div class="slds-grid">
+            <aura:if isTrue="{!not(and(v.myFile.fileStatus == $Label.c.Lead_Pre_Application, v.myFile.appraisalOption == $Label.c.MARS_APPRAISAL_OPTION))}">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:button class="slds-var-m-top_small" type="submit" label="{!$Label.c.Btn_Order_From_MARS}" variant="brand" onclick="{!c.orderFromMars}" />
+                </div>
+            </aura:if>
+            <div class="slds-col slds-size_1-of-2">
+                <lightning:button disabled="{!v.hasActivePOA}" class="slds-var-m-top_small" type="submit" label="{!$Label.c.Btn_Order_From_FCT}" variant="brand" onclick="{!c.orderFromFCT}" />
+            </div>
+        </div>
+        
+        <hr />
+    </aura:if>
+    
+    <aura:if isTrue="{!v.step == 'existingOrders'}">
+        <c:headerSection icon="standard:customer_360" headerText="{!$Label.c.Header_Existing_Orders}" headerSize="small" />
+
+        <aura:iteration items="{!v.existingOrders}" var="order">
+            <c:AppraisalOrderActions order="{!order}" />
+        </aura:iteration>
+    </aura:if>
+
+    <aura:if isTrue="{!and(v.step == 'orderFromFCT', v.myProperty.Id != null)}">
+        <c:headerSection icon="standard:document" headerText="{!$Label.c.Header_Address_Segments}" headerSize="small" />
+        <lightning:recordEditForm recordId="{!v.myFile.propertyId}" objectApiName="LoanApplicationProperty"  onSubmit="{!c.onFCTSubmit}">
+            <lightning:messages />
+            <div class="slds-grid">
+                <div class="slds-col slds-size_2-of-12 addressLabel">
+                    <label for="unitNumberFragment" class="slds-form-element__label">{!$Label.c.Aura_Unit_Number}</label>
+                    <tr><td>&nbsp;</td></tr>
+                </div>
+                <div class="slds-col slds-size_4-of-12 addressField">
+                    <lightning:inputField fieldName="UnitNumberFragment__c" aura:id="unitNumberFragment" variant='label-hidden' />
+                    
+                </div>
+                <div class="slds-col slds-size_2-of-12 addressLabel">
+                    <label for="addressNumberFragment" class="slds-form-element__label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Aura_Address_Number}</label>
+                    <tr><td>&nbsp;</td></tr>
+                </div>
+                <div class="slds-col slds-size_4-of-12 addressField">
+                    <lightning:inputField fieldName="AddressNumberFragment__c" aura:id="addressNumberFragment" class="addressField" variant='label-hidden' required="true" />
+                </div>
+            </div>
+            
+            <div class="slds-grid">
+                <div class="slds-col slds-size_2-of-12 addressLabel">
+                    <label for="streetNameFragment" class="slds-form-element__label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Aura_StreetName}</label>
+                        <tr><td>&nbsp;</td></tr>
+                </div>
+                <div class="slds-col slds-size_4-of-12 addressField">
+                    <lightning:inputField fieldName="StreetNameFragment__c"  aura:id="streetNameFragment" variant='label-hidden' required="true" />
+                </div>
+                <div class="slds-col slds-size_2-of-12 addressLabel">
+                    <label for="streetTypeFragment" class="slds-form-element__label">{!$Label.c.Aura_StreetType}</label>
+                    <tr><td>&nbsp;</td></tr>
+                </div>
+                <div class="slds-col slds-size_4-of-12 addressField">
+                    <lightning:inputField fieldName="StreetTypeFragment__c" aura:id="streetTypeFragment" variant='label-hidden' required="false" />
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_2-of-12 addressLabel">
+                    <label for="streetDirFragment" class="slds-form-element__label">{!$Label.c.Aura_StreetDirection}</label>
+                    <tr><td>&nbsp;</td></tr>
+                </div>
+                <div class="slds-col slds-size_4-of-12 addressField">
+                    <lightning:inputField fieldName="StreetDirectionFragment__c" aura:id="streetDirFragment" variant='label-hidden' />
+                </div>
+                <div class="slds-col slds-size_2-of-12 addressLabel">
+                    <label for="cityFragment" class="slds-form-element__label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Aura_City}</label>
+                    <tr><td>&nbsp;</td></tr>
+                </div>
+                <div class="slds-col slds-size_4-of-12 addressField">
+                    <lightning:inputField fieldName="CityFragment__c" aura:id="cityFragment" variant='label-hidden' required="true" />
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_2-of-12 addressLabel">
+                    <label for="provinceFragment" class="slds-form-element__label">
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.Aura_Province}</label>
+                    <tr><td>&nbsp;</td></tr>
+                </div>
+                <div class="slds-col slds-size_4-of-12 addressField">
+                    <lightning:inputField fieldName="ProvinceFragment__c" aura:id="provinceFragment" variant='label-hidden' required="true" />
+                </div>
+                <div class="slds-col slds-size_2-of-12 addressLabel">
+                    <label for="postalCodeFragment" class="slds-form-element__label">
+                        <abbr title="required" class="slds-required">* </abbr>{!$Label.c.Aura_PostalCode}</label>
+                    <tr><td>&nbsp;</td></tr>
+                </div>
+                <div class="slds-col slds-size_4-of-12 addressField">
+                    <lightning:inputField fieldName="PostalCodeFragment__c" aura:id="postalCodeFragment" variant='label-hidden' required="true" />
+                </div>
+            </div>
+            <aura:if isTrue="{!v.acError}">
+                <c:pageMessage message="{!v.acErrorMessage}" messageType="error" background="error" />
+            </aura:if>
+        </lightning:recordEditForm>
+        
+        <hr />
+
+        <c:headerSection icon="standard:document" headerText="{!$Label.c.Header_Order_Details}" headerSize="small" />
+        <lightning:recordEditForm  objectApiName="Appraisal_Order__c" >
+            <lightning:messages />
+            
+            
+            <aura:if isTrue="{!v.showRushWarning}">
+                <c:pageMessage message="{!$Label.c.Warning_Rush_Order}" messageType="warning" background="warning" />
+            </aura:if>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Contact_First_Name__c" required="true" value="{!v.primaryBorrower.Opportunity.Account.PersonContact.FirstName}" aura:id="firstName"  />
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Contact_Last_Name__c" required="true" value="{!v.primaryBorrower.Opportunity.Account.PersonContact.LastName}" aura:id="lastName" />
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Contact_Email__c" value="{!v.primaryBorrower.Opportunity.Account.PersonContact.Email}" aura:id="emailField" />
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Primary_Phone__c" required="true" value="{!v.primaryBorrower.Opportunity.Account.PersonContact.Phone}" aura:id="phoneField" />
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Rush_Order__c" aura:id="rushField" onchange="{!c.updateRushOrder}" />
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Alternate_Phone__c" required="true" value="{!v.primaryBorrower.Opportunity.Account.PersonContact.Alternate_Phone_Number__c}" aura:id="altPhoneField" />
+                </div>
+            </div>
+
+           <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Requested_Date__c" aura:id="requestedDate" onchange="{!c.validateMinDate}" />
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Requested_Time_Window__c" aura:id="timeField" onchange="{!c.requireOtherTime}" />
+                </div>
+            </div>
+            
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Special_Instructions__c" aura:id="instructionsField" />
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Specify_Other_Time__c" aura:id="otherTimeField" />
+                </div>
+            </div>
+
+            <aura:if isTrue="{!v.odError}">
+                <c:pageMessage message="{!v.odErrorMessage}" messageType="error" background="error" />
+            </aura:if>
+
+            <div class="slds-grid">
+            </div>
+        </lightning:recordEditForm>
+        
+        <hr />
+
+        <c:headerSection icon="standard:document" headerText="{!$Label.c.Header_Appraisal_Fee_Breakdown}" headerSize="small" />
+        <lightning:recordEditForm  objectApiName="Appraisal__c" onSubmit="{!c.onFCTSubmit}">
+            <lightning:messages />
+            
+            <c:pageMessage message="{!v.defaultCostAlert}" messageType="success" background="success" />
+            
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-1">
+                    <lightning:inputField fieldName="Cost_Split_Type__c" aura:id="costSplitTypeField" onchange="{!c.toggleCostSplitType}" />
+                </div>
+            </div>
+            
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-1">
+                    <lightning:inputField fieldName="Customer_Split__c" aura:id="customerSplitField" onchange="{!c.updateSplitTotalCheck}" />
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-1">
+                    <lightning:inputField fieldName="Partner_Split__c" aura:id="partnerSplitField" onchange="{!c.updateSplitTotalCheck}"/>
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-1">
+                    <lightning:inputField fieldName="HEB_Split__c" aura:id="hebSplitField" onchange="{!c.updateSplitTotalCheck}" />
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-1">
+                    <lightning:inputField fieldName="Paid_From_Proceeds__c" aura:id="paidFromProceeds" onchange="{!c.toggleCustomerRequired}"/>
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-1">
+                    <lightning:inputField fieldName="Cost_Exception_Approval__c" aura:id="costExceptionApproval" />
+                </div>
+            </div>
+
+            
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-1">
+                    <lightning:button class="slds-var-m-top_small" type="submit" label="{!$Label.c.Btn_Order_From_FCT}" variant="brand" onclick="{!c.onFCTSubmit}" aura:id="orderFromFCTBtn" />
+                </div>
+            </div>
+    
+            <aura:if isTrue="{!v.fctError}">
+                <c:pageMessage message="{!v.fctErrorMessage}" messageType="error" background="error" />
+            </aura:if>
+            
+        </lightning:recordEditForm>
+        
+    </aura:if>
+
+    <aura:if isTrue="{!v.step == 'orderComplete'}">
+        <c:headerSection icon="standard:document" headerText="{!$Label.c.Header_Appraisal_Order_Complete}" headerSize="small" />
+
+        <div class="slds-grid">
+            <div class="slds-col slds-size_1-of-1">
+                <p>{!v.orderCompleteMessage}</p>
+            </div>
+        </div>
+        <div class="slds-grid">
+            <div class="slds-col slds-size_1-of-1">
+                <lightning:button class="slds-var-m-top_small" type="submit" label="{!$Label.c.Btn_Load_Orders}" variant="brand" onclick="{!c.loadOrders}" />
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

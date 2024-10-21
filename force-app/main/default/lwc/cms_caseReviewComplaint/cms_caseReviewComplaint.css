@@ -1,0 +1,12 @@
+@import 'c/cms_cssUtility';
+.cms_caseReviewComplaint{
+    width:100%
+}
+
+.h3fontWeight{
+    font-weight: 500;
+}
+.alignButtons{
+    margin-bottom: 5px;
+    text-align: center;
+}

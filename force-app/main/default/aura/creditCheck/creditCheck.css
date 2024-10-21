@@ -1,0 +1,9 @@
+.THIS h3.slds-card__header-title {
+    font-weight:700;
+}
+.THIS div.slds-col { 
+	padding-bottom:10px;
+}
+.THIS div.consent {
+    font-style:italic;
+}

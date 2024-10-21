@@ -1,0 +1,52 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" controller="LoanApplicationPropertyService">
+
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="myProperty" type="LoanApplicationProperty"/>
+    <aura:attribute name="addressFound" type="Boolean" default="false" />
+
+    <aura:attribute name="mapMarkers" type="Object"/>
+    <aura:attribute name="zoomLevel" type="Integer" default="16" />
+    
+    <!--aura:attribute name="record" type="SBQQ__QuoteLine__c"/-->
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+
+    <force:recordData aura:id="recordLoader"
+      recordId="{!v.recordId}"
+      fields="Name,PropertyStreet,PropertyCity,PropertyState,PropertyPostalCode"
+      targetFields="{!v.simpleRecord}"
+      targetError="{!v.recordError}"
+      recordUpdated="{!c.handleRecordUpdated}"
+      />
+
+    <aura:if isTrue="{!v.addressFound}">
+        <lightning:card>
+            <aura:set attribute="title">
+                <lightning:layout >
+                    <lightning:layoutItem>
+                        <lightning:icon iconName="utility:checkin" size="small"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12">
+                        <lightning:layout multipleRows="true" verticalAlign="center">
+                            <lightning:layoutItem class="slds-p-horizontal_small" size="12">
+                                <p>{!v.simpleRecord.PropertyStreet}, {!v.simpleRecord.PropertyCity}, {!v.simpleRecord.PropertyState}</p>
+                                <p>{!v.simpleRecord.Postal_Code__c}</p>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:set>
+        </lightning:card>
+        <lightning:card>
+            <aura:if isTrue="{!v.mapMarkers.length > 0}" >
+                <lightning:map 
+                    mapMarkers="{! v.mapMarkers }" 
+                    zoomLevel="{!v.zoomLevel}" 
+                />
+            </aura:if>
+        </lightning:card>
+
+    </aura:if>
+
+</aura:component>

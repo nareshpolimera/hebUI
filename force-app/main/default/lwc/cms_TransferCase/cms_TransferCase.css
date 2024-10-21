@@ -1,0 +1,54 @@
+.center-radio-group {
+    display: flex;
+    justify-content: left;
+    width:100%;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+    gap: 1rem;
+}
+
+.custom-radio-group lightning-input[type="radio"]{
+    margin-bottom: 1rem;
+}
+
+.custom-header{
+    margin-bottom: 16px !important;
+}
+
+.slds-list_horizontal {
+    display:block;
+    list-style-type: none; 
+    
+}
+
+.slds-dropdown{
+    width: 100%;
+}
+
+.slds-dropdown__item {
+    cursor: pointer; 
+    padding: 0.5rem;  
+    display: flex; 
+    align-items: center;
+    width: 100%;
+    
+}
+
+.slds-dropdown__item span {
+    display: block;
+    width:100%;
+}
+
+.slds-search-box-container{
+    width: 30rem;
+    margin-top: -1rem;
+    margin-bottom: -1rem;
+    margin-left: 0rem;
+    margin-right: 20rem;
+    position:relative;
+}
+
+.slds-dropdown__list{
+    width: 100;
+    position:relative;
+}

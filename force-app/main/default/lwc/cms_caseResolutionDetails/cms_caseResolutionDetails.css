@@ -1,0 +1,38 @@
+@import 'c/cms_cssUtility';
+.icon-size{
+    width: 13px;
+    height: 13px;
+
+}
+.postion-tooltip{
+    display: inline-grid;
+    position: absolute;
+    padding-top: 3px;
+}
+.slds-popover_tooltip{
+    top: -117px;
+    left: 29px;
+    width: 275px;
+}
+.slds-nubbin_bottom-left:before{
+    bottom: -0.5rem;
+    margin-left: -2rem;
+    margin-top: -2.5rem !important;
+}
+.slds-nubbin_bottom-left:after{
+    bottom: -0.5rem;
+    margin-left: -2rem;
+    margin-top: -2.5rem !important;
+}
+.postion-tooltip .slds-button_icon{
+    justify-content: left;
+}
+.hide {
+    display: block;
+  }
+  .postion-tooltip:hover + .hide {
+    display: none;
+  }
+  .slds-form-element__label:hover + .hide {
+    display: none;
+  }

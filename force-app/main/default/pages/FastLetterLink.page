@@ -1,0 +1,6 @@
+<apex:page standardController="Opportunity" >
+    <script>
+    window.open('{!Opportunity.FAST_Letter_URL__c}','_blank');
+    history.back();
+    </script>
+</apex:page>

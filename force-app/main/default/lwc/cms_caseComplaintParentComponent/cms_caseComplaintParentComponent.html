@@ -1,0 +1,196 @@
+<template>
+    version: 19
+    <template if:true={allOptionsLoaded}>
+        <lightning-card class="complaint-header-title newHeaderTheme" title="Log Complaint">
+            <div class="slds-box" if:true={caseUrgentMessageShow}>{caseUrgentMessageValue}</div>
+            <div class="slds-box" if:true={hasError}>{errorMessage}</div>
+            <div class="slds-p-horizontal_x-small">
+                <template if:false={isAnonymous}>
+                    <lightning-progress-indicator current-step={currentStepString} type="base" variant="base" >
+                        <lightning-progress-step label="Complainant" value="1" data-id="1" 
+                            onclick={navigateFromProgrssBar} onstepfocus = {navigateFromProgrssBar} ></lightning-progress-step>
+                        <lightning-progress-step label="Consent" value="2" data-id="2"
+                            onclick={navigateFromProgrssBar} onstepfocus = {navigateFromProgrssBar} ></lightning-progress-step>
+                        <lightning-progress-step label="Complaint" value="3" data-id="3"
+                            onclick={navigateFromProgrssBar} onstepfocus = {navigateFromProgrssBar}></lightning-progress-step>
+                        <template if:true={caseUrgentNavigation}>
+                            <lightning-progress-step label="Resolution" value="4" data-id="4"></lightning-progress-step>
+                            <lightning-progress-step label="Redress" value="5"
+                                data-id="5"></lightning-progress-step></template>
+                        <template if:false={caseUrgentNavigation}>
+                            <lightning-progress-step label="Resolution" value="4" data-id="4"
+                                onclick={navigateFromProgrssBar} onstepfocus = {navigateFromProgrssBar}></lightning-progress-step>
+                            <template if:false={isApplyRedress}>
+                                <lightning-progress-step label="Redress" value="5"
+                                    data-id="5"></lightning-progress-step></template>
+                            <template if:true={isApplyRedress}>
+                                <lightning-progress-step label="Redress" value="5" data-id="5"
+                                    onclick={navigateFromProgrssBar} onstepfocus = {navigateFromProgrssBar}></lightning-progress-step></template>
+                        </template> <lightning-progress-step label="Review" value="6" data-id="6"
+                            onclick={navigateFromProgrssBar} onstepfocus = {navigateFromProgrssBar}></lightning-progress-step>
+                    </lightning-progress-indicator></template>
+                <template if:true={isAnonymous}>
+                    <lightning-progress-indicator current-step={currentStepString} type="base" variant="base">
+                        <lightning-progress-step label="Complainant" value="1" data-id="1"
+                            onclick= {navigateFromProgrssBar} onstepfocus = {navigateFromProgrssBar}></lightning-progress-step>
+                        <lightning-progress-step label="Consent" value="2" data-id="2"></lightning-progress-step>
+                        <lightning-progress-step label="Complaint" value="3" data-id="3"
+                            onclick={navigateFromProgrssBar} onstepfocus = {navigateFromProgrssBar}></lightning-progress-step>
+                        <template if:true={caseUrgentNavigation}>
+                            <lightning-progress-step label="Resolution" value="4" data-id="4"></lightning-progress-step>
+                        </template>
+                        <template if:false={caseUrgentNavigation}>
+                            <lightning-progress-step label="Resolution" value="4" data-id="4"
+                                onclick={navigateFromProgrssBar} onstepfocus = {navigateFromProgrssBar}></lightning-progress-step>
+                        </template>
+                        <lightning-progress-step label="Redress" value="5" data-id="5"></lightning-progress-step>
+                        <lightning-progress-step label="Review" value="6" data-id="6"></lightning-progress-step>
+                    </lightning-progress-indicator>
+
+                </template>
+                <template if:true={showNewProgressBar}>
+                    <div class="slds-p-vertical_small">
+                        <c-cms_case-progress-bar></c-cms_case-progress-bar>
+                    </div>
+                </template>
+                <div class="slds-float_right slds-m-bottom_x-small"><abbr title="required"
+                        class="slds-required">*</abbr>=Required Information</div>
+
+                <div>
+                    <template if:true={showAddNewComplaint}>
+                        <div class="slds-p-horizontal_small">
+                            <c-cms_case-add-new-complainiant onclosespiner={closeSpiner} onopenspiner={openSpiner}
+                                onfetchcompinantiddetails={passCompinantId} onisanonymous={setAnonymousInfo}
+                                oncloseaddnewcompianiantpopup={callCloseComplainantPopUp}
+                                onnavigatenext={processComplainantNavigation}></c-cms_case-add-new-complainiant>
+
+                        </div>
+                    </template>
+                    <template if:true={showCommunicationConsent}>
+                        <div class="slds-p-horizontal_small">
+
+                            <c-cms_case-communication-consent onclosespiner={closeSpiner} onopenspiner={openSpiner}
+                                onfetchconsent={fetchConsent}></c-cms_case-communication-consent>
+                        </div>
+                    </template>
+                    <template if:true={showComplaintDetails}>
+                        <div class="slds-p-horizontal_small">
+
+                            <c-cms_case-complaint-details onclosespiner={closeSpiner} onopenspiner={openSpiner}
+                                oncaseurgent={caseUrgentMessage}
+                                ongetvaluefromparent={passDataToComplaintDetails}></c-cms_case-complaint-details>
+                        </div>
+                    </template>
+                    <template if:true={showResolutionDetails}>
+                        <div class="slds-p-horizontal_small">
+
+                            <c-cms_case-resolution-details onclosespiner={closeSpiner} onopenspiner={openSpiner}
+                                onsetredress={setRedress} ongetcasedetailsforresolution={fetchResolutionData}
+                                onfetchresolutiondetailsdata={passResolutionData}></c-cms_case-resolution-details>
+                        </div>
+                    </template>
+                    <template if:true={showRedressPage}><br /><br />
+                        <div class="slds-p-horizontal_small">
+
+                            <c-cms_redress-parent onremoveredressmessage={removeErrorMessage}
+                                onclosespiner={closeSpiner} onopenspiner={openSpiner}
+                                onfetchredressddetailslist={passRedressList} oncloseerror={hideError}
+                                onfetchredressddetails={passRedress}
+                                onnavigatenextfromredress={navigateFromRedress}></c-cms_redress-parent>
+                        </div>
+                    </template>
+                    <template if:true={showReviewPage}><br /><br />
+                        <div class="slds-p-horizontal_small">
+                            <c-cms_case-review onclosespiner={closeSpiner} onopenspiner={openSpiner}
+                                ongetdataforreviewpage={passDataToReivewPage}>
+
+                            </c-cms_case-review>
+                        </div>
+                    </template>
+                    <template if:false={isAnonymous}>
+                        <template if:true={showButtons}>
+                            <div class="slds-p-horizontal_small slds-align_absolute-center">
+                                <template if:false={showAddNewComplaint}>
+                                    <lightning-button label="Previous" class="slds-m-right_small" variant="brand"
+                                        onclick={handleBack}></lightning-button>
+                                </template>
+                                <template if:false={showReviewPage}>
+                                    <template if:false={showRedressPage}>
+                                        <template if:true={caseUrgent}>
+
+                                            <lightning-button disabled class="slds-m-right_small" label="Next"
+                                                variant="brand" onclick={handleConfirm}></lightning-button>
+
+                                        </template>
+
+                                        <template if:false={caseUrgent}>
+                                            <template if:false={isApplyRedress}>
+                                                <template if:true={showResolutionDetails}>
+                                                    <lightning-button disabled class="slds-m-right_small" label="Next"
+                                                        variant="brand" onclick={handleConfirm}></lightning-button>
+                                                </template> <template if:false={showResolutionDetails}><lightning-button
+                                                        class="slds-m-right_small" label="Next" variant="brand"
+                                                        onclick={handleConfirm}></lightning-button></template>
+                                            </template>
+
+                                            <template if:true={isApplyRedress}>
+
+                                                <lightning-button class="slds-m-right_small" label="Next"
+                                                    variant="brand" onclick={handleConfirm}></lightning-button>
+
+                                            </template>
+                                        </template></template>
+                                </template>
+
+                                <template if:true={showComplaintDetails}>
+                                    <lightning-button class="slds-m-right_small" label="Review" variant="brand"
+                                        onclick={handleConfirmAndExit}></lightning-button>
+                                </template>
+                                <template if:true={showResolutionDetails}>
+                                    <lightning-button class="slds-m-right_small" label="Review" variant="brand"
+                                        onclick={handleConfirmAndExit}></lightning-button>
+                                </template>
+                                <template if:true={showRedressPage}>
+                                    <lightning-button class="slds-m-right_small" label="Review" variant="brand"
+                                        onclick={handleConfirmAndExit}></lightning-button>
+                                </template>
+                                <template if:true={showReviewPage}>
+                                    <lightning-button label="Submit" onclick={createCase} variant="brand"
+                                        class="slds-m-right_small"></lightning-button></template>
+                                <lightning-button label="Cancel" onclick={handleCancel}
+                                    class="slds-m-right_small"></lightning-button>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={isAnonymous}>
+                        <div class="slds-p-horizontal_small slds-align_absolute-center">
+                            <template if:false={showAddNewComplaint}>
+                                <lightning-button label="Previous" class="slds-m-right_small" variant="brand"
+                                    onclick={handleBack}></lightning-button>
+                                <lightning-button label="Submit" onclick={setCreateCaseAnonymous} variant="brand"
+                                    class="slds-m-right_small"></lightning-button>
+                            </template>
+                            <template if:true={showAddNewComplaint}>
+                                <lightning-button class="slds-m-right_small" label="Next" variant="brand"
+                                    onclick={handleConfirm}></lightning-button>
+                            </template>
+                            <template if:true={showComplaintDetails}>
+                                <template if:true={caseUrgent}>
+                                <lightning-button disabled class="slds-m-right_small" label="Next" variant="brand"
+                                    onclick={handleConfirm}></lightning-button></template>
+                                    <template if:false={caseUrgent}>
+                                        <lightning-button  class="slds-m-right_small" label="Next" variant="brand"
+                                            onclick={handleConfirm}></lightning-button></template>
+                            </template>
+                            <lightning-button label="Cancel" onclick={handleCancel}
+                                class="slds-m-right_small"></lightning-button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </lightning-card>
+    </template>
+    <template if:false={loaded}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+</template>
