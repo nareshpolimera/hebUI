@@ -10,4 +10,12 @@
     border: 1px solid #d1d1d1;
     background-color: #ffffff;
     box-sizing: border-box;
-  }
+}
+
+.background-color {
+    background-color: rgba(168,168,168,255);
+}
+
+.backgroun-inside-color {
+    background-color: #f1f1f1fd;
+}
