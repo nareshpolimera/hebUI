@@ -115,12 +115,15 @@
                             </template>
 
                             <template if:false= {borrowerItem.isEditModeOn}>
-                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                    <lightning-layout class="slds-border_bottom">
-                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Salutation</lightning-layout-item>
-                                        <div class="slds-m-bottom_small">
-                                            <lightning-input  type="text" label=""></lightning-input>
-                                        </div>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Salutation'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="text" value="Mr." variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
                                     </lightning-layout>
                                 </lightning-layout-item>
                             </template>
@@ -139,119 +142,290 @@
 
                             <template if:false= {borrowerItem.isEditModeOn}>
                                 <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                    <lightning-layout class="slds-border_bottom">
-                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Preferred Contact Method</lightning-layout-item>
-                                        <lightning-combobox name="Preferred Contact Method" label=""  data-id="Preferred_Contact_Method" ></lightning-combobox>
-                                        <!-- <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Phone</lightning-layout-item> -->
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Preferred Contact Method'></lightning-formatted-text>
+                                        </lightning-layout-item >
+                                        <lightning-layout-item size="8">
+                                            <lightning-combobox name="Preferred Contact Method" variant="label-hidden"  data-id="Preferred_Contact_Method" ></lightning-combobox>
+                                        </lightning-layout-item>
                                     </lightning-layout>
                                 </lightning-layout-item>
                             </template>
 
                             <!-- Row 2-->
+                            <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">
+                                            <lightning-formatted-text value='First Name'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">James</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">First
-                                        Name</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">James</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='First Name'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="text" value="James" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            
+                            <!-- Phone Starts -->
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Phone</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">1234567891</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Phone</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">1234567891</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <!-- Row 3-->
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Phone'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="tel" value="1234567890" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Middle
-                                        Name</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">N/A</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <!-- Phone End-->
+                           
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Alt Phone
-                                        number</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">1234567891</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <!-- Middle Name Starts -->
+                            <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Middle
+                                            Name</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">N/A</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <!-- Row 4-->
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Middle Name'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="text" value="N/A" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            <!-- Middle Name Ends -->
 
-                            <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Last
-                                        Name</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Stapleton</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <!-- Alternate Phone Number Starts -->
+                            <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Alt Phone
+                                            number</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">1234567891</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Email</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">naresh@majente.com.invalid</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Alt Phone number'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="tel" value="12345645644" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <!-- Row 5-->
+                            <!-- Alternate Phone Number Ends -->
 
+                            <!-- Last Name Starts-->
+                            <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Last Name</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">Stapleton</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Preferred
-                                        Name</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Stapleton</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Last Name'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="text" value="Mock UI Data" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Mailing
-                                        address</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">289 Toronto Dr,
-                                        Toronto,
-                                        Ontario, M3C1E4</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <!-- Last Name Ends here-->
 
-                            <!-- Row 6-->
+                              <!-- Email Starts Here -->
+                              <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">Email</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">naresh@majente.com.invalid</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Gender</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Male</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Email'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="text" value="testing@majente.com.invalid" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            <!-- Email Ends Here -->
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Lives at
-                                        property</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">N/A</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <!-- Preferred Contact Name Starts Here -->
+                            <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Preferred
+                                            Name</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">Stapleton</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Preferred Name'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="text" value="testing Preferred Name" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            <!-- Preferred Contact Name Ends Here -->
 
-                            <!-- Row 7-->
+                            <!-- Mailing Address Starts Here-->
+                            <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Mailing
+                                            address</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">289 Toronto Dr, Toronto,
+                                            Ontario, M3C1E4</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Mailing address'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="text" value="289 Toronto Dr, Toronto, Ontario, M3C1E4" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- Mailing Address Ends Here-->
+
+                            <!-- Gender Ends Here-->
+                            <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">Gender</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">Male</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Gender'></lightning-formatted-text>
+                                        </lightning-layout-item >
+                                        <lightning-layout-item size="8">
+                                            <lightning-combobox name="Gender" variant="label-hidden"  data-id="Preferred_Contact_Method" ></lightning-combobox>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- Gender Ends Here-->
+
+                            <!--Lives at property Starts Here -->
+                            <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Lives at property</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">N/A</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Lives at property'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="text" value="N/A" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            <!--Lives at property Ends Here -->
+
+                        <!-- Age Starts Here -->
+                        <template if:true= {borrowerItem.isEditModeOn}>
                             <lightning-layout-item class="slds-p-horizontal_medium" size="6">
                                 <lightning-layout class="slds-border_bottom">
                                     <lightning-layout-item class="slds-p-bottom_xx-small"
@@ -260,47 +434,128 @@
                                         size="3">75</lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
+                        </template>
 
+                        <template if:false= {borrowerItem.isEditModeOn}>
+                            <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                <lightning-layout>
+                                    <lightning-layout-item size="4">
+                                        <lightning-formatted-text value='Age'></lightning-formatted-text>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="8">
+                                        <lightning-input type="text" value="75" variant="label-hidden">
+                                        </lightning-input>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </template>
+
+                        <!-- Age Ends Here -->
+
+                        <!-- Client Local Time -->
+
+                        <template if:true={borrowerItem.isEditModeOn}>
                             <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
                                 <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Client Local
-                                        Time</lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Client Local Time</lightning-layout-item>
                                     <lightning-layout-item class="slds-p-bottom_xx-small"
                                         size="3">N/A</lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
+                        </template>
 
-
-                            <!-- Row 8-->
-
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">D.O.B</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">12th November
-                                        1950</lightning-layout-item>
+                        <template if:false= {borrowerItem.isEditModeOn}>
+                            <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                <lightning-layout>
+                                    <lightning-layout-item size="4">
+                                        <lightning-formatted-text value='Client Local Time'></lightning-formatted-text>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="8">
+                                        <lightning-input type="text" value="N/A" variant="label-hidden">
+                                        </lightning-input>
+                                    </lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
+                        </template>
+                        <!-- Client Local Time -->
 
-                            <lightning-layout-item class="slds-p-horizontal_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Time
-                                        Zone</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">N/A</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <!-- D.O.B -->
+                            <template if:true={borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">D.O.B</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">12th November
+                                            1950</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <!-- Row 8-->
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Client Local Time'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="date" value="" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            <!-- D.O.B -->
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Marital
-                                        status</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Married</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <!-- Time Zone -->
+                            <template if:true={borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Time Zone</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">N/A</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Time Zone'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="text" value="" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            <!-- Time Zone -->
+
+                            <!-- Marital status -->
+                            <template if:true={borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Marital status</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">Married</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Marital status'></lightning-formatted-text>
+                                        </lightning-layout-item >
+                                        <lightning-layout-item size="8">
+                                            <lightning-combobox name="Marital status" variant="label-hidden"  data-id="Marital_status" ></lightning-combobox>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            <!-- Marital status -->
+
 
                             <lightning-layout-item class="slds-p-horizontal_medium" size="6">
                                 <lightning-layout>
@@ -311,16 +566,31 @@
                                 </lightning-layout>
                             </lightning-layout-item>
 
-                            <!-- Row 9-->
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Relationship
-                                        with</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Mary
-                                        Stapleton</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <!-- Relationship with -->
+                            <template if:true={borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Relationship with</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Mary Stapleton</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Relationship with'></lightning-formatted-text>
+                                        </lightning-layout-item >
+                                        <lightning-layout-item size="8">
+                                            <lightning-combobox name="Relationship with" variant="label-hidden"  data-id="Relationship_with" ></lightning-combobox>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            <!-- Relationship with -->
+
 
                             <lightning-layout-item class="slds-p-horizontal_medium" size="6">
                                 <lightning-layout>
@@ -333,14 +603,30 @@
 
                             <!-- Row 10-->
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Previous marital
-                                        status</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">N/A</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <!-- Previous marital status -->
+                            <template if:true={borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Previous marital status</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">N/A</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Previous marital status'></lightning-formatted-text>
+                                        </lightning-layout-item >
+                                        <lightning-layout-item size="8">
+                                            <lightning-combobox name="Previous marital status" variant="label-hidden"  data-id="Previous_marital_status" ></lightning-combobox>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                            <!-- Previous marital status -->
+
 
                             <lightning-layout-item class="slds-p-horizontal_medium" size="6">
                                 <lightning-layout>
@@ -352,24 +638,40 @@
                             </lightning-layout-item>
 
 
-                            <!-- Row 11-->
+                            <!-- On title -->
+                            <template if:true={borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">On title?</lightning-layout-item>
+                                        <lightning-layout-item  class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
+                                            <div class="slds-form-element__control slds-float_right ">
+                                                <span class="slds-checkbox slds-checkbox_standalone">
+                                                    <input type="checkbox" id="checkbox-unique-id-81" disabled name="label" value="option" />
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">On
-                                        title?</lightning-layout-item>
-                                    <lightning-layout-item
-                                        class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
-                                        <div class="slds-form-element__control slds-float_right ">
-                                            <span class="slds-checkbox slds-checkbox_standalone">
-                                                <input type="checkbox" id="checkbox-unique-id-81" disabled name="label"
-                                                    value="option" />
-                                                <span class="slds-checkbox_faux"></span>
-                                            </span>
-                                        </div>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='On title?'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="checkbox" value="" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- On title -->
+
+
 
                             <lightning-layout-item class="slds-p-horizontal_medium" size="6">
                                 <lightning-layout>
@@ -380,24 +682,39 @@
                                 </lightning-layout>
                             </lightning-layout-item>
 
-                            <!-- Row 11-->
+                            <!-- Use for Quote-->
+                            <template if:true={borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Use for Quote</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
+                                            <div class="slds-form-element__control slds-float_right">
+                                                <span class="slds-checkbox slds-checkbox_standalone">
+                                                    <input type="checkbox" id="checkbox-unique-id-88" disabled name="label"
+                                                        value="option" />
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Use for
-                                        Quote</lightning-layout-item>
-                                    <lightning-layout-item
-                                        class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
-                                        <div class="slds-form-element__control slds-float_right">
-                                            <span class="slds-checkbox slds-checkbox_standalone">
-                                                <input type="checkbox" id="checkbox-unique-id-88" disabled name="label"
-                                                    value="option" />
-                                                <span class="slds-checkbox_faux"></span>
-                                            </span>
-                                        </div>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item size="6" class="slds-p-horizontal_medium slds-p-bottom_x-small">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="4">
+                                            <lightning-formatted-text value='Use for Quote'></lightning-formatted-text>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="8">
+                                            <lightning-input type="checkbox" value="" variant="label-hidden">
+                                            </lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- Use for Quote-->
 
                             <lightning-layout-item class="slds-p-horizontal_medium" size="6">
                                 <lightning-layout>
