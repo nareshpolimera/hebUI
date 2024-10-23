@@ -1,5 +1,6 @@
 <template>
-    <article class="slds-card slds-card_boundary">
+    <article class="slds-card slds-card_boundary" >
+        <!-- Header Start-->
         <div class="slds-card__header slds-grid header">
             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                 <div class="slds-media__figure">
@@ -8,61 +9,143 @@
                 </div>
                 <div class="slds-media__body">
                     <h2 class="slds-card__header-title header-title">
-                        <a href="#" class="slds-card__header-link slds-truncate" title="Person">
-                            <span>Person 1 - Primary</span>
-                        </a>
+                        <span> {thisaccordianHeader} </span>
                     </h2>
                 </div>
-                <div class="slds-no-flex slds-p-bottom_x-small">
-                    <button class="slds-button slds-button_neutral" onclick={editButtonHandler}>Edit</button>
-                </div>
+                <template if:true= {borrowerItem.isEditModeOn}>
+                    <div class="slds-no-flex slds-p-bottom_x-small">
+                        <button class="slds-button slds-button_neutral" onclick= {handleOnEditClick}>Edit</button>
+                    </div>
+                </template>
+                <template if:false= {borrowerItem.isEditModeOn}>
+                    <div class="slds-no-flex slds-p-bottom_x-small">
+                        <button class="slds-button slds-button_neutral" onclick= {handleOnCancelClick}>Cancel</button>
+                        <button class="slds-button slds-button_neutral">Save Changes</button>
+                    </div>
+                </template>
                 <div class="slds-no-flex slds-m-left_small">
                     <lightning-icon icon-name={chevronToggle} alternative-text="expand" size="small" variant="inverse"
                         onclick={chevronHandler} data-name={chevronToggle} class="icon"></lightning-icon>
                 </div>
             </header>
         </div>
-        <template lwc:if={showDetails}>
+        <!-- Header End -->
+
+
+
+        <template lwc:if= {showDetails}>
             <!--Section I -->
             <div class="slds-card__body slds-card__body_inner">
                 <div class="slds-p-around_small">
-                    <div class="slds-p-bottom_xx-small">Role</div>
+                    <div class="slds-p-bottom_xx-small slds-p-horizontal_medium slds-p-bottom_medium">Role</div>
+                    
                     <!-- Multiselect List box with Other Options -->
 
-                    <!-- <div class="slds-p-bottom_xx-small">
-                        <button class="slds-button slds-button_neutral slds-button_dual-stateful" aria-live="assertive" aria-pressed="false">
-                            <span class="slds-text-not-pressed">
-                            <svg class="slds-button__icon slds-button__icon_small slds-button__icon_left" aria-hidden="true">
-                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
-                            </svg>Borrower</span>
-                            <span class="slds-text-pressed">
-                            <svg class="slds-button__icon slds-button__icon_small slds-button__icon_left" aria-hidden="true">
-                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
-                            </svg>Borrower</span>
-                        </button>
-                    </div> -->
+                    <div class="slds-size_12-of-12">
+                        <lightning-layout>
+                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium ">
+                                <lightning-button variant="brand-outline" label="Borrower" title="Borrower"
+                                    class="slds-m-left_x-small">
+                                    <span class="slds-p-left_xx-small">
+                                        Neutral Button With Image
+                                      </span>
+                                    </lightning-button>
+                            </lightning-layout-item>
 
-                    <div class="line slds-m-bottom_medium"></div>
+                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium">
+                                <lightning-button variant="brand-outline" label="Power of Attorney"
+                                    title="Power of Attorney" class="slds-m-left_x-small"></lightning-button>
+                            </lightning-layout-item>
 
+                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium">
+                                <lightning-button variant="brand-outline" label="Guarantor" title="Guarantor"
+                                    class="slds-m-left_x-small"></lightning-button>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium">
+                                <lightning-button variant="brand-outline" label="Influencer" title="Influencer"
+                                    class="slds-m-left_x-small">
+                                </lightning-button>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium">
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-checkbox">
+                                            <input type="checkbox" name="options" id="isPrimaryBorrower" value="isPrimaryBorrower" checked="" />
+                                            <label class="slds-checkbox__label" for="isPrimaryBorrower">
+                                                <span class="slds-checkbox_faux"></span>
+                                                <span class="slds-form-element__label">Is primary borrower?</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium">
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-checkbox">
+                                            <input type="checkbox" name="options" id="isPrimaryContact" value="isPrimaryContact" checked="" />
+                                            <label class="slds-checkbox__label" for="isPrimaryContact">
+                                                <span class="slds-checkbox_faux"></span>
+                                                <span class="slds-form-element__label">Is primary Contact?</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+
+                        </lightning-layout>
+                    </div>
+
+                    <!-- Multiselect List box with Other Options -->
+
+                    <div class="line slds-m-bottom_medium"></div>  
                     <div>
                         <lightning-layout multiple-rows="true">
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Salutation</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Mr.</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Preferred Contact
-                                        Method</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Phone</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                            <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Salutation</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Mr.</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Salutation</lightning-layout-item>
+                                        <div class="slds-m-bottom_small">
+                                            <lightning-input  type="text" label=""></lightning-input>
+                                        </div>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+
+                            <template if:true= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Preferred Contact
+                                            Method</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">Phone</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+
+                            <template if:false= {borrowerItem.isEditModeOn}>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Preferred Contact Method</lightning-layout-item>
+                                        <lightning-combobox name="Preferred Contact Method" label=""  data-id="Preferred_Contact_Method" ></lightning-combobox>
+                                        <!-- <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Phone</lightning-layout-item> -->
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
 
                             <!-- Row 2-->
 
@@ -140,7 +223,8 @@
                                 <lightning-layout class="slds-border_bottom">
                                     <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Mailing
                                         address</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">289 Toronto Dr, Toronto,
+                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">289 Toronto Dr,
+                                        Toronto,
                                         Ontario, M3C1E4</lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
@@ -220,8 +304,10 @@
 
                             <lightning-layout-item class="slds-p-horizontal_medium" size="6">
                                 <lightning-layout>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-bottom_xx-small"
+                                        size="3"></lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-bottom_xx-small"
+                                        size="3"></lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
 
@@ -238,8 +324,10 @@
 
                             <lightning-layout-item class="slds-p-horizontal_medium" size="6">
                                 <lightning-layout>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-bottom_xx-small"
+                                        size="3"></lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-bottom_xx-small"
+                                        size="3"></lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
 
@@ -256,8 +344,10 @@
 
                             <lightning-layout-item class="slds-p-horizontal_medium" size="6">
                                 <lightning-layout>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-bottom_xx-small"
+                                        size="3"></lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-bottom_xx-small"
+                                        size="3"></lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
 
@@ -268,8 +358,8 @@
                                 <lightning-layout class="slds-border_bottom">
                                     <lightning-layout-item class="slds-p-bottom_xx-small" size="3">On
                                         title?</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix"
-                                        size="4">
+                                    <lightning-layout-item
+                                        class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
                                         <div class="slds-form-element__control slds-float_right ">
                                             <span class="slds-checkbox slds-checkbox_standalone">
                                                 <input type="checkbox" id="checkbox-unique-id-81" disabled name="label"
@@ -283,8 +373,10 @@
 
                             <lightning-layout-item class="slds-p-horizontal_medium" size="6">
                                 <lightning-layout>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-bottom_xx-small"
+                                        size="3"></lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-bottom_xx-small"
+                                        size="3"></lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
 
@@ -294,8 +386,8 @@
                                 <lightning-layout class="slds-border_bottom">
                                     <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Use for
                                         Quote</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix"
-                                        size="4">
+                                    <lightning-layout-item
+                                        class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
                                         <div class="slds-form-element__control slds-float_right">
                                             <span class="slds-checkbox slds-checkbox_standalone">
                                                 <input type="checkbox" id="checkbox-unique-id-88" disabled name="label"
@@ -309,8 +401,10 @@
 
                             <lightning-layout-item class="slds-p-horizontal_medium" size="6">
                                 <lightning-layout>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-bottom_xx-small"
+                                        size="3"></lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-bottom_xx-small"
+                                        size="3"></lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
 
@@ -330,162 +424,172 @@
                             <div class="slds-media__body">
                                 <h2 class="slds-card__header-title header-title slds-p-around_small">
                                     <!-- <a href="#" class="slds-card__header-link slds-truncate slds-p-around_small" title="CASLA Marketing"> -->
-                                        <span>CASL & Marketing</span>
+                                    <span>CASL & Marketing</span>
                                     <!-- </a> -->
                                 </h2>
                             </div>
+                            <div class="slds-media__figure">
+                                <lightning-icon icon-name={caslMarketingIcon} data-name={caslMarketingIcon}
+                                    onclick={onshowCASLMarketingDetailsClick} alternative-text="add" size="small"
+                                    variant="inverse"></lightning-icon>
+                            </div>
                         </header>
                     </div>
-                    <div class="backgroun-inside-color slds-p-around_large">
-                        <lightning-layout multiple-rows="true">
+                    <template lwc:if={showCASLMarketingDetails}>
+                        <div class="backgroun-inside-color slds-p-around_large">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">CASL
+                                            Consent</lightning-layout-item>
+                                        <lightning-layout-item
+                                            class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
+                                            <div class="slds-form-element__control slds-float_right">
+                                                <span class="slds-checkbox slds-checkbox_standalone">
+                                                    <input type="checkbox" id="checkbox-unique-id-89" disabled
+                                                        name="label" value="option" />
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">CASL
-                                        Consent</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix"
-                                        size="4">
-                                        <div class="slds-form-element__control slds-float_right">
-                                            <span class="slds-checkbox slds-checkbox_standalone">
-                                                <input type="checkbox" id="checkbox-unique-id-89" disabled name="label"
-                                                    value="option" />
-                                                <span class="slds-checkbox_faux"></span>
-                                            </span>
-                                        </div>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Do not
+                                            contact</lightning-layout-item>
+                                        <lightning-layout-item
+                                            class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
+                                            <div class="slds-form-element__control slds-float_right">
+                                                <span class="slds-checkbox slds-checkbox_standalone">
+                                                    <input type="checkbox" id="checkbox-unique-id-90" disabled
+                                                        name="label" value="option" />
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Do not
-                                        contact</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix"
-                                        size="4">
-                                        <div class="slds-form-element__control slds-float_right">
-                                            <span class="slds-checkbox slds-checkbox_standalone">
-                                                <input type="checkbox" id="checkbox-unique-id-90" disabled name="label"
-                                                    value="option" />
-                                                <span class="slds-checkbox_faux"></span>
-                                            </span>
-                                        </div>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <!-- Row #2 -->
+                                <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">CASL Consent
+                                            Provided on</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">
+                                            <!-- Date Picker and should be disabled -->
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <!-- Row #2 -->
-                            <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">CASL Consent
-                                        Provided on</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">
-                                        <!-- Date Picker and should be disabled -->
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Not
+                                            eligible</lightning-layout-item>
+                                        <lightning-layout-item
+                                            class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
+                                            <div class="slds-form-element__control slds-float_right">
+                                                <span class="slds-checkbox slds-checkbox_standalone">
+                                                    <input type="checkbox" id="checkbox-unique-id-91" disabled
+                                                        name="label" value="option" />
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Not
-                                        eligible</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix"
-                                        size="4">
-                                        <div class="slds-form-element__control slds-float_right">
-                                            <span class="slds-checkbox slds-checkbox_standalone">
-                                                <input type="checkbox" id="checkbox-unique-id-91" disabled name="label"
-                                                    value="option" />
-                                                <span class="slds-checkbox_faux"></span>
-                                            </span>
-                                        </div>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <!-- row 3-->
 
-                            <!-- row 3-->
+                                <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">CASL Consent
+                                            obtained by</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">
+                                            <!-- User Detail -->
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium  slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">CASL Consent
-                                        obtained by</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">
-                                        <!-- User Detail -->
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Marketing opt
+                                            out</lightning-layout-item>
+                                        <lightning-layout-item
+                                            class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
+                                            <div class="slds-form-element__control slds-float_right">
+                                                <span class="slds-checkbox slds-checkbox_standalone">
+                                                    <input type="checkbox" id="checkbox-unique-id-92" disabled
+                                                        name="label" value="option" />
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Marketing opt
-                                        out</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix"
-                                        size="4">
-                                        <div class="slds-form-element__control slds-float_right">
-                                            <span class="slds-checkbox slds-checkbox_standalone">
-                                                <input type="checkbox" id="checkbox-unique-id-92" disabled name="label"
-                                                    value="option" />
-                                                <span class="slds-checkbox_faux"></span>
-                                            </span>
-                                        </div>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <!--Row 4-->
 
-                            <!--Row 4-->
+                                <lightning-layout-item class="slds-p-horizontal_medium" size="6">
+                                    <lightning-layout>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3"></lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3"></lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium" size="6">
-                                <lightning-layout>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Email
+                                            suppressed</lightning-layout-item>
+                                        <lightning-layout-item
+                                            class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
+                                            <div class="slds-form-element__control slds-float_right">
+                                                <span class="slds-checkbox slds-checkbox_standalone">
+                                                    <input type="checkbox" id="checkbox-unique-id-93" disabled
+                                                        name="label" value="option" />
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Email
-                                        suppressed</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix"
-                                        size="4">
-                                        <div class="slds-form-element__control slds-float_right">
-                                            <span class="slds-checkbox slds-checkbox_standalone">
-                                                <input type="checkbox" id="checkbox-unique-id-93" disabled name="label"
-                                                    value="option" />
-                                                <span class="slds-checkbox_faux"></span>
-                                            </span>
-                                        </div>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <!-- Row 5 -->
 
-                            <!-- Row 5 -->
+                                <lightning-layout-item class="slds-p-horizontal_medium" size="6">
+                                    <lightning-layout>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3"></lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3"></lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium" size="6">
-                                <lightning-layout>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
-
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Not interested
-                                        yet</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix"
-                                        size="4">
-                                        <div class="slds-form-element__control slds-float_right">
-                                            <span class="slds-checkbox slds-checkbox_standalone">
-                                                <input type="checkbox" id="checkbox-unique-id-94" disabled name="label"
-                                                    value="option" />
-                                                <span class="slds-checkbox_faux"></span>
-                                            </span>
-                                        </div>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Not interested
+                                            yet</lightning-layout-item>
+                                        <lightning-layout-item
+                                            class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
+                                            <div class="slds-form-element__control slds-float_right">
+                                                <span class="slds-checkbox slds-checkbox_standalone">
+                                                    <input type="checkbox" id="checkbox-unique-id-94" disabled
+                                                        name="label" value="option" />
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
 
 
-                        </lightning-layout>
-                    </div>
+                            </lightning-layout>
+                        </div>
+                    </template>
                 </article>
             </div>
 
@@ -497,99 +601,107 @@
                             <div class="slds-media__body">
                                 <h2 class="slds-card__header-title header-title slds-p-around_small">
                                     <!-- <a href="#" class="slds-card__header-link slds-truncate slds-p-around_small" title="Employment"> -->
-                                        <span>Employment</span>
+                                    <span>Employment</span>
                                     <!-- </a> -->
                                 </h2>
                             </div>
                         </header>
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name={employmentIcon} data-name={employmentIcon}
+                                onclick={onemploymentIconClick} alternative-text="add" size="small"
+                                variant="inverse"></lightning-icon>
+                        </div>
                     </div>
-                    <div class="backgroun-inside-color slds-p-around_large">
-                        <lightning-layout multiple-rows="true">
+                    <template lwc:if={hideOrShowEmploymentDetails}>
+                        <div class="backgroun-inside-color slds-p-around_large">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Current
+                                            occupation</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">Professional</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Current
-                                        occupation</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Professional</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Previous
+                                            occupation</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">Professional</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Previous
-                                        occupation</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Professional</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <!-- Row #2 -->
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Employer
+                                            name</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">N/A</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <!-- Row #2 -->
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Employer
-                                        name</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">N/A</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Employer
+                                            address</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">N/A</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">Employer
-                                        address</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">N/A</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <!-- row 3-->
 
-                            <!-- row 3-->
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">Industry</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">Communication</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Industry</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">Communication</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small" size="3">PEP
+                                            type</lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">N/A</lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3">PEP
-                                        type</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">N/A</lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
+                                <!--Row 4-->
 
-                            <!--Row 4-->
+                                <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
+                                    <lightning-layout class="slds-border_bottom">
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3">PEP?</lightning-layout-item>
+                                        <lightning-layout-item
+                                            class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix" size="4">
+                                            <div class="slds-form-element__control slds-float_right">
+                                                <span class="slds-checkbox slds-checkbox_standalone">
+                                                    <input type="checkbox" id="checkbox-unique-id-100" disabled
+                                                        name="label" value="option" />
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
 
-                            <lightning-layout-item class="slds-p-horizontal_medium slds-p-bottom_medium" size="6">
-                                <lightning-layout class="slds-border_bottom">
-                                    <lightning-layout-item class="slds-p-bottom_xx-small"
-                                        size="3">PEP?</lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-top_medium slds-p-bottom_xx-small slds-clearfix"
-                                        size="4">
-                                        <div class="slds-form-element__control slds-float_right">
-                                            <span class="slds-checkbox slds-checkbox_standalone">
-                                                <input type="checkbox" id="checkbox-unique-id-100" disabled name="label"
-                                                    value="option" />
-                                                <span class="slds-checkbox_faux"></span>
-                                            </span>
-                                        </div>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
-
-                            <lightning-layout-item class="slds-p-horizontal_medium" size="6">
-                                <lightning-layout>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
-                                    <lightning-layout-item class="slds-p-bottom_xx-small" size="3"></lightning-layout-item>
-                                </lightning-layout>
-                            </lightning-layout-item>
-                        </lightning-layout>
-                    </div>
+                                <lightning-layout-item class="slds-p-horizontal_medium" size="6">
+                                    <lightning-layout>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3"></lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-bottom_xx-small"
+                                            size="3"></lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </template>
                 </article>
             </div>
 
@@ -601,70 +713,88 @@
                             <div class="slds-media__body">
                                 <h2 class="slds-card__header-title header-title slds-p-around_small ">
                                     <!-- <a href="#" class="slds-card__header-link slds-truncate slds-p-around_small" title="Monthly Income Details"> -->
-                                        <span>Montly Income Details </span>
+                                    <span>Montly Income Details </span>
                                     <!-- </a> -->
                                 </h2>
                             </div>
                         </header>
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name={employmentIncomeIcon} data-name={employmentIncomeIcon}
+                                onclick={onemploymentIncomeIconClick} alternative-text="add" size="small"
+                                variant="inverse"></lightning-icon>
+                        </div>
                     </div>
-
-                    <div class="backgroun-inside-color">
-                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-p-around_large"
-                            aria-label="Example table of Opportunities with vertical borders">
-                            <thead class="slds-p-around_medium">
-                                <tr class="slds-line-height_reset">
-                                    <th class="slds-p-around_medium" scope="col">
-                                        <div class="slds-truncate slds-p-around_medium" title="Income Source">Income Source</div>
-                                    </th>
-                                    <th class="slds-p-around_medium" scope="col">
-                                        <div class="slds-truncate slds-p-around_medium" title="Amount">Amount</div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="slds-hint-parent">
-                                    <td data-label="employment">
-                                        <div class="slds-truncate slds-p-around_medium" title="Employment">Employment</div>
-                                    </td>
-                                    <td data-label="employmentIncome">
-                                        <div class="slds-truncate slds-border_bottom slds-p-around_medium" title="2000">$2000</div>
-                                    </td>
-                                </tr>
-                                <tr class="slds-hint-parent">
-                                    <td data-label="investment">
-                                        <div class="slds-truncate slds-p-around_medium" title="Employment">Investment</div>
-                                    </td>
-                                    <td data-label="investmentIncome">
-                                        <div class="slds-truncate slds-border_bottom slds-p-around_medium" title="2000">$2000</div>
-                                    </td>
-                                </tr>
-                                <tr class="slds-hint-parent">
-                                    <td data-label="rental">
-                                        <div class="slds-truncate slds-p-around_medium" title="Employment">Rental</div>
-                                    </td>
-                                    <td data-label="rentalIncome">
-                                        <div class="slds-truncate slds-border_bottom slds-p-around_medium" title="2000">$2000</div>
-                                    </td>
-                                </tr>
-                                <tr class="slds-hint-parent">
-                                    <td data-label="pension">
-                                        <div class="slds-truncate slds-p-around_medium" title="Employment">Pension</div>
-                                    </td>
-                                    <td data-label="pensionIncome">
-                                        <div class="slds-truncate slds-border_bottom slds-p-around_medium" title="2000">$2000</div>
-                                    </td>
-                                </tr>
-                                <tr class="slds-hint-parent">
-                                    <td data-label="support">
-                                        <div class="slds-truncate slds-p-around_small" title="Employment">Support</div>
-                                    </td>
-                                    <td data-label="supportIncome">
-                                        <div class="slds-truncate slds-border_small slds-p-around_small" title="2000">$2000</div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <template lwc:if={hideOrShowEmploymentIncomeDetails}>
+                        <div class="backgroun-inside-color">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-p-around_large"
+                                aria-label="Example table of Opportunities with vertical borders">
+                                <thead class="slds-p-around_medium">
+                                    <tr class="slds-line-height_reset">
+                                        <th class="slds-p-around_medium" scope="col">
+                                            <div class="slds-truncate slds-p-around_medium" title="Income Source">Income
+                                                Source</div>
+                                        </th>
+                                        <th class="slds-p-around_medium" scope="col">
+                                            <div class="slds-truncate slds-p-around_medium" title="Amount">Amount</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="slds-hint-parent">
+                                        <td data-label="employment">
+                                            <div class="slds-truncate slds-p-around_medium" title="Employment">
+                                                Employment</div>
+                                        </td>
+                                        <td data-label="employmentIncome">
+                                            <div class="slds-truncate slds-border_bottom slds-p-around_medium"
+                                                title="2000">$2000</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <td data-label="investment">
+                                            <div class="slds-truncate slds-p-around_medium" title="Employment">
+                                                Investment</div>
+                                        </td>
+                                        <td data-label="investmentIncome">
+                                            <div class="slds-truncate slds-border_bottom slds-p-around_medium"
+                                                title="2000">$2000</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <td data-label="rental">
+                                            <div class="slds-truncate slds-p-around_medium" title="Employment">Rental
+                                            </div>
+                                        </td>
+                                        <td data-label="rentalIncome">
+                                            <div class="slds-truncate slds-border_bottom slds-p-around_medium"
+                                                title="2000">$2000</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <td data-label="pension">
+                                            <div class="slds-truncate slds-p-around_medium" title="Employment">Pension
+                                            </div>
+                                        </td>
+                                        <td data-label="pensionIncome">
+                                            <div class="slds-truncate slds-border_bottom slds-p-around_medium"
+                                                title="2000">$2000</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <td data-label="support">
+                                            <div class="slds-truncate slds-p-around_small" title="Employment">Support
+                                            </div>
+                                        </td>
+                                        <td data-label="supportIncome">
+                                            <div class="slds-truncate slds-border_small slds-p-around_small"
+                                                title="2000">$2000</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
 
                     <div class="backgroun-inside-color">
 

@@ -1,5 +1,11 @@
 <template>
-    <!--  <template for:each= {defaultBorrowers} for:item="index"> -->
-        <c-borrowers-component ></c-borrowers-component>
-    <!-- </template> -->
+    <template for:each= {borrowers} for:item="borrower">
+        <c-borrowers-component key = {borrower.Index} unique-key = {borrower.currentIndex} 
+        onborrowervaluechange = {handleBorrowerChange} onborrowercancel = {handleBorrowerCancel} ></c-borrowers-component>
+    </template>
+    <div class="slds-box slds-box_x-small slds-text-align_center slds-m-around_x-small">
+        <lightning-button  variant="brand-outline" label="Add a borrower"
+                            onclick= {handleAddNewBrrower}
+                            title="Primary action with lighter look"  class="slds-m-left_x-small"></lightning-button>
+    </div>
 </template>
